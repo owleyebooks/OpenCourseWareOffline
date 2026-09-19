@@ -60,8 +60,8 @@ should work.
 
 ## Repository links (TODO)
 
-- GitHub repository: **TODO** (fill in when the repo is created; also
-  update `OcwOffline/ExternalLinks.cs`)
+- GitHub repository: https://github.com/owleyebooks/OpenCourseWareOffline
+  (also in `OcwOffline/ExternalLinks.cs`)
 - Hosted privacy policy: **TODO** (fill in when hosted; also update
   `OcwOffline/ExternalLinks.cs` and `docs/privacy-policy.md`)
 

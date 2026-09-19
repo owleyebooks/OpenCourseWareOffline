@@ -6,7 +6,7 @@ namespace OcwOffline;
 // link when IsConfigured says it points at a real address.
 public static class ExternalLinks
 {
-    public const string GitHubRepositoryUrl = "TODO: set the GitHub repository URL";
+    public const string GitHubRepositoryUrl = "https://github.com/owleyebooks/OpenCourseWareOffline";
     public const string PrivacyPolicyUrl = "TODO: set the hosted privacy policy URL";
 
     public static bool IsConfigured(string url) =>
