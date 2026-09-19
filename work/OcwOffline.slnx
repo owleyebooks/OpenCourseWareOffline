@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="OcwOffline/OcwOffline.csproj" />
+  <Project Path="OcwOffline.Tests/OcwOffline.Tests.csproj" />
+</Solution>

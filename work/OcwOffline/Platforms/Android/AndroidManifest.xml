@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- allowBackup=false — excludes large downloaded videos from Android's
+         default Auto Backup, which would otherwise blow past its storage
+         quota. See AUDIT_TRAIL v9 for full reasoning. -->
+    <application android:allowBackup="false" android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round"
+        android:supportsRtl="true"></application>
+    <!-- Required: OcwScraperService and DownloadManager both use HttpClient (v1/v2 handoff item 8). -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Package-visibility declaration for ArtifactViewerPage's Android PDF
+         hand-off (Launcher.OpenAsync(OpenFileRequest), application/pdf).
+         Flagged unverified v19/v20; resolved v21 — see AUDIT_TRAIL. -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:mimeType="application/pdf" />
+        </intent>
+    </queries>
+</manifest>

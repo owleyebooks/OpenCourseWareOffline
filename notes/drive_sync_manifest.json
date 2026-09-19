@@ -1,0 +1,492 @@
+{
+ "STATUS.md": {
+  "id": "1XlCr6B_hOSmGuWlMqrHkBPswMiqD7VpQ",
+  "mtime": 1789770141.0766716,
+  "size": 7755
+ },
+ "docs/privacy-policy.md": {
+  "id": "1q1qQbzQq7drpK07HbUkt6Ujc48DIgQaj",
+  "mtime": 1789768602.3873084,
+  "size": 5600
+ },
+ "docs/release-checklist.md": {
+  "id": "1z0VD4ziFivZtFCC6-adTW6w79PQhkUoo",
+  "mtime": 1789768610.2493083,
+  "size": 8291
+ },
+ "docs/store-listing.md": {
+  "id": "1liumg4ENM6EFSd6NlxeMQvnBDqpo_5UL",
+  "mtime": 1789768617.9653084,
+  "size": 5600
+ },
+ "notes/assessment-2026-09-18.md": {
+  "id": "1CjqSH-EHqTGHEKrKYCsiIJlEoSo-HbeI",
+  "mtime": 1789768711.4563081,
+  "size": 1981
+ },
+ "notes/decisions.md": {
+  "id": "1p125oZE0ykbCnFs3quP7BbQImo3QYzdq",
+  "mtime": 1789769038.0243068,
+  "size": 16693
+ },
+ "notes/device-test-plan.md": {
+  "id": "1Dtwp06ys-V82Ws9BohUt9JzsESR_-vES",
+  "mtime": 1789768719.612308,
+  "size": 8412
+ },
+ "notes/env-setup.md": {
+  "id": "1FvnA8FPnSjJT9qHQ2MRR99ewthCbHDqP",
+  "mtime": 1789768633.9873083,
+  "size": 2814
+ },
+ "notes/questions.md": {
+  "id": "1wJFjEpKwma-bIFDbzIcuqThyBHtutD-6",
+  "mtime": 1789768635.6903083,
+  "size": 5826
+ },
+ "work/OcwOffline.Tests/Fakes/FakeAppPaths.cs": {
+  "id": "18Tglbe36oV06LmJH7VfsEVD_cd1E_Y8P",
+  "mtime": 1789768614.5733085,
+  "size": 496
+ },
+ "work/OcwOffline.Tests/Fakes/FakeCourseDatabase.cs": {
+  "id": "1n7buIbCAdW-a8P3LBvYgmZ4y_qaeSzY1",
+  "mtime": 1789768614.6318483,
+  "size": 3840
+ },
+ "work/OcwOffline.Tests/Fakes/FakeDownloadManager.cs": {
+  "id": "1TRtOwcJXE4VNM_OtEnEod7Ia9ZiHgwvg",
+  "mtime": 1789768687.009308,
+  "size": 4846
+ },
+ "work/OcwOffline.Tests/Fakes/FakeMainThreadDispatcher.cs": {
+  "id": "1hH3yvbGGOE1LE-wPsbSUUMwSyA0JnxvR",
+  "mtime": 1789768614.6303084,
+  "size": 438
+ },
+ "work/OcwOffline.Tests/Fakes/FakeOcwCatalogService.cs": {
+  "id": "1mIIitmORs_FoAwqkWb4ZKtr-USiJZHV8",
+  "mtime": 1789768686.928308,
+  "size": 1371
+ },
+ "work/OcwOffline.Tests/Fakes/FakeOcwScraperService.cs": {
+  "id": "1QZi3ixBdq-lz-hGdtHyROUUJ3_0s5D_g",
+  "mtime": 1789768686.941308,
+  "size": 1248
+ },
+ "work/OcwOffline.Tests/Models/ArtifactTests.cs": {
+  "id": "1sRx7VFPW_pOJzToC9SqMKmfBbjt4gxao",
+  "mtime": 1789759879.9097774,
+  "size": 2471
+ },
+ "work/OcwOffline.Tests/Models/CatalogEntryTests.cs": {
+  "id": "1Uk_9x3pRUtkPAS20WKDC5gJ5IoFS-srJ",
+  "mtime": 1789759879.9097104,
+  "size": 366
+ },
+ "work/OcwOffline.Tests/Models/CourseTests.cs": {
+  "id": "1FMN-mOogYeOHu7rsbSY_uuYK6s9q-uDX",
+  "mtime": 1789759879.9098842,
+  "size": 650
+ },
+ "work/OcwOffline.Tests/Models/LectureTests.cs": {
+  "id": "14AvdSrLnaxdVSAWTNUVpsm7Bm0nFJP3A",
+  "mtime": 1789759879.9098134,
+  "size": 1687
+ },
+ "work/OcwOffline.Tests/OcwOffline.Tests.csproj": {
+  "id": "1K_R_DXLihKNnKE-u3-XvPeTJnw2LeNV3",
+  "mtime": 1789768625.0663083,
+  "size": 6934
+ },
+ "work/OcwOffline.Tests/Services/ArtifactViewingLogicTests.cs": {
+  "id": "1tc0Zpc8EDb64Vo2iDPmzBNNMv5bXkmzu",
+  "mtime": 1789759879.910549,
+  "size": 2062
+ },
+ "work/OcwOffline.Tests/Services/CourseDatabaseIntegrationTests.cs": {
+  "id": "1VptP3aQ-J5TJV_vL45Z9x4qrM8MWETNy",
+  "mtime": 1789768629.0690887,
+  "size": 16225
+ },
+ "work/OcwOffline.Tests/Services/DownloadManagerResumeLogicTests.cs": {
+  "id": "11aWeCKk_7jsQ0IU2VRMtmfQooQ3bBtI9",
+  "mtime": 1789759879.91096,
+  "size": 1751
+ },
+ "work/OcwOffline.Tests/Services/DownloadProgressTests.cs": {
+  "id": "1fjH_udFEdqiEYmOEliXVpuAHINqCKejx",
+  "mtime": 1789759879.9107368,
+  "size": 1226
+ },
+ "work/OcwOffline.Tests/Services/FakeCourseDatabaseTests.cs": {
+  "id": "16DyUU0Va433tGLblHX-oecva56DUspsb",
+  "mtime": 1789759879.9110458,
+  "size": 5605
+ },
+ "work/OcwOffline.Tests/Services/FakeDownloadManagerTests.cs": {
+  "id": "178jZY_wlYwgMF38XNxwd-y4_QO_slc2x",
+  "mtime": 1789759879.9108977,
+  "size": 9096
+ },
+ "work/OcwOffline.Tests/Services/OcwCatalogServiceJsonDeserializationTests.cs": {
+  "id": "1YX3KL1q7wsKrP6NrFjLS7MH_MFXhsUYO",
+  "mtime": 1789768632.0823083,
+  "size": 4061
+ },
+ "work/OcwOffline.Tests/Services/OcwCatalogServiceSlugFromUrlTests.cs": {
+  "id": "1XejKhQfSmMvZZ_vyeTE2fso2o-df35v2",
+  "mtime": 1789768631.2765045,
+  "size": 2586
+ },
+ "work/OcwOffline.Tests/Services/OcwCatalogServiceToCatalogEntryTests.cs": {
+  "id": "13x3kGpkKISivWUp1R73ht0hL6Q-pRe2_",
+  "mtime": 1789759879.9106615,
+  "size": 4938
+ },
+ "work/OcwOffline.Tests/Services/OcwScraperServiceHtmlHelpersTests.cs": {
+  "id": "19_Jk44yt9aX7IbTuQ469JZS36CM1d-Hd",
+  "mtime": 1789759879.9106042,
+  "size": 3327
+ },
+ "work/OcwOffline.Tests/Services/OcwScraperServiceTests.cs": {
+  "id": "1fRl___J-j1pCpprFORNUZF16_nRIKQTZ",
+  "mtime": 1789759879.9110055,
+  "size": 3276
+ },
+ "work/OcwOffline.Tests/Services/VideoPlaybackLogicTests.cs": {
+  "id": "1s_rQMVhaqd9pZOjINZjtGm2gkoqhYmcl",
+  "mtime": 1789759879.91079,
+  "size": 2985
+ },
+ "work/OcwOffline.Tests/ViewModels/CatalogViewModelFilterTests.cs": {
+  "id": "1YcHxJgh_a7zSNNb5D-dxUxw20EZRmAyD",
+  "mtime": 1789768624.3925211,
+  "size": 2038
+ },
+ "work/OcwOffline.Tests/ViewModels/CatalogViewModelLoadMoreTests.cs": {
+  "id": "1zAFqljmERYtS8YPmWlGYtMxQk2JnaYIr",
+  "mtime": 1789768686.9423082,
+  "size": 3767
+ },
+ "work/OcwOffline.Tests/ViewModels/CourseViewModelCommandTests.cs": {
+  "id": "1q8ucVrljIlJsYvUcIqz6yqD3HHIGtnsw",
+  "mtime": 1789768624.4173083,
+  "size": 4517
+ },
+ "work/OcwOffline.Tests/ViewModels/CourseViewModelDownloadCommandTests.cs": {
+  "id": "1v_YOascD7vyPrs5FXmMCqzR0Wx-3jNdH",
+  "mtime": 1789768624.4043083,
+  "size": 8470
+ },
+ "work/OcwOffline.Tests/ViewModels/CourseViewModelFetchTests.cs": {
+  "id": "1pVgGlAS3CqExa_PvhE1_Aouq-VnK1CDP",
+  "mtime": 1789768686.950308,
+  "size": 5504
+ },
+ "work/OcwOffline.Tests/ViewModels/DownloadsDashboardViewModelCommandTests.cs": {
+  "id": "1RY2odoGXZ0-AaOnmLFdyzWVk6j-GLsOo",
+  "mtime": 1789759879.9099824,
+  "size": 2556
+ },
+ "work/OcwOffline.Tests/Views/DownloadButtonTextConverterTests.cs": {
+  "id": "1JwiD7uxRi8wzKcixWLHwyeN14zNOH3rL",
+  "mtime": 1789759879.9102745,
+  "size": 1467
+ },
+ "work/OcwOffline.Tests/Views/InvertedBoolConverterTests.cs": {
+  "id": "1pr02fEHH7DMoD9ONYNCtTHau7Dt0z2t6",
+  "mtime": 1789759879.910431,
+  "size": 1248
+ },
+ "work/OcwOffline.Tests/Views/StatusIsActiveConverterTests.cs": {
+  "id": "1NgvSWRC_3TFYN_piotPHCy78YHG4n2mE",
+  "mtime": 1789759879.9103758,
+  "size": 1405
+ },
+ "work/OcwOffline.Tests/Views/StatusIsInProgressConverterTests.cs": {
+  "id": "1eT7lNU8JMIxecOVGq9hPG2yAB3sMNYFn",
+  "mtime": 1789759879.9104671,
+  "size": 1347
+ },
+ "work/OcwOffline.Tests/Views/StringNotEmptyConverterTests.cs": {
+  "id": "1i6jdl7qGhnJCxD5ubuUUVTqRuN3e6dhM",
+  "mtime": 1789759879.9103339,
+  "size": 1129
+ },
+ "work/OcwOffline.slnx": {
+  "id": "1XZohmyjIxeZOser3fX6JIZSdTE4g51Rl",
+  "mtime": 1789759882.581343,
+  "size": 135
+ },
+ "work/OcwOffline/App.xaml": {
+  "id": "1Ssy_z5-s3LLuq66i13tmiPoBZaLZhGtl",
+  "mtime": 1789759879.9069884,
+  "size": 805
+ },
+ "work/OcwOffline/App.xaml.cs": {
+  "id": "1D_jiMvELF1xe5HMgAuVLInVqCt9N8JFF",
+  "mtime": 1789759879.9054914,
+  "size": 223
+ },
+ "work/OcwOffline/MauiProgram.cs": {
+  "id": "1996p17oOO3YfAc25To22FKNr9eesYIIx",
+  "mtime": 1789768604.6613085,
+  "size": 5115
+ },
+ "work/OcwOffline/Models/Artifact.cs": {
+  "id": "1KOGvySqIWL64j86a6qKyl7dc1SvM9_ph",
+  "mtime": 1789768604.3223085,
+  "size": 2048
+ },
+ "work/OcwOffline/Models/CatalogEntry.cs": {
+  "id": "1L9U2z0EU0k2XfiOK5vZ8GyUNqaErZjxG",
+  "mtime": 1789768616.9053085,
+  "size": 709
+ },
+ "work/OcwOffline/Models/Course.cs": {
+  "id": "1GxD4HaNFopD8dDGahRnROYpKnB1LHxYk",
+  "mtime": 1789759879.9058993,
+  "size": 580
+ },
+ "work/OcwOffline/Models/Lecture.cs": {
+  "id": "1G_ISb-Py6Vkfbzhuu7PWRIzRc6_22YYw",
+  "mtime": 1789768616.0073085,
+  "size": 1307
+ },
+ "work/OcwOffline/OcwOffline.csproj": {
+  "id": "10A5F1hYjSbYl80jnKkcGnVz0CTrslND6",
+  "mtime": 1789768627.9343083,
+  "size": 2632
+ },
+ "work/OcwOffline/Platforms/Android/AndroidManifest.xml": {
+  "id": "12NuycY-kE0ZSQHTDfsl0iCIdUsTeNcX_",
+  "mtime": 1789759879.9089875,
+  "size": 1163
+ },
+ "work/OcwOffline/Platforms/Android/MainActivity.cs": {
+  "id": "1WzoiudfjW5wdw2J9Pg-dYSN_W_Y5szJT",
+  "mtime": 1789768616.0253084,
+  "size": 697
+ },
+ "work/OcwOffline/Platforms/Android/MainApplication.cs": {
+  "id": "1Av6ZaSn17J6T2aVQIEFlY6D0B--FJNzK",
+  "mtime": 1789759879.9087517,
+  "size": 315
+ },
+ "work/OcwOffline/Platforms/Android/Resources/values/colors.xml": {
+  "id": "1W-Rz2c699BdWQYubkJYlQJPp-u-vhaGf",
+  "mtime": 1789759879.9091809,
+  "size": 208
+ },
+ "work/OcwOffline/Platforms/iOS/AppDelegate.cs": {
+  "id": "1NkbUuUdhx55S8bUT9w6DtUwCdjB8dXWS",
+  "mtime": 1789759879.9092488,
+  "size": 204
+ },
+ "work/OcwOffline/Platforms/iOS/Info.plist": {
+  "id": "1Ct6L_8ereHJ3qPpFhlDR7z4G6zaT9v69",
+  "mtime": 1789759879.9093125,
+  "size": 1164
+ },
+ "work/OcwOffline/Platforms/iOS/Program.cs": {
+  "id": "1RAQ0ODOkYtekWwyUOn5j503O_zKIeifb",
+  "mtime": 1789759879.9093685,
+  "size": 190
+ },
+ "work/OcwOffline/Resources/AppIcon/appicon.svg": {
+  "id": "1YRHssjcYPsKl6ZiAPpcHe0sJXUW-YED2",
+  "mtime": 1789759879.9085174,
+  "size": 349
+ },
+ "work/OcwOffline/Resources/AppIcon/appiconfg.svg": {
+  "id": "1KOX55DN-DIy1xrgq-ihQlb_Rz_mIblte",
+  "mtime": 1789759879.908589,
+  "size": 387
+ },
+ "work/OcwOffline/Resources/Fonts/OpenSans-Regular.ttf": {
+  "id": "1KZu7sbKJ3lWzGBuCpSXeltsd5MV4Xbjw",
+  "mtime": 1789759879.9078028,
+  "size": 532636
+ },
+ "work/OcwOffline/Resources/Splash/splash.svg": {
+  "id": "1lalHKFQ2Xyd7uWY-u2wuPU2z1ffR8Y0L",
+  "mtime": 1789759879.9084563,
+  "size": 310
+ },
+ "work/OcwOffline/Services/AppPaths.cs": {
+  "id": "1sIBAXXWTZUN2_NceYDOya4ywQ3xY0qQb",
+  "mtime": 1789768663.0353081,
+  "size": 663
+ },
+ "work/OcwOffline/Services/AppPathsProvider.cs": {
+  "id": "1xZ7FQMLehike7ky4Z_ZqhcqvGv7lRPFV",
+  "mtime": 1789768663.4143083,
+  "size": 286
+ },
+ "work/OcwOffline/Services/ArtifactViewingLogic.cs": {
+  "id": "1CC08JG-XCuHw-h8Ae2y7pTgoM4YESu6H",
+  "mtime": 1789768666.0363083,
+  "size": 1142
+ },
+ "work/OcwOffline/Services/CourseDatabase.cs": {
+  "id": "1NtbAkvzufBWeArLr6ZsYzXfVGUryDoMe",
+  "mtime": 1789768665.4853082,
+  "size": 6781
+ },
+ "work/OcwOffline/Services/DownloadManager.cs": {
+  "id": "1UN3J2-qpKqhJVyWIrjInUXQB0j39r-mc",
+  "mtime": 1789768687.691308,
+  "size": 10891
+ },
+ "work/OcwOffline/Services/IAppPaths.cs": {
+  "id": "1_TvQKrhCjhVQLYx0PDPEc4PomDjo5QpL",
+  "mtime": 1789768663.3683083,
+  "size": 443
+ },
+ "work/OcwOffline/Services/ICourseDatabase.cs": {
+  "id": "1kP0ksRsg1lZiz6U1hARp_68ZCimJl2eD",
+  "mtime": 1789768665.2753081,
+  "size": 1060
+ },
+ "work/OcwOffline/Services/IDownloadManager.cs": {
+  "id": "1lgisvDiq7qaFZQeUAxV2WBL3ETTSJd9A",
+  "mtime": 1789759879.907434,
+  "size": 921
+ },
+ "work/OcwOffline/Services/IMainThreadDispatcher.cs": {
+  "id": "1RTdeS7ce3cPSFsWImJPrz6MRVpJkOzGE",
+  "mtime": 1789768665.2303083,
+  "size": 489
+ },
+ "work/OcwOffline/Services/IOcwCatalogService.cs": {
+  "id": "1zS9TsO5LWcARNHhuHtguUYtQVB7zsWu2",
+  "mtime": 1789768665.2673082,
+  "size": 454
+ },
+ "work/OcwOffline/Services/IOcwScraperService.cs": {
+  "id": "1MJNFXphzjjNPoLFvx2ozWbY7TQFfqhFS",
+  "mtime": 1789768665.2694058,
+  "size": 342
+ },
+ "work/OcwOffline/Services/MauiMainThreadDispatcher.cs": {
+  "id": "1STkQOhngu4S6nyqB1MJioKfUtCobN1GA",
+  "mtime": 1789759882.558343,
+  "size": 583
+ },
+ "work/OcwOffline/Services/OcwCatalogService.cs": {
+  "id": "1xoXQlh3AQlvcv7oJR0mpWmZvkgvZn2td",
+  "mtime": 1789768679.6033082,
+  "size": 4395
+ },
+ "work/OcwOffline/Services/OcwScraperService.cs": {
+  "id": "13OFCxBdOwVv8zQYEmNf-aI4wmcMlxoPw",
+  "mtime": 1789768678.2243083,
+  "size": 6456
+ },
+ "work/OcwOffline/Services/VideoPlaybackLogic.cs": {
+  "id": "1sLr_zZgV0JX7j6qAze5h7E_4yKq2dv69",
+  "mtime": 1789768665.5413082,
+  "size": 1450
+ },
+ "work/OcwOffline/ViewModels/CatalogViewModel.cs": {
+  "id": "1b1Mpp7I2Ng6vYg7DUL7YYVoRxEDHwm2z",
+  "mtime": 1789768687.675308,
+  "size": 2767
+ },
+ "work/OcwOffline/ViewModels/CourseViewModel.cs": {
+  "id": "1lGQ7uxQX8Q55ki-98yDD-OQiL2aI6k4j",
+  "mtime": 1789768687.733308,
+  "size": 14023
+ },
+ "work/OcwOffline/ViewModels/DownloadsDashboardViewModel.cs": {
+  "id": "1lTFOxNCJWd22MXL4_PgGFgqMOfyodgMd",
+  "mtime": 1789768644.5053084,
+  "size": 2942
+ },
+ "work/OcwOffline/Views/ArtifactViewerPage.xaml": {
+  "id": "1EYBTNYllC2I8xbr-P7mUSchOJs-e_XoZ",
+  "mtime": 1789759879.90623,
+  "size": 1425
+ },
+ "work/OcwOffline/Views/ArtifactViewerPage.xaml.cs": {
+  "id": "1fPooHh55xM073OqKjOR3IMQuiIcDDnLQ",
+  "mtime": 1789768644.7073083,
+  "size": 2910
+ },
+ "work/OcwOffline/Views/CatalogPage.xaml": {
+  "id": "1t02aM6Uxwk22McR6Ik_zbagoqDNrNhaw",
+  "mtime": 1789759879.906559,
+  "size": 1721
+ },
+ "work/OcwOffline/Views/CatalogPage.xaml.cs": {
+  "id": "1ZU48LaiTJpFhdq44HTJF6NgZ3Z_QSRXk",
+  "mtime": 1789768644.4943082,
+  "size": 1827
+ },
+ "work/OcwOffline/Views/CoursePage.xaml": {
+  "id": "1OK4RXEEQt14XfvpnhNPqgD6ZrlwcfKy-",
+  "mtime": 1789759879.9063275,
+  "size": 6401
+ },
+ "work/OcwOffline/Views/CoursePage.xaml.cs": {
+  "id": "1_ZrbtoPoYBdHkxNZ4FCI5fEusLsxI2qD",
+  "mtime": 1789768644.4823084,
+  "size": 2539
+ },
+ "work/OcwOffline/Views/DownloadButtonTextConverter.cs": {
+  "id": "1QsJ9Iczrb3U1z8picDxWNDNe6VV0S3Rt",
+  "mtime": 1789759879.9065976,
+  "size": 722
+ },
+ "work/OcwOffline/Views/DownloadsDashboardPage.xaml": {
+  "id": "1R-ziYWVVIOjSws_AKEJxwu4AR_x34TyM",
+  "mtime": 1789759879.9067926,
+  "size": 2013
+ },
+ "work/OcwOffline/Views/DownloadsDashboardPage.xaml.cs": {
+  "id": "1u4HCu88N5f9SmxzrlVsbDLUkRQhU2r1S",
+  "mtime": 1789768644.2763083,
+  "size": 737
+ },
+ "work/OcwOffline/Views/InvertedBoolConverter.cs": {
+  "id": "1FVqhBYuiZCmAn_ffPrwgGKEyUJn6M87A",
+  "mtime": 1789759879.9066923,
+  "size": 400
+ },
+ "work/OcwOffline/Views/StatusIsActiveConverter.cs": {
+  "id": "1xdvfyU6L88RXIypWBdfqB7z45-XhkimF",
+  "mtime": 1789759879.9068296,
+  "size": 627
+ },
+ "work/OcwOffline/Views/StatusIsInProgressConverter.cs": {
+  "id": "1Pz6q7bscI6QhksmWya46dD5QjvOKy8Xf",
+  "mtime": 1789759879.9065197,
+  "size": 723
+ },
+ "work/OcwOffline/Views/StringNotEmptyConverter.cs": {
+  "id": "1sYoFZcha_wWz_8MVSNDT5GjnLv4ORRsa",
+  "mtime": 1789768644.2853084,
+  "size": 534
+ },
+ "work/OcwOffline/Views/VideoPlayerPage.xaml": {
+  "id": "1zLboKPVv9wLhCTHn0sSwuwFFfyWfTCDp",
+  "mtime": 1789759879.906462,
+  "size": 936
+ },
+ "work/OcwOffline/Views/VideoPlayerPage.xaml.cs": {
+  "id": "1Vp-mPRBy5QFCZNwvDoohjZ3jE_sBwreK",
+  "mtime": 1789768687.668308,
+  "size": 3511
+ },
+ ".github/workflows/lint.yml": {
+  "id": "1hyG1VIXJYNPae_p6f1K-QxNxMMHCI_SP",
+  "mtime": 1789768600.7303085,
+  "size": 318
+ },
+ "work/OcwOffline.Tests/ProseLintComplianceTests.cs": {
+  "id": "1b__4dpuYvgUTS5UxpyMfvmaX8omwTcN_",
+  "mtime": 1789768797.8053076,
+  "size": 2651
+ }
+}

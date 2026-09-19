@@ -1,0 +1,27 @@
+{
+  "root": "~/workspace/opencoursewareoffline",
+  "parent_id": "1vsNS1YcFbrkrf5ppX7waNC0SABf-Lf14",
+  "build_dir": "build",
+  "manifest": "notes/drive_sync_manifest.json",
+  "include_top": [
+    "STATUS.md",
+    "azure.yaml",
+    ".dockerignore"
+  ],
+  "include_dirs": [
+    "src",
+    "work",
+    "docs",
+    "infra",
+    "deploy",
+    ".github"
+  ],
+  "exclude_dirs": [
+    "bin",
+    "obj",
+    ".vs",
+    ".git",
+    "android-tools"
+  ],
+  "notes_dir": "notes"
+}

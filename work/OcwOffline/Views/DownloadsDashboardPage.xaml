@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:OcwOffline.ViewModels"
+             x:Class="OcwOffline.Views.DownloadsDashboardPage"
+             x:Name="RootPage"
+             x:DataType="vm:DownloadsDashboardViewModel"
+             Title="Downloads">
+    <Grid RowDefinitions="Auto,*,Auto" Padding="16" RowSpacing="12">
+
+        <Label Grid.Row="0"
+               Text="{Binding TotalStorageUsedBytes, StringFormat='Total: {0:N0} bytes across all downloaded courses'}"
+               FontAttributes="Bold" />
+
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Courses}">
+            <CollectionView.EmptyView>
+                <Label Text="Nothing downloaded yet." Opacity="0.6" Margin="0,24,0,0" HorizontalTextAlignment="Center" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vm:CourseStorageInfo">
+                    <Grid ColumnDefinitions="*,Auto" Padding="0,8">
+                        <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                            <Label Text="{Binding Title}" LineBreakMode="TailTruncation" FontAttributes="Bold" />
+                            <Label Text="{Binding BytesUsed, StringFormat='{0:N0} bytes'}" FontSize="12" Opacity="0.7" />
+                        </VerticalStackLayout>
+                        <Button Grid.Column="1"
+                                Text="Delete"
+                                Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.DeleteCourseCommand}"
+                                CommandParameter="{Binding .}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Grid.Row="2" Text="Refresh" Command="{Binding LoadCommand}" />
+
+    </Grid>
+</ContentPage>

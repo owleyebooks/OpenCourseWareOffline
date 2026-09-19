@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="OcwOffline.Views.VideoPlayerPage"
+             Title="Lecture">
+    <Grid RowDefinitions="*,Auto" Padding="0">
+        <toolkit:MediaElement x:Name="Player"
+                               Grid.Row="0"
+                               ShouldShowPlaybackControls="True"
+                               ShouldAutoPlay="False"
+                               MediaOpened="OnMediaOpened"
+                               MediaFailed="OnMediaFailed" />
+        <Label x:Name="StatusLabel"
+               Grid.Row="1"
+               Padding="16,8"
+               FontSize="12"
+               Opacity="0.7"
+               Text="Loading..." />
+    </Grid>
+</ContentPage>

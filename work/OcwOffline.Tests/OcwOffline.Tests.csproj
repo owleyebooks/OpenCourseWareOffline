@@ -1,0 +1,152 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>OcwOffline.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- xUnit v2, not v3: the SDK supports classic VSTest mode by default,
+         so the stable v2 trio stays. -->
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+    <!-- Assertion library per central standards (testing.md #12): the free
+         FluentAssertions fork. Used for `because` on multi-aspect asserts and
+         failure messages that read as sentences; flat verification lists
+         stay on xUnit Assert (see notes/decisions.md). -->
+    <PackageReference Include="AwesomeAssertions" Version="9.6.0" />
+    <!-- Versions match the app project's own pins. These packages target
+         netstandard/net-generic rather than the MAUI mobile TFMs, so the
+         bare net10.0 test project can reference them directly. -->
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+    <!-- Test-only package: integration tests drive the file-linked
+         CourseDatabase against a temp-file SQLite database, then verify
+         through this independent ADO.NET channel as cross-library proof
+         that rows land in the file. The app itself stays on
+         sqlite-net-pcl. -->
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.12" />
+    <!-- Controls.Core, not the Controls meta-package: only Controls.Core
+         ships a real bare-net10.0 asset. Version matches the app's
+         Microsoft.Maui.Controls pin. -->
+    <PackageReference Include="Microsoft.Maui.Controls.Core" Version="10.0.80" />
+    <!-- Needed because the file-linked OcwScraperService.cs has an
+         HtmlAgilityPack using directive. Version matches the app's pin. -->
+    <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
+    <!-- Needed for the FileSystem call in the file-linked AppPaths.cs
+         (not available via Controls.Core). Version matches the app's
+         other MAUI pins. -->
+    <PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.80" />
+  </ItemGroup>
+
+  <!-- Usings are explicit, not implicit: MAUI's auto-injected usings are
+       gated on $(UseMaui)=='true', which this plain project does not set.
+       ApplicationModel provides the MainThread used by the file-linked
+       CourseViewModel. -->
+  <ItemGroup>
+    <Using Include="Microsoft.Maui.Controls" />
+    <Using Include="Microsoft.Maui.Storage" />
+    <Using Include="Microsoft.Maui.ApplicationModel" />
+    <!-- Global using because most test files use [Fact]/[Theory] without
+         declaring using Xunit; it composes with files that do declare it
+         (duplicate using of the same namespace is legal C#). -->
+    <Using Include="Xunit" />
+    <!-- Global using for the assertion library (testing.md #12): fluent
+         assertions with `because` for multi-aspect guards. -->
+    <Using Include="AwesomeAssertions" />
+  </ItemGroup>
+
+  <!-- File-linked, not ProjectReference'd: the app project has no
+       bare-net10.0 TFM to resolve a reference against. -->
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\Models\Artifact.cs" Link="Models\Artifact.cs" />
+    <Compile Include="..\OcwOffline\Models\CatalogEntry.cs" Link="Models\CatalogEntry.cs" />
+    <Compile Include="..\OcwOffline\Models\Course.cs" Link="Models\Course.cs" />
+    <Compile Include="..\OcwOffline\Models\Lecture.cs" Link="Models\Lecture.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\Views\DownloadButtonTextConverter.cs" Link="Views\DownloadButtonTextConverter.cs" />
+    <Compile Include="..\OcwOffline\Views\InvertedBoolConverter.cs" Link="Views\InvertedBoolConverter.cs" />
+    <Compile Include="..\OcwOffline\Views\StatusIsActiveConverter.cs" Link="Views\StatusIsActiveConverter.cs" />
+    <Compile Include="..\OcwOffline\Views\StatusIsInProgressConverter.cs" Link="Views\StatusIsInProgressConverter.cs" />
+    <Compile Include="..\OcwOffline\Views\StringNotEmptyConverter.cs" Link="Views\StringNotEmptyConverter.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\Services\OcwCatalogService.cs" Link="Services\OcwCatalogService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\Services\OcwScraperService.cs" Link="Services\OcwScraperService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\Services\DownloadManager.cs" Link="Services\DownloadManager.cs" />
+    <Compile Include="..\OcwOffline\Services\AppPaths.cs" Link="Services\AppPaths.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\ViewModels\CatalogViewModel.cs" Link="ViewModels\CatalogViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\ViewModels\CourseViewModel.cs" Link="ViewModels\CourseViewModel.cs" />
+    <Compile Include="..\OcwOffline\ViewModels\DownloadsDashboardViewModel.cs" Link="ViewModels\DownloadsDashboardViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\Services\ICourseDatabase.cs" Link="Services\ICourseDatabase.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\Services\IDownloadManager.cs" Link="Services\IDownloadManager.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\Services\IOcwScraperService.cs" Link="Services\IOcwScraperService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\Services\IOcwCatalogService.cs" Link="Services\IOcwCatalogService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\Services\VideoPlaybackLogic.cs" Link="Services\VideoPlaybackLogic.cs" />
+    <Compile Include="..\OcwOffline\Services\ArtifactViewingLogic.cs" Link="Services\ArtifactViewingLogic.cs" />
+  </ItemGroup>
+
+  <!-- MAUI's static MainThread and FileSystem.AppDataDirectory throw
+       NotImplementedInReferenceAssemblyException on a bare net10.0 host,
+       so these interfaces (backed by Fakes\ test doubles) keep
+       CourseViewModel testable. The Maui* production implementations are
+       linked too; they compile here but tests never execute the MAUI
+       calls. -->
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\Services\IMainThreadDispatcher.cs" Link="Services\IMainThreadDispatcher.cs" />
+    <Compile Include="..\OcwOffline\Services\MauiMainThreadDispatcher.cs" Link="Services\MauiMainThreadDispatcher.cs" />
+    <Compile Include="..\OcwOffline\Services\IAppPaths.cs" Link="Services\IAppPaths.cs" />
+    <Compile Include="..\OcwOffline\Services\AppPathsProvider.cs" Link="Services\AppPathsProvider.cs" />
+  </ItemGroup>
+
+  <!-- Integration-test seam: tests construct the real CourseDatabase
+       (sqlite-net-pcl) with a per-test temp IAppPaths root so the static
+       AppPaths.Root (which throws on a bare net10.0 host) is never
+       touched; the parameter defaults to null in production.
+       Microsoft.Data.Sqlite is the independent verification channel,
+       never the driver. -->
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\Services\CourseDatabase.cs" Link="Services\CourseDatabase.cs" />
+  </ItemGroup>
+
+  <!-- App-level constants (About page external links). Linked so the
+       IsConfigured guard is unit-testable without a MAUI host. -->
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\ExternalLinks.cs" Link="ExternalLinks.cs" />
+  </ItemGroup>
+
+</Project>

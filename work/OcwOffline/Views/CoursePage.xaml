@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:OcwOffline.ViewModels"
+             xmlns:models="clr-namespace:OcwOffline.Models"
+             x:Class="OcwOffline.Views.CoursePage"
+             x:Name="RootPage"
+             x:DataType="vm:CourseViewModel"
+             Title="OCW Offline">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Browse" Clicked="OnBrowseCatalogClicked" />
+        <ToolbarItem Text="Downloads" Clicked="OnDownloadsClicked" />
+        <ToolbarItem Text="About" Clicked="OnAboutClicked" />
+    </ContentPage.ToolbarItems>
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="12">
+
+            <Entry Text="{Binding CourseSlug}" Placeholder="course-slug-from-ocw-url" />
+            <Button Text="Fetch Course" Command="{Binding FetchCommand}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
+            <Label Text="{Binding StatusText}" FontAttributes="Italic" />
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+
+            <Label Text="Resources" FontAttributes="Bold" FontSize="18" Margin="0,12,0,0" />
+            <CollectionView ItemsSource="{Binding Artifacts}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Artifact">
+                        <VerticalStackLayout Padding="0,4" Spacing="2">
+                            <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto">
+                                <Label Text="{Binding Title}" VerticalOptions="Center" LineBreakMode="TailTruncation" />
+                                <Button Grid.Column="1"
+                                        Text="{Binding DownloadStatus, Converter={StaticResource DownloadButtonTextConverter}}"
+                                        Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.DownloadArtifactCommand}"
+                                        CommandParameter="{Binding .}" />
+                                <Button Grid.Column="2"
+                                        Text="Pause"
+                                        IsVisible="{Binding DownloadStatus, Converter={StaticResource StatusIsInProgressConverter}}"
+                                        Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.PauseArtifactCommand}"
+                                        CommandParameter="{Binding .}" />
+                                <Button Grid.Column="3"
+                                        Text="View"
+                                        IsVisible="{Binding IsViewable}"
+                                        Clicked="OnViewArtifactClicked" />
+                                <Button Grid.Column="4"
+                                        Text="Delete"
+                                        IsVisible="{Binding LocalFilePath, Converter={StaticResource StringNotEmptyConverter}}"
+                                        Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.DeleteArtifactCommand}"
+                                        CommandParameter="{Binding .}" />
+                            </Grid>
+                            <ProgressBar Progress="{Binding Progress}"
+                                         IsVisible="{Binding DownloadStatus, Converter={StaticResource StatusIsActiveConverter}}" />
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Label Text="Lecture Videos" FontAttributes="Bold" FontSize="18" Margin="0,12,0,0" />
+            <CollectionView ItemsSource="{Binding Lectures}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Lecture">
+                        <VerticalStackLayout Padding="0,4" Spacing="2">
+                            <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto">
+                                <Label Text="{Binding Title}" VerticalOptions="Center" LineBreakMode="TailTruncation" />
+                                <Button Grid.Column="1"
+                                        Text="{Binding DownloadStatus, Converter={StaticResource DownloadButtonTextConverter}}"
+                                        Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.DownloadLectureCommand}"
+                                        CommandParameter="{Binding .}" />
+                                <Button Grid.Column="2"
+                                        Text="Pause"
+                                        IsVisible="{Binding DownloadStatus, Converter={StaticResource StatusIsInProgressConverter}}"
+                                        Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.PauseLectureCommand}"
+                                        CommandParameter="{Binding .}" />
+                                <Button Grid.Column="3"
+                                        Text="Watch"
+                                        IsVisible="{Binding LocalVideoPath, Converter={StaticResource StringNotEmptyConverter}}"
+                                        Clicked="OnWatchLectureClicked" />
+                                <Button Grid.Column="4"
+                                        Text="Delete"
+                                        IsVisible="{Binding LocalVideoPath, Converter={StaticResource StringNotEmptyConverter}}"
+                                        Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.DeleteLectureCommand}"
+                                        CommandParameter="{Binding .}" />
+                            </Grid>
+                            <ProgressBar Progress="{Binding Progress}"
+                                         IsVisible="{Binding DownloadStatus, Converter={StaticResource StatusIsActiveConverter}}" />
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Label Text="{Binding TotalStorageUsedBytes, StringFormat='Total storage used: {0:N0} bytes'}"
+                   FontSize="12" Opacity="0.7" Margin="0,16,0,0" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

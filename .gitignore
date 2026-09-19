@@ -1,0 +1,23 @@
+# Build outputs
+bin/
+obj/
+
+# IDE
+.vs/
+*.user
+
+# Local Android SDK + JDK (1.1G, hand-laid in this environment; also
+# excluded from the Drive sync). Recreate per notes/env-setup.md.
+android-tools/
+
+# Signing secrets: never commit these. The release keystore, its passwords,
+# and Apple distribution assets live in the Secure Vault, never in git.
+*.keystore
+*.p12
+*.mobileprovision
+
+# Test results
+TestResults/
+
+# OS
+.DS_Store

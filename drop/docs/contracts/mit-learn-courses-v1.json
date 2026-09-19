@@ -1,0 +1,28 @@
+{
+  "_provenance": "Verified live, round v38, against https://api.rc.learn.mit.edu/api/v1/courses/?platform=ocw (RC host only — production host api.learn.mit.edu, which OcwCatalogService.BaseUrl already assumes, remains unconfirmed as of v38; see AUDIT_TRAIL v38 and HANDOFF v38 backlog). Trimmed to two results and to only the fields OcwCatalogService.CatalogCourseDto/CatalogPageResponse actually deserialize — the live response has many more fields per result (topics, images, runs' full detail, children, etc.) not reproduced here since this app ignores them. No search/text query param exercised or confirmed by this fixture — this call used only platform=ocw, limit, and offset, matching the app's own GetCoursePageAsync. Reconfirmed live, round v41 (Rule 9): still matches — same count (2883), same next URL, same first two results field-for-field. See AUDIT_TRAIL v41.",
+  "count": 2883,
+  "next": "http://api.rc.learn.mit.edu/api/v1/courses/?limit=10&offset=10&platform=ocw",
+  "results": [
+    {
+      "title": "Power: Interpersonal, Organizational and Global Dimensions",
+      "url": "https://ocw.mit.edu/courses/21a-245j-power-interpersonal-organizational-and-global-dimensions-fall-2005/",
+      "departments": [
+        { "name": "Anthropology" },
+        { "name": "Political Science" }
+      ],
+      "runs": [
+        { "semester": "Fall", "year": 2005 }
+      ]
+    },
+    {
+      "title": "Special Topics in Mathematics with Applications: Linear Algebra and the Calculus of Variations",
+      "url": "https://ocw.mit.edu/courses/2-035-special-topics-in-mathematics-with-applications-linear-algebra-and-the-calculus-of-variations-spring-2007/",
+      "departments": [
+        { "name": "Mechanical Engineering" }
+      ],
+      "runs": [
+        { "semester": "Spring", "year": 2007 }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,154 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>OcwOffline.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- xUnit v2 (this trio) is in maintenance mode; v3 + Microsoft
+         Testing Platform is current. Left as-is — .NET 10 SDK still
+         supports classic VSTest mode by default. See AUDIT_TRAIL v28. -->
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+    <!-- Same versions as OcwOffline.csproj's own — these packages are
+         netstandard/net-generic, not MAUI-mobile-TFM-locked, so a bare
+         net10.0 project can hold them directly. -->
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+    <!-- Unblocks v28's Converters gap — Controls.Core (unlike the
+         Controls meta-package) ships a real bare-net10.0 asset, confirmed
+         live on nuget.org. Version matched to Controls' own pin.
+         See AUDIT_TRAIL v29. -->
+    <PackageReference Include="Microsoft.Maui.Controls.Core" Version="10.0.80" />
+    <!-- Version matched to app's own pin. Needed once OcwScraperService.cs
+         is file-linked below — its using directive compiles even though
+         this round's tests don't call HtmlDocument APIs. See AUDIT_TRAIL v30. -->
+    <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
+    <!-- Confirmed live on nuget.org: 10.0.80 targets bare net10.0, same
+         shape as v29's Controls.Core check. Needed for AppPaths.cs's
+         FileSystem call, which lives here, not in Controls.Core.
+         See AUDIT_TRAIL v31. -->
+    <PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.80" />
+  </ItemGroup>
+
+  <!-- Explicit, not implicit — MAUI's auto-injected usings are gated on
+       $(UseMaui)=='true', which this plain project doesn't set. Linked
+       converters below rely on "Controls" unmodified; "Storage" is new
+       this round for AppPaths.cs's FileSystem reference. See AUDIT_TRAIL
+       v29 (Controls) / v31 (Storage). -->
+  <ItemGroup>
+    <Using Include="Microsoft.Maui.Controls" />
+    <Using Include="Microsoft.Maui.Storage" />
+    <!-- New v34 addendum — CourseViewModel.cs's OnProgressChanged calls
+         MainThread.BeginInvokeOnMainThread; resolved by Microsoft.Maui.Essentials
+         (already referenced, v31) once this using is added. -->
+    <Using Include="Microsoft.Maui.ApplicationModel" />
+  </ItemGroup>
+
+  <!-- File-linked, not ProjectReference'd — OcwOffline.csproj has no
+       bare-net10.0 TFM to resolve against. Scoped to Models only this
+       round. See AUDIT_TRAIL v28. -->
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\Models\Artifact.cs" Link="Models\Artifact.cs" />
+    <Compile Include="..\OcwOffline\Models\CatalogEntry.cs" Link="Models\CatalogEntry.cs" />
+    <Compile Include="..\OcwOffline\Models\Course.cs" Link="Models\Course.cs" />
+    <Compile Include="..\OcwOffline\Models\Lecture.cs" Link="Models\Lecture.cs" />
+  </ItemGroup>
+
+  <!-- New this round (v29) — Converters, unblocked by the
+       Microsoft.Maui.Controls.Core reference above. See AUDIT_TRAIL v29. -->
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\Views\DownloadButtonTextConverter.cs" Link="Views\DownloadButtonTextConverter.cs" />
+    <Compile Include="..\OcwOffline\Views\InvertedBoolConverter.cs" Link="Views\InvertedBoolConverter.cs" />
+    <Compile Include="..\OcwOffline\Views\StatusIsActiveConverter.cs" Link="Views\StatusIsActiveConverter.cs" />
+    <Compile Include="..\OcwOffline\Views\StatusIsInProgressConverter.cs" Link="Views\StatusIsInProgressConverter.cs" />
+    <Compile Include="..\OcwOffline\Views\StringNotEmptyConverter.cs" Link="Views\StringNotEmptyConverter.cs" />
+  </ItemGroup>
+
+  <!-- New v29 — only SlugFromUrl (bumped internal, behavior unchanged)
+       is exercised; rest of the file is untouched, pure-BCL, no MAUI
+       dependency, no new package. See AUDIT_TRAIL v29. -->
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\Services\OcwCatalogService.cs" Link="Services\OcwCatalogService.cs" />
+  </ItemGroup>
+
+  <!-- New v30 — only MakeAbsolute/ParseSize/ClassifyArtifact (bumped
+       internal, behavior unchanged) are exercised; ScrapeDownloadPageAsync
+       and its HtmlDocument-parsing helpers still need seam design. See
+       AUDIT_TRAIL v30. -->
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\Services\OcwScraperService.cs" Link="Services\OcwScraperService.cs" />
+  </ItemGroup>
+
+  <!-- New v31 — only DownloadProgress (already public) is exercised; rest
+       of DownloadManager.cs still needs a real seam, see HANDOFF backlog.
+       AppPaths.cs is linked only because the whole file must compile —
+       AppPaths itself isn't under test. See AUDIT_TRAIL v31. -->
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\Services\DownloadManager.cs" Link="Services\DownloadManager.cs" />
+    <Compile Include="..\OcwOffline\Services\AppPaths.cs" Link="Services\AppPaths.cs" />
+  </ItemGroup>
+
+  <!-- New v32 — first ViewModels file linked. FilterEntries (extracted
+       from ApplyFilter) tested v32; LoadMoreAsync's own seam
+       (IOcwCatalogService) landed v36. See AUDIT_TRAIL v32/v36. -->
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\ViewModels\CatalogViewModel.cs" Link="ViewModels\CatalogViewModel.cs" />
+  </ItemGroup>
+
+  <!-- New v34 addendum — both now fully mockable via ICourseDatabase (v33)
+       and IDownloadManager (v34). FetchAsync's own seam (IOcwScraperService)
+       landed v36 — all six CourseViewModel/DownloadsDashboardViewModel
+       commands are now fully mockable. See AUDIT_TRAIL v34/v36. -->
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\ViewModels\CourseViewModel.cs" Link="ViewModels\CourseViewModel.cs" />
+    <Compile Include="..\OcwOffline\ViewModels\DownloadsDashboardViewModel.cs" Link="ViewModels\DownloadsDashboardViewModel.cs" />
+  </ItemGroup>
+
+  <!-- New v33 — pure interface, no SQLite/MAUI dependency of its own, so
+       no new package. Backs FakeCourseDatabase (Fakes\), a real in-memory
+       test double — not the :memory:-SQLite approach v31 had flagged as
+       the next step. See AUDIT_TRAIL v33. -->
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\Services\ICourseDatabase.cs" Link="Services\ICourseDatabase.cs" />
+  </ItemGroup>
+
+  <!-- New v34 — pure interface, no HttpClient/filesystem dependency of its
+       own, so no new package. DownloadManager.cs (linked since v31) now
+       implements it. Backs FakeDownloadManager (Fakes\), a real in-memory
+       test double with scripted per-key download outcomes. See AUDIT_TRAIL v34. -->
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\Services\IDownloadManager.cs" Link="Services\IDownloadManager.cs" />
+  </ItemGroup>
+
+  <!-- New v36 — pure interface, no HttpClient dependency of its own, so no
+       new package. OcwScraperService.cs (linked since v30) now implements
+       it. Backs FakeOcwScraperService (Fakes\), unblocking the first-ever
+       tests of CourseViewModel.FetchAsync. See AUDIT_TRAIL v36. -->
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\Services\IOcwScraperService.cs" Link="Services\IOcwScraperService.cs" />
+  </ItemGroup>
+
+  <!-- New v36 (second addendum) — pure interface, no HttpClient dependency
+       of its own, so no new package. OcwCatalogService.cs (linked since
+       v29) now implements it. Backs FakeOcwCatalogService (Fakes\),
+       unblocking the first-ever tests of CatalogViewModel.LoadMoreAsync.
+       See AUDIT_TRAIL v36. -->
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\Services\IOcwCatalogService.cs" Link="Services\IOcwCatalogService.cs" />
+  </ItemGroup>
+
+  <!-- New v38 — pure logic pulled from the two page code-behinds, which
+       can't be file-linked themselves (no XAML-generated partial here).
+       See AUDIT_TRAIL v38. -->
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\Services\VideoPlaybackLogic.cs" Link="Services\VideoPlaybackLogic.cs" />
+    <Compile Include="..\OcwOffline\Services\ArtifactViewingLogic.cs" Link="Services\ArtifactViewingLogic.cs" />
+  </ItemGroup>
+
+</Project>
