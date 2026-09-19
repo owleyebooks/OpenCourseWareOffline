@@ -10,7 +10,7 @@
     <Nullable>enable</Nullable>
 
     <ApplicationTitle>OCW Offline</ApplicationTitle>
-    <ApplicationId>com.mikelab.ocwoffline</ApplicationId>
+    <ApplicationId>com.owleyebooks.ocwoffline</ApplicationId>
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <ApplicationVersion>1</ApplicationVersion>
 

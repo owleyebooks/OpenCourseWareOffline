@@ -1,7 +1,7 @@
 # Privacy Policy (OCW Offline)
 
 **Last updated:** [DATE]
-**App:** OCW Offline (`com.mikelab.ocwoffline`)
+**App:** OCW Offline (`com.owleyebooks.ocwoffline`)
 
 OCW Offline is an offline viewer for MIT OpenCourseWare course content. It was built to keep your data on your device. This policy describes, in plain language, what the app stores and what leaves your device.
 

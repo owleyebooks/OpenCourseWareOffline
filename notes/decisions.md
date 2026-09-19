@@ -411,3 +411,17 @@ an artifact. Signing is conditional: the AAB is signed only when the
 and `ANDROID_KEY_PASS` secrets exist, otherwise it builds unsigned.
 Secrets documented in the workflow header and in
 `docs/release-checklist.md` A1.
+
+## 2026-09-18: Package ID changed to com.owleyebooks.ocwoffline
+
+The `mikelab` segment was AI-invented in the v43 drop, never chosen by the
+user. The user (Mike) chose `com.owleyebooks.ocwoffline` as the permanent
+publisher identity. Changed `ApplicationId` in `work/OcwOffline/OcwOffline.csproj`
+(which flows to both the Android applicationId and the iOS bundle ID) and
+updated all doc references (`docs/privacy-policy.md`, `docs/store-listing.md`,
+`docs/release-checklist.md`). Verified in the built APK via aapt:
+`package: name='com.owleyebooks.ocwoffline' versionCode='1' versionName='1.0'`.
+Historical notes entries still mention the old ID; they are dated records and
+were left as-is. The LICENSE copyright holder still reads "mikelab" and needs
+the user's correction to their legal name or brand. The ID is now locked in:
+it cannot change after the first store upload.

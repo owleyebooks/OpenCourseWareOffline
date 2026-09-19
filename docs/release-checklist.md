@@ -10,7 +10,7 @@ Conventions used below: `[ ]` = unchecked task. Fill in the `[PLACEHOLDER]` valu
 
 ### A1. Signing key (one-time, do this first)
 
-- [ ] Decide where the release keystore will live and who holds it (losing it = cannot update the app under the same package name `com.mikelab.ocwoffline` ever again).
+- [ ] Decide where the release keystore will live and who holds it (losing it = cannot update the app under the same package name `com.owleyebooks.ocwoffline` ever again).
 - [ ] Generate the keystore with `keytool` (JDK's keytool; **documented here (do NOT run as part of drafting)**):
   ```
   keytool -genkeypair -v \
@@ -33,7 +33,7 @@ Conventions used below: `[ ]` = unchecked task. Fill in the `[PLACEHOLDER]` valu
 
 ### A2. Play App Signing
 
-- [ ] Create the app in the Google Play Console (package `com.mikelab.ocwoffline`, title per `docs/store-listing.md`).
+- [ ] Create the app in the Google Play Console (package `com.owleyebooks.ocwoffline`, title per `docs/store-listing.md`).
 - [ ] Enroll in **Play App Signing** (required for new apps): Play re-signs the AAB with its own key; upload your keystore's public certificate when prompted.
 - [ ] Keep the local keystore: it remains your *upload key*. If it is ever compromised, you can request an upload-key reset, but the app-signing key stays with Google.
 
@@ -80,14 +80,14 @@ Conventions used below: `[ ]` = unchecked task. Fill in the `[PLACEHOLDER]` valu
 
 ### B2. Certificates, identifiers, provisioning profiles (one-time setup, annual-ish maintenance)
 
-- [ ] In the Developer portal, register the App ID: `com.mikelab.ocwoffline` (explicit, not wildcard).
+- [ ] In the Developer portal, register the App ID: `com.owleyebooks.ocwoffline` (explicit, not wildcard).
 - [ ] Create an **Apple Distribution certificate** (or use Xcode automatic signing, which manages this for you).
 - [ ] Create an **App Store provisioning profile** for the App ID, or let Xcode manage profiles automatically (recommended unless CI needs manual profiles).
 - [ ] Note: distribution certificates expire yearly, so calendar a renewal reminder. An expired cert does not remove the app from sale but blocks new submissions until renewed.
 
 ### B3. App Store Connect record (one-time)
 
-- [ ] Create the app record in App Store Connect: bundle ID `com.mikelab.ocwoffline`, SKU of your choice, primary language, and the Education category.
+- [ ] Create the app record in App Store Connect: bundle ID `com.owleyebooks.ocwoffline`, SKU of your choice, primary language, and the Education category.
 - [ ] Fill in the listing: name (per `docs/store-listing.md`), subtitle (≤30 chars), keywords (≤100 chars), full description, support URL, marketing URL (optional).
 - [ ] Set the privacy-policy URL (hosted version of `docs/privacy-policy.md`) and complete the **App Privacy** nutrition-label questionnaire, which must match the policy: no data collected, no tracking.
 - [ ] Answer the age-rating questionnaire; expected rating: **4+**.
@@ -133,5 +133,5 @@ Conventions used below: `[ ]` = unchecked task. Fill in the `[PLACEHOLDER]` valu
 ---
 
 *Draft notes for the maintainer (remove before publishing):*
-- Current code identity: `com.mikelab.ocwoffline`, display version `0.1`, Android versionCode `1`. First public release should bump to `1.0` / versionCode `2`+ (or keep code `1` if it was never uploaded anywhere; versionCode only needs to increase relative to what Play has seen).
+- Current code identity: `com.owleyebooks.ocwoffline`, display version `0.1`, Android versionCode `1`. First public release should bump to `1.0` / versionCode `2`+ (or keep code `1` if it was never uploaded anywhere; versionCode only needs to increase relative to what Play has seen).
 - No secrets, keystores, certificates, or passwords belong in this repo, ever. The keytool/dotnet commands above are documentation; credentials live in the Secure Vault.

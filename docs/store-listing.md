@@ -1,6 +1,6 @@
 # Store Listing (OCW Offline)
 
-Draft copy for Google Play and Apple App Store listings. Current app identity in code: title **OCW Offline**, application ID `com.mikelab.ocwoffline`, version `0.1` (Android `versionCode 1`).
+Draft copy for Google Play and Apple App Store listings. Current app identity in code: title **OCW Offline**, application ID `com.owleyebooks.ocwoffline`, version `0.1` (Android `versionCode 1`).
 
 All copy is grounded in verified app behavior: browse the MIT OpenCourseWare catalog (via the MIT Learn public API at `https://api.learn.mit.edu`), download course materials (from `https://ocw.mit.edu`) with resumable downloads into a local SQLite database, view artifacts (PDF hand-off on Android), and play course videos, all offline afterwards. No accounts, no ads, no analytics.
 

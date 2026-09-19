@@ -9,8 +9,10 @@ _Last updated: 2026-09-18. Open-source push-ready: git init, CI, About page._
   files, and `android-tools/` (1.1G). `drop/` and `specs/` are committed
   (1.4M total) as the pristine v43 reference; `drop/` stays read-only by
   convention.
-- **MIT LICENSE** (copyright holder "mikelab" is a guess from the package
-  ID; correct in `LICENSE` when the legal name is known).
+- **MIT LICENSE** (copyright holder "mikelab" is a guess; correct in
+  `LICENSE` when the legal name or brand is confirmed).
+- **Package ID is now `com.owleyebooks.ocwoffline`** (user-chosen 2026-09-18;
+  was the AI-invented `com.mikelab.ocwoffline`). Verified in the built APK.
 - **README.md / CONTRIBUTING.md**: build/test instructions, OCW
   attribution (CC BY-NC-SA for content, MIT for code), not-affiliated
   disclaimer, prose doctrine, assertion rule; TODO placeholders for the
