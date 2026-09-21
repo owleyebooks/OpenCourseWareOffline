@@ -1,15 +1,16 @@
 name: screenshots
 
-# Manual-only: boots an Android emulator on a macOS runner, installs the
+# Manual-only: boots an Android emulator on a Linux runner, installs the
 # debug APK, captures screenshots, and uploads them as an artifact.
-# macOS runner minutes bill at 10x, so this never runs on push.
+# Stays on ubuntu-latest (1x billing) to keep org minutes cheap; this
+# never runs on push.
 
 on:
   workflow_dispatch:
 
 jobs:
   capture:
-    runs-on: macos-14
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
