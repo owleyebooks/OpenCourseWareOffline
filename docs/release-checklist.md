@@ -1,6 +1,6 @@
 # Release Checklist (OCW Offline)
 
-Step-by-step checklists for cutting the first store release. **Nothing here is executed now**; this is the runbook for release day. Current version in code: `ApplicationDisplayVersion 0.1`, Android `ApplicationVersion 1`.
+Step-by-step checklists for cutting the first store release. **Nothing here is executed now**; this is the runbook for release day. Current version in code: `ApplicationDisplayVersion 1.0`, Android `ApplicationVersion 1`.
 
 Conventions used below: `[ ]` = unchecked task. Fill in the `[PLACEHOLDER]` values before starting.
 
@@ -133,5 +133,5 @@ Conventions used below: `[ ]` = unchecked task. Fill in the `[PLACEHOLDER]` valu
 ---
 
 *Draft notes for the maintainer (remove before publishing):*
-- Current code identity: `com.owleyebooks.ocwoffline`, display version `0.1`, Android versionCode `1`. First public release should bump to `1.0` / versionCode `2`+ (or keep code `1` if it was never uploaded anywhere; versionCode only needs to increase relative to what Play has seen).
+- Current code identity: `com.owleyebooks.ocwoffline`, display version `1.0`, Android versionCode `1`. If anything was ever uploaded to Play under versionCode `1`, the first public release must use versionCode `2`+ (versionCode only needs to increase relative to what Play has seen); display version can stay `1.0` or move to `1.0.1`/`1.1` per your versioning call.
 - No secrets, keystores, certificates, or passwords belong in this repo, ever. The keytool/dotnet commands above are documentation; credentials live in the Secure Vault.

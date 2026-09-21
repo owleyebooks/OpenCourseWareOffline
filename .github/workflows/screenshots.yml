@@ -1,0 +1,83 @@
+name: screenshots
+
+# Manual-only: boots an Android emulator on a macOS runner, installs the
+# debug APK, captures screenshots, and uploads them as an artifact.
+# macOS runner minutes bill at 10x, so this never runs on push.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  capture:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Install MAUI Android workload
+        run: dotnet workload install maui-android
+
+      - name: Build debug APK
+        run: dotnet build work/OcwOffline/OcwOffline.csproj -p:TargetFrameworks=net10.0-android -c Debug --nologo -v q
+
+      - name: Capture screenshots on emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          target: google_apis
+          script: |
+            APK=$(find work/OcwOffline/bin/Debug/net10.0-android -name "*-Signed.apk" | head -1)
+            echo "Installing $APK"
+            adb install "$APK"
+            adb shell monkey -p com.owleyebooks.ocwoffline -c android.intent.category.LAUNCHER 1
+            sleep 8
+            adb exec-out screencap -p > screenshot-1-launch.png
+            sleep 20
+            adb exec-out screencap -p > screenshot-2-catalog.png
+            # Best effort: tap the first tappable list item to reveal a detail screen.
+            adb shell uiautomator dump /sdcard/ui.xml
+            adb pull /sdcard/ui.xml ui.xml
+            python3 - <<'PYEOF'
+            import re, xml.etree.ElementTree as ET
+            try:
+                best = None
+                for node in ET.parse('ui.xml').getroot().iter('node'):
+                    if node.get('clickable') != 'true':
+                        continue
+                    m = re.match(r'\[(\d+),(\d+)\]\[(\d+),(\d+)\]', node.get('bounds', ''))
+                    if not m:
+                        continue
+                    x1, y1, x2, y2 = map(int, m.groups())
+                    cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
+                    if cy > 400 and (best is None or cy < best[1]):
+                        best = (cx, cy)
+                if best:
+                    open('tap.txt', 'w').write(f"{best[0]} {best[1]}")
+                    print(f"will tap {best[0]} {best[1]}")
+            except Exception as e:
+                print("ui parse failed:", e)
+            PYEOF
+            if [ -f tap.txt ]; then
+              read X Y < tap.txt
+              adb shell input tap $X $Y
+              sleep 8
+              adb exec-out screencap -p > screenshot-3-detail.png
+            fi
+            ls -la screenshot-*.png
+
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-screenshots
+          path: screenshot-*.png
