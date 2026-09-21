@@ -39,44 +39,19 @@ jobs:
           api-level: 34
           arch: x86_64
           target: google_apis
+          # NOTE: this action runs each script line in its own shell, so no
+          # variable may span lines. Keep every step self-contained on one line.
           script: |
-            APK=$(find work/OcwOffline/bin/Debug/net10.0-android -name "*-Signed.apk" | head -1)
-            echo "Installing $APK"
-            adb install "$APK"
+            ls work/OcwOffline/bin/Debug/net10.0-android/
+            APK=$(find work/OcwOffline/bin/Debug/net10.0-android -maxdepth 1 -name "*-Signed.apk" | head -1); if [ -z "$APK" ]; then APK=$(find work/OcwOffline/bin/Debug/net10.0-android -maxdepth 1 -name "*.apk" | head -1); fi; echo "Installing [$APK]"; adb install "$APK"
             adb shell monkey -p com.owleyebooks.ocwoffline -c android.intent.category.LAUNCHER 1
             sleep 8
             adb exec-out screencap -p > screenshot-1-launch.png
             sleep 20
             adb exec-out screencap -p > screenshot-2-catalog.png
-            # Best effort: tap the first tappable list item to reveal a detail screen.
-            adb shell uiautomator dump /sdcard/ui.xml
-            adb pull /sdcard/ui.xml ui.xml
-            python3 - <<'PYEOF'
-            import re, xml.etree.ElementTree as ET
-            try:
-                best = None
-                for node in ET.parse('ui.xml').getroot().iter('node'):
-                    if node.get('clickable') != 'true':
-                        continue
-                    m = re.match(r'\[(\d+),(\d+)\]\[(\d+),(\d+)\]', node.get('bounds', ''))
-                    if not m:
-                        continue
-                    x1, y1, x2, y2 = map(int, m.groups())
-                    cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
-                    if cy > 400 and (best is None or cy < best[1]):
-                        best = (cx, cy)
-                if best:
-                    open('tap.txt', 'w').write(f"{best[0]} {best[1]}")
-                    print(f"will tap {best[0]} {best[1]}")
-            except Exception as e:
-                print("ui parse failed:", e)
-            PYEOF
-            if [ -f tap.txt ]; then
-              read X Y < tap.txt
-              adb shell input tap $X $Y
-              sleep 8
-              adb exec-out screencap -p > screenshot-3-detail.png
-            fi
+            adb shell uiautomator dump /sdcard/ui.xml && adb pull /sdcard/ui.xml ui.xml
+            python3 -c 'import re,xml.etree.ElementTree as ET; ns=[(int(m.group(1)),int(m.group(2)),int(m.group(3)),int(m.group(4))) for n in ET.parse("ui.xml").getroot().iter("node") if n.get("clickable")=="true" for m in [re.match(r"\[(\d+),(\d+)\]\[(\d+),(\d+)\]", n.get("bounds") or "")] if m]; pts=sorted([((a+c)//2,(b+d)//2) for a,b,c,d in ns if (b+d)//2>400], key=lambda p:p[1]); open("tap.txt","w").write("%d %d" % pts[0]) if pts else None; print("tap target:", pts[0] if pts else "none")' || echo "tap-target parse failed"
+            if [ -f tap.txt ]; then adb shell input tap $(cat tap.txt); sleep 8; adb exec-out screencap -p > screenshot-3-detail.png; fi
             ls -la screenshot-*.png
 
       - name: Upload screenshots
