@@ -55,10 +55,14 @@ jobs:
             for i in $(seq 1 12); do FOCUS=$(adb shell dumpsys window windows | grep mCurrentFocus | head -1); echo "focus: $FOCUS"; echo "$FOCUS" | grep -q com.owleyebooks.ocwoffline && break; sleep 5; done; echo "$FOCUS" > diag/focus.txt
             adb shell dumpsys activity activities | grep -iB2 -A2 ocwoffline > diag/tasks.txt || true
             adb logcat -d | grep -iE "ocwoffline|AndroidRuntime|FATAL" | tail -40 > diag/logcat.txt || true
+            adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS || true
+            sleep 3
             adb exec-out screencap -p > screenshot-1-launch.png
             sleep 15
+            adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS || true
+            sleep 3
             adb exec-out screencap -p > screenshot-2-catalog.png
-            FOCUS=$(adb shell dumpsys window windows | grep mCurrentFocus | head -1); echo "final focus: $FOCUS"; echo "$FOCUS" | grep -q com.owleyebooks.ocwoffline && echo ok > fg.txt || echo "app not in foreground, skipping tap"
+            if [ -s diag/tasks.txt ]; then echo ok > fg.txt; else echo "no app task, skipping tap"; fi
             if [ -f fg.txt ]; then timeout 60 adb shell uiautomator dump /sdcard/ui.xml && adb pull /sdcard/ui.xml ui.xml || echo "uiautomator unavailable, skipping tap"; fi
             if [ -f ui.xml ]; then python3 -c 'import re,xml.etree.ElementTree as ET; ns=[(int(m.group(1)),int(m.group(2)),int(m.group(3)),int(m.group(4))) for n in ET.parse("ui.xml").getroot().iter("node") if n.get("clickable")=="true" for m in [re.match(r"\[(\d+),(\d+)\]\[(\d+),(\d+)\]", n.get("bounds") or "")] if m]; pts=sorted([((a+c)//2,(b+d)//2) for a,b,c,d in ns if (b+d)//2>400], key=lambda p:p[1]); open("tap.txt","w").write("%d %d" % pts[0]) if pts else None; print("tap target:", pts[0] if pts else "none")' || echo "tap-target parse failed"; fi
             if [ -f tap.txt ]; then adb shell input tap $(cat tap.txt); sleep 8; adb exec-out screencap -p > screenshot-3-detail.png; fi
