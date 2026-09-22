@@ -2,7 +2,7 @@ namespace OcwOffline.Models;
 
 /// <summary>
 /// Transient API search row, deliberately not a <see cref="Course"/>:
-/// selecting one just feeds <see cref="CourseViewModel.CourseSlug"/>.
+/// selecting one just feeds <c>CourseViewModel.CourseSlug</c>.
 /// </summary>
 public class CatalogEntry
 {
