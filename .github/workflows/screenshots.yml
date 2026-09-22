@@ -31,7 +31,11 @@ jobs:
         run: dotnet workload install maui-android
 
       - name: Build debug APK
-        run: dotnet build work/OcwOffline/OcwOffline.csproj -p:TargetFrameworks=net10.0-android -c Debug --nologo -v q
+        # EmbedAssembliesIntoApk: a plain Debug build produces a Fast Deployment
+        # APK whose assemblies live outside the APK (pushed by the IDE/CLI
+        # deploy pipeline). adb install alone never pushes them, so the app
+        # aborts on launch. Embedding makes the APK self-contained.
+        run: dotnet build work/OcwOffline/OcwOffline.csproj -p:TargetFrameworks=net10.0-android -p:EmbedAssembliesIntoApk=true -c Debug --nologo -v q
 
       - name: Capture screenshots on emulator
         uses: reactivecircus/android-emulator-runner@v2
