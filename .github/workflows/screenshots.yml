@@ -46,14 +46,16 @@ jobs:
             ls work/OcwOffline/bin/Debug/net10.0-android/
             APK=$(find work/OcwOffline/bin/Debug/net10.0-android -maxdepth 1 -name "*-Signed.apk" | head -1); if [ -z "$APK" ]; then APK=$(find work/OcwOffline/bin/Debug/net10.0-android -maxdepth 1 -name "*.apk" | head -1); fi; echo "Installing [$APK]"; adb install "$APK"
             adb shell monkey -p com.owleyebooks.ocwoffline -c android.intent.category.LAUNCHER 1
-            sleep 8
+            for i in $(seq 1 12); do FOCUS=$(adb shell dumpsys window windows | grep mCurrentFocus | head -1); echo "focus: $FOCUS"; echo "$FOCUS" | grep -q com.owleyebooks.ocwoffline && break; sleep 5; done
+            adb logcat -d | grep -iE "AndroidRuntime|FATAL" | tail -20 || true
             adb exec-out screencap -p > screenshot-1-launch.png
-            sleep 20
+            sleep 15
             adb exec-out screencap -p > screenshot-2-catalog.png
-            timeout 60 adb shell uiautomator dump /sdcard/ui.xml && adb pull /sdcard/ui.xml ui.xml || echo "uiautomator unavailable, skipping tap"
-            python3 -c 'import re,xml.etree.ElementTree as ET; ns=[(int(m.group(1)),int(m.group(2)),int(m.group(3)),int(m.group(4))) for n in ET.parse("ui.xml").getroot().iter("node") if n.get("clickable")=="true" for m in [re.match(r"\[(\d+),(\d+)\]\[(\d+),(\d+)\]", n.get("bounds") or "")] if m]; pts=sorted([((a+c)//2,(b+d)//2) for a,b,c,d in ns if (b+d)//2>400], key=lambda p:p[1]); open("tap.txt","w").write("%d %d" % pts[0]) if pts else None; print("tap target:", pts[0] if pts else "none")' || echo "tap-target parse failed"
+            FOCUS=$(adb shell dumpsys window windows | grep mCurrentFocus | head -1); echo "final focus: $FOCUS"; echo "$FOCUS" | grep -q com.owleyebooks.ocwoffline && echo ok > fg.txt || echo "app not in foreground, skipping tap"
+            if [ -f fg.txt ]; then timeout 60 adb shell uiautomator dump /sdcard/ui.xml && adb pull /sdcard/ui.xml ui.xml || echo "uiautomator unavailable, skipping tap"; fi
+            if [ -f ui.xml ]; then python3 -c 'import re,xml.etree.ElementTree as ET; ns=[(int(m.group(1)),int(m.group(2)),int(m.group(3)),int(m.group(4))) for n in ET.parse("ui.xml").getroot().iter("node") if n.get("clickable")=="true" for m in [re.match(r"\[(\d+),(\d+)\]\[(\d+),(\d+)\]", n.get("bounds") or "")] if m]; pts=sorted([((a+c)//2,(b+d)//2) for a,b,c,d in ns if (b+d)//2>400], key=lambda p:p[1]); open("tap.txt","w").write("%d %d" % pts[0]) if pts else None; print("tap target:", pts[0] if pts else "none")' || echo "tap-target parse failed"; fi
             if [ -f tap.txt ]; then adb shell input tap $(cat tap.txt); sleep 8; adb exec-out screencap -p > screenshot-3-detail.png; fi
-            ls -la screenshot-*.png
+            ls -la screenshot-*.png || true
 
       - name: Upload screenshots
         if: always()
