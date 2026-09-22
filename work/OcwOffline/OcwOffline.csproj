@@ -21,6 +21,12 @@
          (Android 8.0, 2017) also keeps the .NET 10 template's reason for
          avoiding 21: no Java default-interface-method desugaring crashes. -->
     <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net10.0-android'">26.0</SupportedOSPlatformVersion>
+    <!-- TEMPORARY diagnostic bisect (screenshot-run branch only): .NET 10
+         enables marshal methods by default, and Microsoft's own docs say
+         hangs at startup are the known symptom. If the blank-screen hang
+         clears with this off, the root cause is the marshal-methods
+         regression, not our code. Removed before merging to main. -->
+    <AndroidEnableMarshalMethods Condition="'$(TargetFramework)' == 'net10.0-android'">false</AndroidEnableMarshalMethods>
   </PropertyGroup>
 
   <ItemGroup>
