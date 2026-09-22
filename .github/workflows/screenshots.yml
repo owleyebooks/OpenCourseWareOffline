@@ -36,9 +36,10 @@ jobs:
       - name: Capture screenshots on emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 34
+          api-level: 29
           arch: x86_64
-          target: google_apis
+          target: default
+          disable-animations: true
           # NOTE: this action runs each script line in its own shell, so no
           # variable may span lines. Keep every step self-contained on one line.
           script: |
