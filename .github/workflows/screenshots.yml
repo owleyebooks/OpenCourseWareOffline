@@ -46,29 +46,31 @@ jobs:
           disable-animations: true
           # NOTE: this action runs each script line in its own shell, so no
           # variable may span lines. Keep every step self-contained on one line.
+          # Breadcrumb file: each line appends its stage on success, so a
+          # failed run still shows exactly how far the script got.
           script: |
-            ls work/OcwOffline/bin/Debug/net10.0-android/
-            APK=$(find work/OcwOffline/bin/Debug/net10.0-android -maxdepth 1 -name "*-Signed.apk" | head -1); if [ -z "$APK" ]; then APK=$(find work/OcwOffline/bin/Debug/net10.0-android -maxdepth 1 -name "*.apk" | head -1); fi; echo "Installing [$APK]"; adb install "$APK"
-            adb shell monkey -p com.owleyebooks.ocwoffline -c android.intent.category.LAUNCHER 1
-            mkdir -p diag; adb shell pm list packages | grep ocwoffline | tee diag/packages.txt
-            COMP=$(adb shell cmd package resolve-activity --brief com.owleyebooks.ocwoffline | tail -1 | tr -d '\r'); echo "launcher component: [$COMP]"; if [ -n "$COMP" ]; then adb shell am start -n "$COMP" | tee diag/amstart.txt; fi
-            for i in $(seq 1 12); do FOCUS=$(adb shell dumpsys window windows | grep mCurrentFocus | head -1); echo "focus: $FOCUS"; echo "$FOCUS" | grep -q com.owleyebooks.ocwoffline && break; sleep 5; done; echo "$FOCUS" > diag/focus.txt
-            adb shell dumpsys activity activities | grep -iB2 -A2 ocwoffline > diag/tasks.txt || true
-            adb logcat -d | grep -iE "ocwoffline|AndroidRuntime|FATAL" | tail -40 > diag/logcat.txt || true
-            adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS || true
-            sleep 3
-            adb shell screencap -p /sdcard/shot1.png && adb pull /sdcard/shot1.png screenshot-1-launch.png
-            sleep 15
-            adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS || true
-            sleep 3
-            adb shell screencap -p /sdcard/shot2.png && adb pull /sdcard/shot2.png screenshot-2-catalog.png
-            if [ -s diag/tasks.txt ]; then echo ok > fg.txt; else echo "no app task, skipping tap"; fi
-            if [ -f fg.txt ]; then timeout 60 adb shell uiautomator dump /sdcard/ui.xml && adb pull /sdcard/ui.xml ui.xml || echo "uiautomator unavailable, skipping tap"; fi
-            ls -la ui.xml tap.txt > diag/uitap.txt 2>&1 || true
-            if [ -f ui.xml ]; then python3 -c 'import re,xml.etree.ElementTree as ET; ns=[(int(m.group(1)),int(m.group(2)),int(m.group(3)),int(m.group(4))) for n in ET.parse("ui.xml").getroot().iter("node") if n.get("clickable")=="true" for m in [re.match(r"\[(\d+),(\d+)\]\[(\d+),(\d+)\]", n.get("bounds") or "")] if m]; pts=sorted([((a+c)//2,(b+d)//2) for a,b,c,d in ns if (b+d)//2>400], key=lambda p:p[1]); open("tap.txt","w").write("%d %d" % pts[0]) if pts else None; print("tap target:", pts[0] if pts else "none")' || echo "tap-target parse failed"; fi
-            if [ -f tap.txt ]; then adb shell input tap $(cat tap.txt); sleep 8; adb shell screencap -p /sdcard/shot3.png && adb pull /sdcard/shot3.png screenshot-3-detail.png; fi
-            adb logcat -d | tail -150 > diag/logcat-full.txt
-            ls -la screenshot-*.png ui.xml diag/ || true
+            mkdir -p diag; echo "stage: start" > diag/progress.txt; ls work/OcwOffline/bin/Debug/net10.0-android/ && echo "stage: listed" >> diag/progress.txt
+            APK=$(find work/OcwOffline/bin/Debug/net10.0-android -maxdepth 1 -name "*-Signed.apk" | head -1); if [ -z "$APK" ]; then APK=$(find work/OcwOffline/bin/Debug/net10.0-android -maxdepth 1 -name "*.apk" | head -1); fi; echo "Installing [$APK]"; adb install "$APK" && echo "stage: installed" >> diag/progress.txt
+            adb shell monkey -p com.owleyebooks.ocwoffline -c android.intent.category.LAUNCHER 1 && echo "stage: monkey" >> diag/progress.txt
+            adb shell pm list packages | grep ocwoffline | tee diag/packages.txt; echo "stage: packages" >> diag/progress.txt
+            COMP=$(adb shell cmd package resolve-activity --brief com.owleyebooks.ocwoffline | tail -1 | tr -d '\r'); echo "launcher component: [$COMP]"; if [ -n "$COMP" ]; then adb shell am start -n "$COMP" | tee diag/amstart.txt; fi; echo "stage: amstart" >> diag/progress.txt
+            for i in $(seq 1 12); do FOCUS=$(adb shell dumpsys window windows | grep mCurrentFocus | head -1); echo "focus: $FOCUS"; echo "$FOCUS" | grep -q com.owleyebooks.ocwoffline && break; sleep 5; done; echo "$FOCUS" > diag/focus.txt; echo "stage: focus-poll" >> diag/progress.txt
+            adb shell dumpsys activity activities | grep -iB2 -A2 ocwoffline > diag/tasks.txt || true; echo "stage: tasks" >> diag/progress.txt
+            adb logcat -d | grep -iE "ocwoffline|AndroidRuntime|FATAL" | tail -40 > diag/logcat.txt || true; echo "stage: logcat" >> diag/progress.txt
+            adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS || true; echo "stage: dismiss1" >> diag/progress.txt
+            sleep 3; echo "stage: slept1" >> diag/progress.txt
+            adb shell screencap -p /sdcard/shot1.png && adb pull /sdcard/shot1.png screenshot-1-launch.png || adb exec-out screencap -p > screenshot-1-launch.png; echo "stage: shot1" >> diag/progress.txt
+            sleep 15; echo "stage: slept2" >> diag/progress.txt
+            adb shell am broadcast -a android.intent.action.CLOSE_SYSTEM_DIALOGS || true; echo "stage: dismiss2" >> diag/progress.txt
+            sleep 3; echo "stage: slept3" >> diag/progress.txt
+            adb shell screencap -p /sdcard/shot2.png && adb pull /sdcard/shot2.png screenshot-2-catalog.png || adb exec-out screencap -p > screenshot-2-catalog.png; echo "stage: shot2" >> diag/progress.txt
+            if [ -s diag/tasks.txt ]; then echo ok > fg.txt; else echo "no app task, skipping tap"; fi; echo "stage: fggate" >> diag/progress.txt
+            if [ -f fg.txt ]; then timeout 60 adb shell uiautomator dump /sdcard/ui.xml && adb pull /sdcard/ui.xml ui.xml || echo "uiautomator unavailable, skipping tap"; fi; echo "stage: dump" >> diag/progress.txt
+            ls -la ui.xml tap.txt > diag/uitap.txt 2>&1 || true; echo "stage: uitap" >> diag/progress.txt
+            if [ -f ui.xml ]; then python3 -c 'import re,xml.etree.ElementTree as ET; ns=[(int(m.group(1)),int(m.group(2)),int(m.group(3)),int(m.group(4))) for n in ET.parse("ui.xml").getroot().iter("node") if n.get("clickable")=="true" for m in [re.match(r"\[(\d+),(\d+)\]\[(\d+),(\d+)\]", n.get("bounds") or "")] if m]; pts=sorted([((a+c)//2,(b+d)//2) for a,b,c,d in ns if (b+d)//2>400], key=lambda p:p[1]); open("tap.txt","w").write("%d %d" % pts[0]) if pts else None; print("tap target:", pts[0] if pts else "none")' || echo "tap-target parse failed"; fi; echo "stage: parse" >> diag/progress.txt
+            if [ -f tap.txt ]; then adb shell input tap $(cat tap.txt); sleep 8; adb shell screencap -p /sdcard/shot3.png && adb pull /sdcard/shot3.png screenshot-3-detail.png || adb exec-out screencap -p > screenshot-3-detail.png; fi; echo "stage: tapshot" >> diag/progress.txt
+            adb logcat -d | tail -150 > diag/logcat-full.txt; echo "stage: logcat-full" >> diag/progress.txt
+            ls -la screenshot-*.png ui.xml diag/ || true; echo "stage: done" >> diag/progress.txt
 
       - name: Upload screenshots
         if: always()
