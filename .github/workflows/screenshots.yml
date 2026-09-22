@@ -46,8 +46,11 @@ jobs:
             ls work/OcwOffline/bin/Debug/net10.0-android/
             APK=$(find work/OcwOffline/bin/Debug/net10.0-android -maxdepth 1 -name "*-Signed.apk" | head -1); if [ -z "$APK" ]; then APK=$(find work/OcwOffline/bin/Debug/net10.0-android -maxdepth 1 -name "*.apk" | head -1); fi; echo "Installing [$APK]"; adb install "$APK"
             adb shell monkey -p com.owleyebooks.ocwoffline -c android.intent.category.LAUNCHER 1
-            for i in $(seq 1 12); do FOCUS=$(adb shell dumpsys window windows | grep mCurrentFocus | head -1); echo "focus: $FOCUS"; echo "$FOCUS" | grep -q com.owleyebooks.ocwoffline && break; sleep 5; done
-            adb logcat -d | grep -iE "AndroidRuntime|FATAL" | tail -20 || true
+            mkdir -p diag; adb shell pm list packages | grep ocwoffline | tee diag/packages.txt
+            COMP=$(adb shell cmd package resolve-activity --brief com.owleyebooks.ocwoffline | tail -1 | tr -d '\r'); echo "launcher component: [$COMP]"; if [ -n "$COMP" ]; then adb shell am start -n "$COMP" | tee diag/amstart.txt; fi
+            for i in $(seq 1 12); do FOCUS=$(adb shell dumpsys window windows | grep mCurrentFocus | head -1); echo "focus: $FOCUS"; echo "$FOCUS" | grep -q com.owleyebooks.ocwoffline && break; sleep 5; done; echo "$FOCUS" > diag/focus.txt
+            adb shell dumpsys activity activities | grep -iB2 -A2 ocwoffline > diag/tasks.txt || true
+            adb logcat -d | grep -iE "ocwoffline|AndroidRuntime|FATAL" | tail -40 > diag/logcat.txt || true
             adb exec-out screencap -p > screenshot-1-launch.png
             sleep 15
             adb exec-out screencap -p > screenshot-2-catalog.png
@@ -62,4 +65,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: android-screenshots
-          path: screenshot-*.png
+          path: |
+            screenshot-*.png
+            diag/
