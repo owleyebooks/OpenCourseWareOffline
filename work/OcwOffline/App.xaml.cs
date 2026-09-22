@@ -4,9 +4,14 @@ namespace OcwOffline;
 
 public partial class App : Application
 {
+    private readonly CoursePage _coursePage;
+
     public App(CoursePage coursePage)
     {
         InitializeComponent();
-        MainPage = new NavigationPage(coursePage);
+        _coursePage = coursePage;
     }
+
+    protected override Window CreateWindow(IActivationState? activationState) =>
+        new(new NavigationPage(_coursePage));
 }

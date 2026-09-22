@@ -425,3 +425,12 @@ Historical notes entries still mention the old ID; they are dated records and
 were left as-is. The LICENSE copyright holder still reads "mikelab" and needs
 the user's correction to their legal name or brand. The ID is now locked in:
 it cannot change after the first store upload.
+
+## 2026-09-22: Android min API raised 24 to 26 for MediaElement
+
+`UseMauiCommunityToolkitMediaElement` is annotated Android 26+ only
+(CA1416 on the call site). The app calls it unconditionally at startup,
+so API 24/25 devices were already outside what the code requires; the
+manifest floor now says so honestly instead of crashing there. API 26
+is Android 8.0 (2017). The previous API 24 comment about desugaring
+still holds: 26 keeps the same protection.

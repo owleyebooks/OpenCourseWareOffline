@@ -15,11 +15,12 @@
     <ApplicationVersion>1</ApplicationVersion>
 
     <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net10.0-ios'">15.0</SupportedOSPlatformVersion>
-    <!-- Android min API 24, not 21: matches the .NET 10 shipped template
-         default and avoids Java default-interface-method desugaring
-         crashes. API 21 still builds under .NET 10 but is slated for
-         removal in .NET 11. -->
-    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net10.0-android'">24.0</SupportedOSPlatformVersion>
+    <!-- Android min API 26, not 24: CommunityToolkit.Maui.MediaElement's
+         Android backend is only supported on API 26+, so the manifest
+         floor matches what the app already requires at startup. API 26
+         (Android 8.0, 2017) also keeps the .NET 10 template's reason for
+         avoiding 21: no Java default-interface-method desugaring crashes. -->
+    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net10.0-android'">26.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <ItemGroup>
