@@ -18,7 +18,7 @@ public partial class AboutPage : ContentPage
     {
         if (!ExternalLinks.IsConfigured(url))
         {
-            await DisplayAlert("Not available", "This link has not been set up yet.", "OK");
+            await DisplayAlertAsync("Not available", "This link has not been set up yet.", "OK");
             return;
         }
 
