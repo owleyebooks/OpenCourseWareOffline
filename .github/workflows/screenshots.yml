@@ -54,17 +54,8 @@ jobs:
             APK=$(find work/OcwOffline/bin/Debug/net10.0-android -maxdepth 1 -name "*-Signed.apk" | head -1); if [ -z "$APK" ]; then APK=$(find work/OcwOffline/bin/Debug/net10.0-android -maxdepth 1 -name "*.apk" | head -1); fi; echo "Installing [$APK]"; adb install "$APK" && echo "stage: installed" >> diag/progress.txt
             adb logcat -c; adb shell monkey -p com.owleyebooks.ocwoffline -c android.intent.category.LAUNCHER 1 && echo "stage: monkey" >> diag/progress.txt
             for i in $(seq 1 6); do FOCUS=$(adb shell dumpsys window windows | grep mCurrentFocus | head -1); echo "focus: $FOCUS"; echo "$FOCUS" | grep -q com.owleyebooks.ocwoffline && break; sleep 5; done; echo "$FOCUS" > diag/focus.txt; echo "stage: focus-poll" >> diag/progress.txt
-            adb shell uiautomator dump /sdcard/anr.xml >/dev/null 2>&1; adb pull /sdcard/anr.xml diag/anr.xml >/dev/null 2>&1 || true; TAP=$(python3 -c "import xml.etree.ElementTree as ET
-try:
-    t = ET.parse('diag/anr.xml')
-    for n in t.iter('node'):
-        if n.get('text') == 'Wait':
-            x1, y1, x2, y2 = map(int, n.get('bounds').replace('[', '').replace(']', ',').strip(',').split(','))
-            print((x1+x2)//2, (y1+y2)//2)
-            break
-except Exception:
-    pass
-"); if [ -n "$TAP" ]; then adb shell input tap $TAP; echo "stage: anr-dismissed" >> diag/progress.txt; sleep 5; fi
+            adb shell uiautomator dump /sdcard/anr.xml >/dev/null 2>&1; adb pull /sdcard/anr.xml diag/anr.xml >/dev/null 2>&1 || true
+            TAP=$(python3 -c "import xml.etree.ElementTree as ET; t=ET.parse('diag/anr.xml'); n=next((x for x in t.iter('node') if x.get('text')=='Wait'), None); b=[int(v) for v in n.get('bounds').replace('[','').replace(']',',').strip(',').split(',')] if n is not None else None; print(str((b[0]+b[2])//2)+' '+str((b[1]+b[3])//2) if b else '')" 2>/dev/null || true); if [ -n "$TAP" ]; then adb shell input tap $TAP; echo "stage: anr-dismissed" >> diag/progress.txt; sleep 5; fi
             PID=$(adb shell pidof -s com.owleyebooks.ocwoffline | tr -d '\r'); echo "pid=$PID" | tee diag/pid.txt; echo "stage: pid" >> diag/progress.txt
             sleep 45; PID=$(adb shell pidof -s com.owleyebooks.ocwoffline | tr -d '\r'); echo "$(date -u +%T) pid=$PID ticks=$(adb shell cat /proc/$PID/stat 2>/dev/null | tr -d '\r' | awk '{print $14+$15}')" | tee -a diag/cpu.txt; adb shell screencap -p /sdcard/shot1.png && adb pull /sdcard/shot1.png screenshot-1-t1.png || adb exec-out screencap -p > screenshot-1-t1.png; echo "stage: shot1" >> diag/progress.txt
             sleep 60; PID=$(adb shell pidof -s com.owleyebooks.ocwoffline | tr -d '\r'); echo "$(date -u +%T) pid=$PID ticks=$(adb shell cat /proc/$PID/stat 2>/dev/null | tr -d '\r' | awk '{print $14+$15}')" | tee -a diag/cpu.txt; echo "stage: cpu2" >> diag/progress.txt
