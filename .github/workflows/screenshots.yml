@@ -36,7 +36,7 @@ jobs:
         # APK whose assemblies live outside the APK (pushed by the IDE/CLI
         # deploy pipeline). adb install alone never pushes them, so the app
         # aborts on launch. Embedding makes the APK self-contained.
-        run: dotnet build work/HelloWorld/HelloWorld.csproj -p:TargetFrameworks=net10.0-android -p:EmbedAssembliesIntoApk=true -c Debug --nologo -v q
+        run: dotnet build work/OcwOffline/OcwOffline.csproj -p:TargetFrameworks=net10.0-android -p:EmbedAssembliesIntoApk=true -c Debug --nologo -v q
 
       - name: Capture screenshots on emulator
         uses: reactivecircus/android-emulator-runner@v2
@@ -50,8 +50,8 @@ jobs:
           # Breadcrumb file: each line appends its stage on success, so a
           # failed run still shows exactly how far the script got.
           script: |
-            mkdir -p diag; echo "stage: start" > diag/progress.txt; ls work/HelloWorld/bin/Debug/net10.0-android/ && echo "stage: listed" >> diag/progress.txt
-            APK=$(find work/HelloWorld/bin/Debug/net10.0-android -maxdepth 1 -name "*-Signed.apk" | head -1); if [ -z "$APK" ]; then APK=$(find work/HelloWorld/bin/Debug/net10.0-android -maxdepth 1 -name "*.apk" | head -1); fi; echo "Installing [$APK]"; adb install "$APK" && echo "stage: installed" >> diag/progress.txt
+            mkdir -p diag; echo "stage: start" > diag/progress.txt; ls work/OcwOffline/bin/Debug/net10.0-android/ && echo "stage: listed" >> diag/progress.txt
+            APK=$(find work/OcwOffline/bin/Debug/net10.0-android -maxdepth 1 -name "*-Signed.apk" | head -1); if [ -z "$APK" ]; then APK=$(find work/OcwOffline/bin/Debug/net10.0-android -maxdepth 1 -name "*.apk" | head -1); fi; echo "Installing [$APK]"; adb install "$APK" && echo "stage: installed" >> diag/progress.txt
             adb logcat -c; adb shell monkey -p com.companyname.helloworld -c android.intent.category.LAUNCHER 1 && echo "stage: monkey" >> diag/progress.txt
             for i in $(seq 1 6); do FOCUS=$(adb shell dumpsys window windows | grep mCurrentFocus | head -1); echo "focus: $FOCUS"; echo "$FOCUS" | grep -q com.companyname.helloworld && break; sleep 5; done; echo "$FOCUS" > diag/focus.txt; echo "stage: focus-poll" >> diag/progress.txt
             PID=$(adb shell pidof -s com.companyname.helloworld | tr -d '\r'); echo "pid=$PID" | tee diag/pid.txt; echo "stage: pid" >> diag/progress.txt
