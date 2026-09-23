@@ -54,13 +54,24 @@ jobs:
             APK=$(find work/OcwOffline/bin/Debug/net10.0-android -maxdepth 1 -name "*-Signed.apk" | head -1); if [ -z "$APK" ]; then APK=$(find work/OcwOffline/bin/Debug/net10.0-android -maxdepth 1 -name "*.apk" | head -1); fi; echo "Installing [$APK]"; adb install "$APK" && echo "stage: installed" >> diag/progress.txt
             adb logcat -c; adb shell monkey -p com.owleyebooks.ocwoffline -c android.intent.category.LAUNCHER 1 && echo "stage: monkey" >> diag/progress.txt
             for i in $(seq 1 6); do FOCUS=$(adb shell dumpsys window windows | grep mCurrentFocus | head -1); echo "focus: $FOCUS"; echo "$FOCUS" | grep -q com.owleyebooks.ocwoffline && break; sleep 5; done; echo "$FOCUS" > diag/focus.txt; echo "stage: focus-poll" >> diag/progress.txt
+            adb shell uiautomator dump /sdcard/anr.xml >/dev/null 2>&1; adb pull /sdcard/anr.xml diag/anr.xml >/dev/null 2>&1 || true; TAP=$(python3 -c "import xml.etree.ElementTree as ET
+try:
+    t = ET.parse('diag/anr.xml')
+    for n in t.iter('node'):
+        if n.get('text') == 'Wait':
+            x1, y1, x2, y2 = map(int, n.get('bounds').replace('[', '').replace(']', ',').strip(',').split(','))
+            print((x1+x2)//2, (y1+y2)//2)
+            break
+except Exception:
+    pass
+"); if [ -n "$TAP" ]; then adb shell input tap $TAP; echo "stage: anr-dismissed" >> diag/progress.txt; sleep 5; fi
             PID=$(adb shell pidof -s com.owleyebooks.ocwoffline | tr -d '\r'); echo "pid=$PID" | tee diag/pid.txt; echo "stage: pid" >> diag/progress.txt
             sleep 45; PID=$(adb shell pidof -s com.owleyebooks.ocwoffline | tr -d '\r'); echo "$(date -u +%T) pid=$PID ticks=$(adb shell cat /proc/$PID/stat 2>/dev/null | tr -d '\r' | awk '{print $14+$15}')" | tee -a diag/cpu.txt; adb shell screencap -p /sdcard/shot1.png && adb pull /sdcard/shot1.png screenshot-1-t1.png || adb exec-out screencap -p > screenshot-1-t1.png; echo "stage: shot1" >> diag/progress.txt
             sleep 60; PID=$(adb shell pidof -s com.owleyebooks.ocwoffline | tr -d '\r'); echo "$(date -u +%T) pid=$PID ticks=$(adb shell cat /proc/$PID/stat 2>/dev/null | tr -d '\r' | awk '{print $14+$15}')" | tee -a diag/cpu.txt; echo "stage: cpu2" >> diag/progress.txt
             PID=$(adb shell pidof -s com.owleyebooks.ocwoffline | tr -d '\r'); adb shell kill -3 $PID; echo "SIGQUIT sent to pid $PID at $(date -u +%T)" | tee diag/sigquit.txt; sleep 8; adb shell screencap -p /sdcard/shot2.png && adb pull /sdcard/shot2.png screenshot-2-t2.png || adb exec-out screencap -p > screenshot-2-t2.png; echo "stage: threads+shot2" >> diag/progress.txt
             sleep 60; PID=$(adb shell pidof -s com.owleyebooks.ocwoffline | tr -d '\r'); echo "$(date -u +%T) pid=$PID ticks=$(adb shell cat /proc/$PID/stat 2>/dev/null | tr -d '\r' | awk '{print $14+$15}')" | tee -a diag/cpu.txt; timeout 60 adb shell uiautomator dump /sdcard/ui.xml && adb pull /sdcard/ui.xml ui.xml || echo "uiautomator failed"; echo "stage: cpu3+dump" >> diag/progress.txt
             sleep 60; PID=$(adb shell pidof -s com.owleyebooks.ocwoffline | tr -d '\r'); echo "$(date -u +%T) pid=$PID ticks=$(adb shell cat /proc/$PID/stat 2>/dev/null | tr -d '\r' | awk '{print $14+$15}')" | tee -a diag/cpu.txt; adb shell screencap -p /sdcard/shot3.png && adb pull /sdcard/shot3.png screenshot-3-t3.png || adb exec-out screencap -p > screenshot-3-t3.png; echo "stage: cpu4+shot3" >> diag/progress.txt
-            adb shell dumpsys activity activities | grep -iB2 -A2 helloworld > diag/tasks.txt || true; adb logcat -d | grep -iE "helloworld|AndroidRuntime|FATAL|mono-stdout" | tail -80 > diag/logcat.txt || true; adb logcat -d | grep "helloworld" > diag/startup.txt || true; adb logcat -d -v threadtime > diag/logcat-full.txt; echo "stage: logs" >> diag/progress.txt
+            adb shell dumpsys activity activities | grep -iB2 -A2 ocwoffline > diag/tasks.txt || true; adb logcat -d | grep -iE "ocwoffline|AndroidRuntime|FATAL|mono-stdout" | tail -80 > diag/logcat.txt || true; adb logcat -d | grep "ocwoffline" > diag/startup.txt || true; adb logcat -d -v threadtime > diag/logcat-full.txt; echo "stage: logs" >> diag/progress.txt
             ls -la screenshot-*.png ui.xml diag/ || true; echo "stage: done" >> diag/progress.txt
 
       - name: Upload screenshots
