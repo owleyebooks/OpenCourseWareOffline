@@ -45,8 +45,17 @@ public partial class CourseViewModel : ObservableObject
     [ObservableProperty]
     private long totalStorageUsedBytes;
 
+    [ObservableProperty]
+    private bool showingLectures;
+
     public ObservableCollection<Artifact> Artifacts { get; } = new();
     public ObservableCollection<Lecture> Lectures { get; } = new();
+
+    [RelayCommand]
+    private void ShowTab(string tab)
+    {
+        ShowingLectures = tab == "Lectures";
+    }
 
     [RelayCommand]
     private async Task FetchAsync()

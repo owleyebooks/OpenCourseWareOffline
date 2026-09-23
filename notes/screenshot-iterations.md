@@ -38,3 +38,20 @@ Stack Overflow). No endless spin.
     tools/ci/dismiss_anr.sh + find_wait.py, dropped the mid-run SIGQUIT thread
     dump (unneeded load), moved ui.xml dump after shot3 (repeated dumps can wedge
     a slow emulator). Pushed <pending>, check per 20/10 standard.
+13. Layout restructure (the actual fix, no new run yet): shot1 of run 35928080967
+    showed only the ANR dialog, but logcat accessibility dump revealed the real
+    OCW layout underneath: toolbar + search Entry rendered, every later control
+    at corrupt Y (Fetch ~16.7M, status ~33.5M, Resources ~50.3M, RV1 ~67.1M,
+    Lecture Videos ~83.9M, RV2 ~100.7M, storage ~117.4M). Entry (child 1) fine,
+    children 2..n each offset by ~16.7M (2^24). Same signature as the API 29
+    VSL bug, so this is the .NET 10 MAUI Android measure path corrupting
+    ScrollView > VerticalStackLayout children, not an app startup failure.
+    Web research confirms ScrollView must not wrap CollectionView (MAUI docs)
+    and VSL gives children infinite height (kills CollectionView virtualization).
+    Fix: CoursePage.xaml restructured to Grid (Auto header / Auto tabs /
+    * lists / Auto storage), no ScrollView, one visible CollectionView at a
+    time via new ShowingLectures VM property + ShowTabCommand (Resources and
+    Lecture Videos tab buttons, active tab disabled). AboutPage.xaml dropped
+    its ScrollView too (same broken pattern, content fits without scrolling).
+    XAML validated locally (well-formed, all StaticResource keys and bindings
+    resolve); full Android compile happens in CI (no Android SDK on this VM).
