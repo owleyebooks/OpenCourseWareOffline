@@ -3,10 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:OcwOffline.ViewModels"
              xmlns:models="clr-namespace:OcwOffline.Models"
+             xmlns:views="clr-namespace:OcwOffline.Views"
              x:Class="OcwOffline.Views.CoursePage"
              x:Name="RootPage"
              x:DataType="vm:CourseViewModel"
              Title="OCW Offline">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <views:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+            <views:StringNotEmptyConverter x:Key="StringNotEmptyConverter" />
+            <views:StatusIsActiveConverter x:Key="StatusIsActiveConverter" />
+            <views:StatusIsInProgressConverter x:Key="StatusIsInProgressConverter" />
+            <views:DownloadButtonTextConverter x:Key="DownloadButtonTextConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Browse" Clicked="OnBrowseCatalogClicked" />
         <ToolbarItem Text="Downloads" Clicked="OnDownloadsClicked" />
