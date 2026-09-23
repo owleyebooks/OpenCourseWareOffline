@@ -3,6 +3,7 @@ using Android.Runtime;
 
 namespace OcwOffline;
 
+[Application]
 public class MainApplication : MauiApplication
 {
     public MainApplication(IntPtr handle, JniHandleOwnership ownership)
