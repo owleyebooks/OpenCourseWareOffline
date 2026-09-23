@@ -38,6 +38,29 @@ public partial class CoursePage : ContentPage
         _aboutPageFactory = aboutPageFactory;
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        // TEMPORARY diagnostic (screenshot-run only): is the logical tree complete?
+        try
+        {
+            if (Content is ScrollView sv && sv.Content is VerticalStackLayout vsl)
+            {
+                System.Console.WriteLine($"OCWDIAG: vsl children={vsl.Children.Count}");
+                foreach (var c in vsl.Children)
+                    System.Console.WriteLine($"OCWDIAG: child={c.GetType().Name} handler={c.Handler is not null} visible={c.IsVisible}");
+            }
+            else
+            {
+                System.Console.WriteLine($"OCWDIAG: unexpected content shape: {Content?.GetType().Name}");
+            }
+        }
+        catch (System.Exception ex)
+        {
+            System.Console.WriteLine("OCWDIAG: EXCEPTION " + ex.GetType().Name + ": " + ex.Message);
+        }
+    }
+
     private async void OnDownloadsClicked(object sender, EventArgs e)
     {
         await Navigation.PushAsync(_dashboardPageFactory());
