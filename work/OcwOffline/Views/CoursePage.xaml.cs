@@ -48,7 +48,7 @@ public partial class CoursePage : ContentPage
             {
                 System.Console.WriteLine($"OCWDIAG: vsl children={vsl.Children.Count}");
                 foreach (var c in vsl.Children)
-                    System.Console.WriteLine($"OCWDIAG: child={c.GetType().Name} handler={c.Handler is not null} visible={c.IsVisible}");
+                    System.Console.WriteLine($"OCWDIAG: child={c.GetType().Name} handler={c.Handler is not null} visible={(c as VisualElement)?.IsVisible}");
             }
             else
             {
