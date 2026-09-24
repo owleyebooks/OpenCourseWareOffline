@@ -112,7 +112,7 @@ jobs:
                 Write-Host "Attempt $i capture failed: $($_.Exception.Message)"
               }
             } else {
-              Write-Host "Attempt $i: no visible windows yet"
+              Write-Host "Attempt ${i}: no visible windows yet"
             }
             if ($proc.HasExited) { throw "App exited early with code $($proc.ExitCode)" }
           }
