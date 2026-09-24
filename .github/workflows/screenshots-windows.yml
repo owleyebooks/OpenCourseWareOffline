@@ -1,0 +1,91 @@
+name: screenshots-windows
+
+# Manual-only: builds the WinUI target on a Windows runner, launches the
+# unpackaged exe, captures the main window with PrintWindow, and uploads
+# the PNGs as an artifact. This is the visual check for "what does the app
+# look like" now that the Android emulator path proved untrustworthy
+# (startup-race measure corruption, screenshot-run iteration 19).
+# This never runs on push.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  capture:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Install MAUI workload
+        run: dotnet workload install maui
+
+      - name: Build WinUI exe
+        run: dotnet build work/OcwOffline/OcwOffline.csproj -f net10.0-windows10.0.19041.0 -c Release --nologo -v q
+
+      - name: Launch app and capture screenshots
+        shell: powershell
+        run: |
+          $exe = Get-ChildItem -Path "work/OcwOffline/bin/Release/net10.0-windows10.0.19041.0" -Filter "OcwOffline.exe" -Recurse | Select-Object -First 1
+          if (-not $exe) { throw "OcwOffline.exe not found under bin/Release/net10.0-windows10.0.19041.0" }
+          Write-Host "Launching $($exe.FullName)"
+          $proc = Start-Process -FilePath $exe.FullName -PassThru
+
+          $captureCode = @'
+          using System;
+          using System.Drawing;
+          using System.Drawing.Imaging;
+          using System.Runtime.InteropServices;
+          public class WinCap {
+              [DllImport("user32.dll")] public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+              [DllImport("user32.dll")] public static extern bool PrintWindow(IntPtr hwnd, IntPtr hdcBlt, int nFlags);
+              [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr hwnd, out RECT rect);
+              [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr hwnd);
+              [StructLayout(LayoutKind.Sequential)] public struct RECT { public int Left; public int Top; public int Right; public int Bottom; }
+              public static void Capture(string title, string path) {
+                  IntPtr hwnd = FindWindow(null, title);
+                  if (hwnd == IntPtr.Zero) throw new Exception("window not found: " + title);
+                  SetForegroundWindow(hwnd);
+                  RECT r; GetWindowRect(hwnd, out r);
+                  int w = r.Right - r.Left; int h = r.Bottom - r.Top;
+                  if (w <= 0 || h <= 0) throw new Exception("window has no size yet");
+                  using (Bitmap bmp = new Bitmap(w, h)) {
+                      using (Graphics g = Graphics.FromImage(bmp)) {
+                          IntPtr hdc = g.GetHdc();
+                          try { PrintWindow(hwnd, hdc, 0); }
+                          finally { g.ReleaseHdc(hdc); }
+                      }
+                      bmp.Save(path, ImageFormat.Png);
+                  }
+              }
+          }
+          '@
+          Add-Type -TypeDefinition $captureCode -ReferencedAssemblies System.Drawing
+
+          New-Item -ItemType Directory -Force -Path screenshots | Out-Null
+          $captured = $false
+          for ($i = 0; $i -lt 24; $i++) {
+            Start-Sleep -Seconds 5
+            try {
+              [WinCap]::Capture("OCW Offline", "screenshots/main-$i.png")
+              Write-Host "Captured screenshots/main-$i.png"
+              $captured = $true
+              if ($i -ge 2) { break }
+            } catch {
+              Write-Host "Attempt $i not ready: $($_.Exception.Message)"
+            }
+            if ($proc.HasExited) { throw "App exited early with code $($proc.ExitCode)" }
+          }
+          if (-not $captured) { throw "Never captured a screenshot" }
+          Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
+
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: ocw-windows-screenshots
+          path: screenshots/*.png
