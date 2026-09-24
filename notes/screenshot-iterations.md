@@ -157,3 +157,28 @@ Stack Overflow). No endless spin.
     commit c33103e on the remote; the /tmp backup was gone, restored via
     git checkout master --). Polling job ocw-helloworld-poll-17 removed after
     this report.
+
+19. HelloWorld time-series verdict (run #34, databaseId 36040554147, branch
+    screenshot-run head 520498d, polled 15:02 EDT): CONCLUSION SUCCESS after
+    the adb-via-$ANDROID_HOME fix (runs #31-33 failed on adb daemon flake,
+    bare-adb PATH, and a YAML quoting bug). hwlayout2.txt artifact (android-
+    screenshots/hwlayout2.txt) contains 1 display line + 22 sample pairs
+    (t=2s..44s; logging stopped at 44s instead of 60s, reason unknown):
+      Display: w=320 h=640 density=1 orientation=Portrait rate=60.000004
+      First (t=2s):  Label x=30 y=24 w=16777155 h=16777215 visible=True
+                     Button x=30 y=16777264 w=16777155 h=44 visible=True
+      Last (t=44s):  Label x=30 y=24 w=16777155 h=16777215 visible=True
+                     Button x=30 y=16777264 w=16777155 h=44 visible=True
+    All 22 samples corrupt (16.7M scale), zero sane samples at any t. Density
+    reads 1.0, matching the EnsureMetrics-fallback prediction on corrupt
+    runs. Verdict: PERMANENT (within this observation window). The
+    self-sustaining measure loop held for at least 44s with no convergence,
+    and once seeded the corruption did not clear. This strengthens the
+    hypothesis that the startup race seeds a non-recovering state rather
+    than a transient glitch: the corrupt constraint is fed back on every
+    measure pass, so there is no decay path. Next experiment should test
+    whether forcing a relayout (orientation change or explicit
+    InvalidateMeasure) mid-corruption breaks the loop, or compare
+    environments per the iteration-18 note (runner image / system image /
+    workload pinning). Polling job ocw-timeseries-poll-19e removed after
+    this report.
