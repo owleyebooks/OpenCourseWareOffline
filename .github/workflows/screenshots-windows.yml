@@ -38,18 +38,37 @@ jobs:
 
           $captureCode = @'
           using System;
+          using System.Collections.Generic;
           using System.Drawing;
           using System.Drawing.Imaging;
           using System.Runtime.InteropServices;
+          using System.Text;
           public class WinCap {
-              [DllImport("user32.dll")] public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+              public delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+              [DllImport("user32.dll")] public static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
+              [DllImport("user32.dll")] public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+              [DllImport("user32.dll")] public static extern bool IsWindowVisible(IntPtr hWnd);
               [DllImport("user32.dll")] public static extern bool PrintWindow(IntPtr hwnd, IntPtr hdcBlt, int nFlags);
               [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr hwnd, out RECT rect);
               [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr hwnd);
               [StructLayout(LayoutKind.Sequential)] public struct RECT { public int Left; public int Top; public int Right; public int Bottom; }
-              public static void Capture(string title, string path) {
-                  IntPtr hwnd = FindWindow(null, title);
-                  if (hwnd == IntPtr.Zero) throw new Exception("window not found: " + title);
+              // Returns lines "handle|title|w|h" for every visible top-level window.
+              public static string[] ListWindows() {
+                  var list = new List<string>();
+                  EnumWindows((hWnd, lParam) => {
+                      if (IsWindowVisible(hWnd)) {
+                          var sb = new StringBuilder(256);
+                          GetWindowText(hWnd, sb, 256);
+                          RECT r; GetWindowRect(hWnd, out r);
+                          int w = r.Right - r.Left; int h = r.Bottom - r.Top;
+                          if (w > 0 && h > 0) list.Add(hWnd.ToString("X") + "|" + sb.ToString() + "|" + w + "|" + h);
+                      }
+                      return true;
+                  }, IntPtr.Zero);
+                  return list.ToArray();
+              }
+              public static void CaptureHandle(long handle, string path) {
+                  IntPtr hwnd = new IntPtr(handle);
                   SetForegroundWindow(hwnd);
                   RECT r; GetWindowRect(hwnd, out r);
                   int w = r.Right - r.Left; int h = r.Bottom - r.Top;
@@ -69,15 +88,31 @@ jobs:
 
           New-Item -ItemType Directory -Force -Path screenshots | Out-Null
           $captured = $false
-          for ($i = 0; $i -lt 24; $i++) {
+          $targetHandle = 0
+          for ($i = 0; $i -lt 30; $i++) {
             Start-Sleep -Seconds 5
-            try {
-              [WinCap]::Capture("OCW Offline", "screenshots/main-$i.png")
-              Write-Host "Captured screenshots/main-$i.png"
-              $captured = $true
-              if ($i -ge 2) { break }
-            } catch {
-              Write-Host "Attempt $i not ready: $($_.Exception.Message)"
+            $wins = [WinCap]::ListWindows()
+            Write-Host "Attempt $i visible windows:"
+            $best = $null; $bestArea = 0; $titleHit = $null
+            foreach ($w in $wins) {
+              Write-Host "  $w"
+              $parts = $w -split '\|', 4
+              $area = [int]$parts[2] * [int]$parts[3]
+              if ($parts[1] -eq "OCW Offline") { $titleHit = $parts[0] }
+              elseif ($area -gt $bestArea) { $bestArea = $area; $best = $parts[0] }
+            }
+            $pick = if ($titleHit) { $titleHit } else { $best }
+            if ($pick) {
+              try {
+                [WinCap]::CaptureHandle([Convert]::ToInt64($pick, 16), "screenshots/main-$i.png")
+                Write-Host "Captured screenshots/main-$i.png (handle $pick, title match: $($null -ne $titleHit))"
+                $captured = $true
+                if ($i -ge 2) { break }
+              } catch {
+                Write-Host "Attempt $i capture failed: $($_.Exception.Message)"
+              }
+            } else {
+              Write-Host "Attempt $i: no visible windows yet"
             }
             if ($proc.HasExited) { throw "App exited early with code $($proc.ExitCode)" }
           }

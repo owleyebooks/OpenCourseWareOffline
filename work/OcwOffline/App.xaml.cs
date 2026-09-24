@@ -20,6 +20,10 @@ public partial class App : Application
     {
         System.Console.WriteLine("OCWSTARTUP: CreateWindow entry");
         var window = new Window(new NavigationPage(_coursePage));
+        // Explicit title: WinUI does not pick up ApplicationTitle on its
+        // own for unpackaged apps, and tooling (including screenshot
+        // capture) finds the window by this title.
+        window.Title = "OCW Offline";
         System.Console.WriteLine("OCWSTARTUP: CreateWindow exit");
         return window;
     }
