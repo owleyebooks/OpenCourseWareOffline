@@ -9,9 +9,11 @@
         VerticalOptions="Center">
 
         <Label
+            x:Name="HwLabel"
             Text="Hello World" />
 
         <Button
+            x:Name="HwButton"
             Text="Hello Button" />
 
     </VerticalStackLayout>

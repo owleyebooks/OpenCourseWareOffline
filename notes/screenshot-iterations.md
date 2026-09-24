@@ -55,3 +55,69 @@ Stack Overflow). No endless spin.
     its ScrollView too (same broken pattern, content fits without scrolling).
     XAML validated locally (well-formed, all StaticResource keys and bindings
     resolve); full Android compile happens in CI (no Android SDK on this VM).
+14. Run 35931688997 (screenshots #26, commit ea75266, layout fix): all three
+    workflows green (screenshots, android #34, prose-lint #34). App launched
+    clean on the new XAML: logcat shows "OCWDIAG: unexpected content shape:
+    Grid" (the temp diagnostic expecting ScrollView+VSL), no crash, no
+    XamlParseException. But the capture was INCONCLUSIVE: System UI ANR'd
+    during capture, shot1 shows only the ANR dialog, shots 2-3 show a blank
+    white content area under an intact toolbar, and the ui.xml dump is stale
+    (shows a ScrollView ancestor and is missing Fetch/tab/list controls,
+    yet the ScrollView does not exist in the shipped XAML, and the dump was
+    taken while System UI was ANR'ing). Cannot call PASS or FAIL from this
+    capture. Follow-up timer ocw-screenshot-check-13 died: the 19:05 worker's
+    self-reschedule via cron.update threw ("scheduled work reported
+    incomplete"), runonce never re-armed, no checks ran 19:05-21:48. Lesson:
+    never rely on a worker self-rescheduling a runonce; use an interval job
+    that cron.removes itself on terminal state instead. Reran run 35931688997
+    at ~21:49 EDT; polling via ocw-screenshot-poll-14 (10m interval,
+    self-removing on verdict).
+15. Rerun of 35931688997 (polled 22:11 EDT, same databaseId, screenshots #26
+    rerun at ~21:49): all workflows green, build SUCCEEDED. Capture
+    INCONCLUSIVE again: System UI ANR'd during capture (shot1 literally shows
+    the "System UI isn't responding" dialog), and the ui.xml dump is stale
+    (shows an android.widget.ScrollView ancestor that does not exist in the
+    shipped XAML, only 23 nodes, missing Fetch Course / tab buttons / status
+    label, storage TextView with suspicious 80-640 range). Meanwhile logcat
+    has the app's own OCWDIAG line: "unexpected content shape: Grid", meaning
+    the new Grid content was live with no crash and no XamlParseException.
+    Same capture defect twice in a row: the emulator's ui dump is not
+    trustworthy when System UI is ANR'ing. Cannot call PASS or FAIL; the
+    layout fix remains unverified by CI screenshots. Polling job
+    ocw-screenshot-poll-14 removed after this report.
+15. Deterministic verification via in-app bounds logging (commit 4a27994):
+    two consecutive captures of ea75266 were inconclusive (System UI ANR
+    both times), so screenshots are no longer the verification path. Added
+    temporary OCWLAYOUT diagnostic: 3s after CoursePage appears, the app
+    logs MAUI-side x/y/w/h for each named control (SearchEntry,
+    FetchButton, StatusLabel, ResourcesTabButton, LecturesTabButton,
+    ArtifactsList, LecturesList, StorageLabel) to logcat, which the
+    workflow already captures into diag/logcat-full.txt at the end of the
+    run. PASS = all visible controls y in 0..700 dp, no million-scale
+    values; FAIL = 16.7M signature persists or visible controls collapse
+    to zero. x:Name added to the 8 controls; prose lint clean. Pushed
+    4a27994 ~22:25 EDT; polling via ocw-screenshot-poll-15 (10m interval,
+    self-removing on verdict). Remove the diagnostic before durable
+    integration.
+16. Layout-bounds diagnostic verdict (run #27, commit 4a27994, polled 22:37
+    EDT): build SUCCEEDED (all workflows green), diagnostic lines present in
+    diag/logcat-full.txt. Verdict: FAIL. MAUI-side bounds still carry the
+    corrupt 2^24 (16777216) scale after the Grid restructure:
+      SearchEntry      x=16 y=16       w=16777183 h=16777215 visible=True
+      FetchButton      x=16 y=16777243 w=16777183 h=16777215 visible=True
+      StatusLabel      x=16 y=33554470 w=16777183 h=16777215 visible=True
+      ResourcesTabBtn  x=16 y=16777243 w=16777215 h=16777212 visible=True
+      LecturesTabBtn   x=16777239 y=16777243 w=16777215 h=16777212 visible=True
+      ArtifactsList    x=16 y=33554470 w=16777183 h=0       visible=True
+      LecturesList     x=0 y=0         w=-1      h=-1       visible=False (hidden by design, fine)
+      StorageLabel     x=16 y=-16      w=16777183 h=16777215 visible=True
+    The x/y walk (dp sums up the parent chain) mixes clean values (16) with
+    2^24-scale values, and every visible control reports Width/Height near
+    16777216; Y positions accumulate the bad heights (16M, 33M); ArtifactsList
+    is zero-height; StorageLabel sits at y=-16. The Grid restructure did not
+    fix the Android layout corruption: the layout engine is still producing
+    million-scale Width/Height, so the visible page cannot be laid out
+    correctly. Next: find the real source of the 2^24 scale (candidate:
+    Android handler pixel/dp mapping feeding MAUI, or a Measure pass
+    returning garbage) rather than restructuring XAML further. Polling job
+    ocw-screenshot-poll-15 removed after this report.
