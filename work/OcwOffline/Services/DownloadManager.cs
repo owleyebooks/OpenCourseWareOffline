@@ -76,6 +76,14 @@ public class DownloadManager : IDownloadManager
                 // Normal shutdown. Pause(), completion, or the stall
                 // branch above all end this loop the same way.
             }
+            catch (Exception ex)
+            {
+                // The watchdog is fire-and-forget: anything but
+                // cancellation escaping here would surface as an
+                // unobserved task exception. Log it and let the download
+                // continue without stall detection rather than faulting.
+                System.Diagnostics.Debug.WriteLine($"Download watchdog fault: {ex.GetType().Name}");
+            }
         });
 
         try

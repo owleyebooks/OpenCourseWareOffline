@@ -66,7 +66,18 @@ public partial class VideoPlayerPage : ContentPage
     protected override async void OnDisappearing()
     {
         base.OnDisappearing();
-        await SaveProgressAsync();
+        try
+        {
+            await SaveProgressAsync();
+        }
+        catch (Exception ex)
+        {
+            // Best-effort save must never crash navigation. SaveProgressAsync
+            // already swallows its own DB faults; this guards the Player
+            // property reads inside it (a torn-down player can throw on
+            // Position/Duration) from escaping the async void override.
+            System.Diagnostics.Debug.WriteLine($"SaveProgressAsync fault: {ex.GetType().Name}");
+        }
     }
 
     // Best-effort watch-position save so reopening the same lecture can

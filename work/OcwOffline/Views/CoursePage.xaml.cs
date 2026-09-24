@@ -86,19 +86,34 @@ public partial class CoursePage : ContentPage
         System.Console.WriteLine($"OCWLAYOUT: {name} x={x:F0} y={y:F0} w={view.Width:F0} h={view.Height:F0} visible={view.IsVisible}");
     }
 
+    // PushAsync inside an async void event handler: an uncaught failure
+    // (factory construction or the push itself) would crash the app.
+    // Route it to an alert instead.
+    private async Task PushSafelyAsync(Func<Page> pageFactory, string pageName)
+    {
+        try
+        {
+            await Navigation.PushAsync(pageFactory());
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync($"Couldn't open {pageName}", ex.Message, "OK");
+        }
+    }
+
     private async void OnDownloadsClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(_dashboardPageFactory());
+        await PushSafelyAsync(_dashboardPageFactory, "downloads");
     }
 
     private async void OnAboutClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(_aboutPageFactory());
+        await PushSafelyAsync(_aboutPageFactory, "about");
     }
 
     private async void OnBrowseCatalogClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(_catalogPageFactory());
+        await PushSafelyAsync(_catalogPageFactory, "catalog");
     }
 
     private async void OnWatchLectureClicked(object sender, EventArgs e)
@@ -108,9 +123,16 @@ public partial class CoursePage : ContentPage
             return;
         }
 
-        var player = _videoPlayerPageFactory();
-        player.LoadLecture(lecture);
-        await Navigation.PushAsync(player);
+        try
+        {
+            var player = _videoPlayerPageFactory();
+            player.LoadLecture(lecture);
+            await Navigation.PushAsync(player);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Couldn't open lecture", ex.Message, "OK");
+        }
     }
 
     private async void OnViewArtifactClicked(object sender, EventArgs e)
@@ -120,8 +142,15 @@ public partial class CoursePage : ContentPage
             return;
         }
 
-        var viewer = _artifactViewerPageFactory();
-        viewer.LoadArtifact(artifact);
-        await Navigation.PushAsync(viewer);
+        try
+        {
+            var viewer = _artifactViewerPageFactory();
+            viewer.LoadArtifact(artifact);
+            await Navigation.PushAsync(viewer);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Couldn't open artifact", ex.Message, "OK");
+        }
     }
 }

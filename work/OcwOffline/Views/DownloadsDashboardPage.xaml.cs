@@ -20,6 +20,22 @@ public partial class DownloadsDashboardPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        _vm.LoadCommand.Execute(null);
+        _ = ReloadAsync();
+    }
+
+    // OnAppearing can't be async, and ICommand.Execute would swallow a
+    // database fault raised inside LoadAsync (the ViewModel has no catch
+    // of its own). Await ExecuteAsync instead so the failure reaches the
+    // user rather than leaving a silently stale list.
+    private async Task ReloadAsync()
+    {
+        try
+        {
+            await _vm.LoadCommand.ExecuteAsync(null);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Couldn't refresh downloads", ex.Message, "OK");
+        }
     }
 }
