@@ -33,6 +33,14 @@ jobs:
       - name: Build debug APK
         run: dotnet build work/HelloWorld/HelloWorld.csproj -p:TargetFrameworks=net10.0-android -p:EmbedAssembliesIntoApk=true -c Debug --nologo -v q
 
+      - name: Reset adb server before emulator boot
+        # TEMP diagnostic hardening (screenshot-run only): two consecutive
+        # runs failed with "Unable to connect to adb daemon on port: 5037"
+        # from the emulator at boot, then every adb command failed. A stale
+        # or half-started adb server on the runner is the usual cause, so
+        # restart it and prove it is listening before the emulator starts.
+        run: adb kill-server || true; adb start-server; adb devices
+
       - name: Capture screenshots on emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
