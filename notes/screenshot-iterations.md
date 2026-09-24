@@ -121,3 +121,39 @@ Stack Overflow). No endless spin.
     Android handler pixel/dp mapping feeding MAUI, or a Measure pass
     returning garbage) rather than restructuring XAML further. Polling job
     ocw-screenshot-poll-15 removed after this report.
+17. HelloWorld control verdict (run #28, commit c8a9cbb, polled 23:06
+    EDT): run completed with CONCLUSION FAILURE, no verdict possible.
+    Failing step: "Capture screenshots on emulator". Root error: the APK
+    install failed because the emulator's package service was not ready:
+      adb: failed to install com.companyname.helloworld-Signed.apk:
+      cmd: Can't find service: package
+    (the preceding "cmd: Failure calling service package: Broken pipe
+    (32)" shows the package manager daemon was half-booted). The app never
+    launched, so no HWLAYOUT lines were logged and diag/logcat-full.txt was
+    never captured. Cannot conclude whether the 2^24 corruption is
+    environmental or OCW-specific. The control experiment is still owed; a
+    re-run needs the workflow to wait for the package service (e.g. retry the
+    install a few times or poll `adb shell pm path` before installing).
+    Screenshots workflow on branch screenshot-run restored to the OCW target
+    (matching master) so the next experiment starts from the right base.
+    Polling job ocw-helloworld-poll-16 removed after this report.
+18. HelloWorld control re-run verdict (run #28 re-run, commit c8a9cbb,
+    polled 01:35 EDT): CONCLUSION SUCCESS (re-run after the first attempt
+    died to an emulator adb-daemon infra flake). HWLAYOUT lines present in
+    diag/logcat-full.txt:
+      Label  x=30 y=24       w=16777155 h=16777215 visible=True
+      Button x=30 y=16777264 w=16777155 h=44       visible=True
+    Verdict: CORRUPT. The stock MAUI HelloWorld app shows the same ~2^24
+    bounds corruption on API 34: label height 16777215 (2^24 - 1) and the
+    button's y pushed to 16M by the bad label height. The 2^24 bug hits stock
+    MAUI too, so it is environmental (emulator or MAUI workload), not OCW's
+    XAML. Note: this same stock app laid out correctly at iteration 7, so
+    the environment itself appears to have degraded between runs; candidates
+    are the CI runner image, the emulator system image, or a MAUI workload
+    update. Stop XAML restructuring; the next experiment should compare
+    environments (fresh emulator image, different API level, CI runner
+    pinning) rather than restructuring layout. Screenshots workflow on branch
+    screenshot-run already restored to the OCW target (matching master,
+    commit c33103e on the remote; the /tmp backup was gone, restored via
+    git checkout master --). Polling job ocw-helloworld-poll-17 removed after
+    this report.
