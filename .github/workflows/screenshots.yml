@@ -39,7 +39,9 @@ jobs:
         # from the emulator at boot, then every adb command failed. A stale
         # or half-started adb server on the runner is the usual cause, so
         # restart it and prove it is listening before the emulator starts.
-        run: adb kill-server || true; adb start-server; adb devices
+        # NOTE: this step runs before the emulator action sets up PATH, so
+        # adb must be addressed via ANDROID_HOME, not bare `adb`.
+        run: "$ANDROID_HOME/platform-tools/adb" kill-server || true; "$ANDROID_HOME/platform-tools/adb" start-server; "$ANDROID_HOME/platform-tools/adb" devices
 
       - name: Capture screenshots on emulator
         uses: reactivecircus/android-emulator-runner@v2
