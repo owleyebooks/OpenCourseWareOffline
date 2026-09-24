@@ -7,13 +7,10 @@ name: screenshots
 
 on:
   workflow_dispatch:
-  push:
-    branches: [screenshot-run]
 
 jobs:
   capture:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
 
@@ -32,42 +29,56 @@ jobs:
         run: dotnet workload install maui-android
 
       - name: Build debug APK
-        # EmbedAssembliesIntoApk: a plain Debug build produces a Fast Deployment
-        # APK whose assemblies live outside the APK (pushed by the IDE/CLI
-        # deploy pipeline). adb install alone never pushes them, so the app
-        # aborts on launch. Embedding makes the APK self-contained.
-        run: dotnet build work/HelloWorld/HelloWorld.csproj -p:TargetFrameworks=net10.0-android -p:EmbedAssembliesIntoApk=true -c Debug --nologo -v q
+        run: dotnet build work/OcwOffline/OcwOffline.csproj -p:TargetFrameworks=net10.0-android -c Debug --nologo -v q
 
       - name: Capture screenshots on emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 34
           arch: x86_64
-          target: default
-          disable-animations: true
-          # NOTE: this action runs each script line in its own shell, so no
-          # variable may span lines. Keep every step self-contained on one line.
-          # Breadcrumb file: each line appends its stage on success, so a
-          # failed run still shows exactly how far the script got.
+          target: google_apis
           script: |
-            mkdir -p diag; echo "stage: start" > diag/progress.txt; ls work/HelloWorld/bin/Debug/net10.0-android/ && echo "stage: listed" >> diag/progress.txt
-            APK=$(find work/HelloWorld/bin/Debug/net10.0-android -maxdepth 1 -name "*-Signed.apk" | head -1); if [ -z "$APK" ]; then APK=$(find work/HelloWorld/bin/Debug/net10.0-android -maxdepth 1 -name "*.apk" | head -1); fi; echo "Installing [$APK]"; adb install "$APK" && echo "stage: installed" >> diag/progress.txt
-            adb shell settings put global hide_error_dialogs 1 || true; echo "stage: hide-dialogs" >> diag/progress.txt
-            adb logcat -c; adb shell monkey -p com.companyname.helloworld -c android.intent.category.LAUNCHER 1 && echo "stage: monkey" >> diag/progress.txt
-            for i in $(seq 1 6); do FOCUS=$(adb shell dumpsys window windows | grep mCurrentFocus | head -1); echo "focus: $FOCUS"; echo "$FOCUS" | grep -q com.companyname.helloworld && break; sleep 5; done; echo "$FOCUS" > diag/focus.txt; echo "stage: focus-poll" >> diag/progress.txt
-            PID=$(adb shell pidof -s com.companyname.helloworld | tr -d '\r'); echo "pid=$PID" | tee diag/pid.txt; echo "stage: pid" >> diag/progress.txt
-            sleep 45; bash tools/ci/dismiss_anr.sh >/dev/null 2>&1 || true; PID=$(adb shell pidof -s com.companyname.helloworld | tr -d '\r'); echo "$(date -u +%T) pid=$PID ticks=$(adb shell cat /proc/$PID/stat 2>/dev/null | tr -d '\r' | awk '{print $14+$15}')" | tee -a diag/cpu.txt; adb shell screencap -p /sdcard/shot1.png && adb pull /sdcard/shot1.png screenshot-1-t1.png || adb exec-out screencap -p > screenshot-1-t1.png; echo "stage: shot1" >> diag/progress.txt
-            sleep 60; bash tools/ci/dismiss_anr.sh >/dev/null 2>&1 || true; PID=$(adb shell pidof -s com.companyname.helloworld | tr -d '\r'); echo "$(date -u +%T) pid=$PID ticks=$(adb shell cat /proc/$PID/stat 2>/dev/null | tr -d '\r' | awk '{print $14+$15}')" | tee -a diag/cpu.txt; adb shell screencap -p /sdcard/shot2.png && adb pull /sdcard/shot2.png screenshot-2-t2.png || adb exec-out screencap -p > screenshot-2-t2.png; echo "stage: shot2" >> diag/progress.txt
-            sleep 60; bash tools/ci/dismiss_anr.sh >/dev/null 2>&1 || true; timeout 60 adb shell uiautomator dump /sdcard/ui.xml && adb pull /sdcard/ui.xml ui.xml || echo "uiautomator failed"; PID=$(adb shell pidof -s com.companyname.helloworld | tr -d '\r'); echo "$(date -u +%T) pid=$PID ticks=$(adb shell cat /proc/$PID/stat 2>/dev/null | tr -d '\r' | awk '{print $14+$15}')" | tee -a diag/cpu.txt; adb shell screencap -p /sdcard/shot3.png && adb pull /sdcard/shot3.png screenshot-3-t3.png || adb exec-out screencap -p > screenshot-3-t3.png; echo "stage: shot3+dump" >> diag/progress.txt
-            adb shell dumpsys activity activities | grep -iB2 -A2 helloworld > diag/tasks.txt || true; adb logcat -d | grep -iE "helloworld|AndroidRuntime|FATAL|mono-stdout" | tail -80 > diag/logcat.txt || true; adb logcat -d | grep "helloworld" > diag/startup.txt || true; adb logcat -d -v threadtime > diag/logcat-full.txt; echo "stage: logs" >> diag/progress.txt
-            ls -la screenshot-*.png ui.xml diag/ || true; echo "stage: done" >> diag/progress.txt
+            APK=$(find work/OcwOffline/bin/Debug/net10.0-android -name "*-Signed.apk" | head -1)
+            echo "Installing $APK"
+            adb install "$APK"
+            adb shell monkey -p com.owleyebooks.ocwoffline -c android.intent.category.LAUNCHER 1
+            sleep 8
+            adb exec-out screencap -p > screenshot-1-launch.png
+            sleep 20
+            adb exec-out screencap -p > screenshot-2-catalog.png
+            # Best effort: tap the first tappable list item to reveal a detail screen.
+            adb shell uiautomator dump /sdcard/ui.xml
+            adb pull /sdcard/ui.xml ui.xml
+            python3 - <<'PYEOF'
+            import re, xml.etree.ElementTree as ET
+            try:
+                best = None
+                for node in ET.parse('ui.xml').getroot().iter('node'):
+                    if node.get('clickable') != 'true':
+                        continue
+                    m = re.match(r'\[(\d+),(\d+)\]\[(\d+),(\d+)\]', node.get('bounds', ''))
+                    if not m:
+                        continue
+                    x1, y1, x2, y2 = map(int, m.groups())
+                    cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
+                    if cy > 400 and (best is None or cy < best[1]):
+                        best = (cx, cy)
+                if best:
+                    open('tap.txt', 'w').write(f"{best[0]} {best[1]}")
+                    print(f"will tap {best[0]} {best[1]}")
+            except Exception as e:
+                print("ui parse failed:", e)
+            PYEOF
+            if [ -f tap.txt ]; then
+              read X Y < tap.txt
+              adb shell input tap $X $Y
+              sleep 8
+              adb exec-out screencap -p > screenshot-3-detail.png
+            fi
+            ls -la screenshot-*.png
 
       - name: Upload screenshots
-        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: android-screenshots
-          path: |
-            screenshot-*.png
-            ui.xml
-            diag/
+          path: screenshot-*.png
