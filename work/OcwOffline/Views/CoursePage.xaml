@@ -25,22 +25,22 @@
     <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="16" RowSpacing="12">
 
         <VerticalStackLayout Grid.Row="0" Spacing="12">
-            <Entry Text="{Binding CourseSlug}" Placeholder="course-slug-from-ocw-url" />
-            <Button Text="Fetch Course" Command="{Binding FetchCommand}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
-            <Label Text="{Binding StatusText}" FontAttributes="Italic" />
+            <Entry x:Name="SearchEntry" Text="{Binding CourseSlug}" Placeholder="course-slug-from-ocw-url" />
+            <Button x:Name="FetchButton" Text="Fetch Course" Command="{Binding FetchCommand}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
+            <Label x:Name="StatusLabel" Text="{Binding StatusText}" FontAttributes="Italic" />
             <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
         </VerticalStackLayout>
 
         <HorizontalStackLayout Grid.Row="1" Spacing="8">
-            <Button Text="Resources"
+            <Button x:Name="ResourcesTabButton" Text="Resources"
                     Command="{Binding ShowTabCommand}" CommandParameter="Resources"
                     IsEnabled="{Binding ShowingLectures}" />
-            <Button Text="Lecture Videos"
+            <Button x:Name="LecturesTabButton" Text="Lecture Videos"
                     Command="{Binding ShowTabCommand}" CommandParameter="Lectures"
                     IsEnabled="{Binding ShowingLectures, Converter={StaticResource InvertedBoolConverter}}" />
         </HorizontalStackLayout>
 
-        <CollectionView Grid.Row="2"
+        <CollectionView x:Name="ArtifactsList" Grid.Row="2"
                         ItemsSource="{Binding Artifacts}"
                         IsVisible="{Binding ShowingLectures, Converter={StaticResource InvertedBoolConverter}}">
             <CollectionView.ItemTemplate>
@@ -74,7 +74,7 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <CollectionView Grid.Row="2"
+        <CollectionView x:Name="LecturesList" Grid.Row="2"
                         ItemsSource="{Binding Lectures}"
                         IsVisible="{Binding ShowingLectures}">
             <CollectionView.ItemTemplate>
@@ -108,7 +108,7 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <Label Grid.Row="3"
+        <Label x:Name="StorageLabel" Grid.Row="3"
                Text="{Binding TotalStorageUsedBytes, StringFormat='Total storage used: {0:N0} bytes'}"
                FontSize="12" Opacity="0.7" />
 

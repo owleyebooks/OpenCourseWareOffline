@@ -41,24 +41,49 @@ public partial class CoursePage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        // TEMPORARY diagnostic (screenshot-run only): is the logical tree complete?
-        try
+        // TEMPORARY diagnostic (screenshot-run only): log MAUI-side layout
+        // bounds to logcat so CI can verify the Grid fix even when the
+        // emulator's System UI ANR makes screenshots and uiautomator
+        // dumps unreliable. Remove before durable integration.
+        Dispatcher.Dispatch(async () =>
         {
-            if (Content is ScrollView sv && sv.Content is VerticalStackLayout vsl)
+            try
             {
-                System.Console.WriteLine($"OCWDIAG: vsl children={vsl.Children.Count}");
-                foreach (var c in vsl.Children)
-                    System.Console.WriteLine($"OCWDIAG: child={c.GetType().Name} handler={c.Handler is not null} visible={(c as VisualElement)?.IsVisible}");
+                await Task.Delay(3000);
+                LogLayout("SearchEntry", SearchEntry);
+                LogLayout("FetchButton", FetchButton);
+                LogLayout("StatusLabel", StatusLabel);
+                LogLayout("ResourcesTabButton", ResourcesTabButton);
+                LogLayout("LecturesTabButton", LecturesTabButton);
+                LogLayout("ArtifactsList", ArtifactsList);
+                LogLayout("LecturesList", LecturesList);
+                LogLayout("StorageLabel", StorageLabel);
+                System.Console.WriteLine("OCWLAYOUT: done");
             }
-            else
+            catch (System.Exception ex)
             {
-                System.Console.WriteLine($"OCWDIAG: unexpected content shape: {Content?.GetType().Name}");
+                System.Console.WriteLine("OCWLAYOUT: EXCEPTION " + ex.GetType().Name + ": " + ex.Message);
             }
-        }
-        catch (System.Exception ex)
+        });
+    }
+
+    private static void LogLayout(string name, VisualElement? view)
+    {
+        if (view is null)
         {
-            System.Console.WriteLine("OCWDIAG: EXCEPTION " + ex.GetType().Name + ": " + ex.Message);
+            System.Console.WriteLine($"OCWLAYOUT: {name} is null");
+            return;
         }
+
+        double x = 0;
+        double y = 0;
+        for (var e = view; e is not null; e = e.Parent as VisualElement)
+        {
+            x += e.X;
+            y += e.Y;
+        }
+
+        System.Console.WriteLine($"OCWLAYOUT: {name} x={x:F0} y={y:F0} w={view.Width:F0} h={view.Height:F0} visible={view.IsVisible}");
     }
 
     private async void OnDownloadsClicked(object sender, EventArgs e)
