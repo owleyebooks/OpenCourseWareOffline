@@ -41,7 +41,10 @@ jobs:
         # restart it and prove it is listening before the emulator starts.
         # NOTE: this step runs before the emulator action sets up PATH, so
         # adb must be addressed via ANDROID_HOME, not bare `adb`.
-        run: "$ANDROID_HOME/platform-tools/adb" kill-server || true; "$ANDROID_HOME/platform-tools/adb" start-server; "$ANDROID_HOME/platform-tools/adb" devices
+        run: |
+          "$ANDROID_HOME/platform-tools/adb" kill-server || true
+          "$ANDROID_HOME/platform-tools/adb" start-server
+          "$ANDROID_HOME/platform-tools/adb" devices
 
       - name: Capture screenshots on emulator
         uses: reactivecircus/android-emulator-runner@v2
