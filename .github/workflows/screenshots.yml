@@ -31,7 +31,7 @@ jobs:
         run: dotnet workload install maui-android
 
       - name: Build debug APK
-        run: dotnet build work/OcwOffline/OcwOffline.csproj -p:TargetFrameworks=net10.0-android -c Debug --nologo -v q
+        run: dotnet build work/HelloWorld/HelloWorld.csproj -p:TargetFrameworks=net10.0-android -p:EmbedAssembliesIntoApk=true -c Debug --nologo -v q
 
       - name: Capture screenshots on emulator
         uses: reactivecircus/android-emulator-runner@v2
@@ -40,10 +40,10 @@ jobs:
           arch: x86_64
           target: google_apis
           script: |
-            APK=$(find work/OcwOffline/bin/Debug/net10.0-android -name "*-Signed.apk" | head -1)
+            APK=$(find work/HelloWorld/bin/Debug/net10.0-android -name "*-Signed.apk" | head -1)
             echo "Installing $APK"
             adb install "$APK"
-            adb shell monkey -p com.owleyebooks.ocwoffline -c android.intent.category.LAUNCHER 1
+            adb shell monkey -p com.companyname.helloworld -c android.intent.category.LAUNCHER 1
             sleep 8
             adb exec-out screencap -p > screenshot-1-launch.png
             sleep 20
