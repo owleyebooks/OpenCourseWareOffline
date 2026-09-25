@@ -10,13 +10,7 @@ public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
     {
-        // TEMPORARY diagnostic logging (screenshot-run branch only): pinpoints
-        // where Android startup hangs. Removed before merging to main.
-        System.Console.WriteLine("OCWSTARTUP: CreateMauiApp entry");
-        try
-        {
         var builder = MauiApp.CreateBuilder();
-        System.Console.WriteLine("OCWSTARTUP: builder created");
         builder
             .UseMauiApp<App>()
             // isAndroidForegroundServiceEnabled: false. The foreground
@@ -29,7 +23,6 @@ public static class MauiProgram
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
             });
-        System.Console.WriteLine("OCWSTARTUP: maui app + mediaelement + fonts done");
 
         // Core services registered as singletons: they own
         // long-lived state (db connection, active downloads).
@@ -111,15 +104,7 @@ public static class MauiProgram
         builder.Logging.AddDebug();
 #endif
 
-        System.Console.WriteLine("OCWSTARTUP: services registered, calling Build()");
         var mauiApp = builder.Build();
-        System.Console.WriteLine("OCWSTARTUP: Build() returned");
         return mauiApp;
-        }
-        catch (System.Exception ex)
-        {
-            System.Console.WriteLine("OCWSTARTUP: EXCEPTION in CreateMauiApp: " + ex);
-            throw;
-        }
     }
 }

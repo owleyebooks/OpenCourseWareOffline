@@ -52,49 +52,6 @@ public partial class CoursePage : ContentPage
         // stays put instead of an error screen.
         if (BindingContext is CourseViewModel vm)
             _ = vm.RestoreLastCourseAsync();
-
-        // TEMPORARY diagnostic (screenshot-run only): log MAUI-side layout
-        // bounds to logcat so CI can verify the Grid fix even when the
-        // emulator's System UI ANR makes screenshots and uiautomator
-        // dumps unreliable. Remove before durable integration.
-        Dispatcher.Dispatch(async () =>
-        {
-            try
-            {
-                await Task.Delay(3000);
-                LogLayout("SearchEntry", SearchEntry);
-                LogLayout("FetchButton", FetchButton);
-                LogLayout("StatusLabel", StatusLabel);
-                LogLayout("ResourcesTabButton", ResourcesTabButton);
-                LogLayout("LecturesTabButton", LecturesTabButton);
-                LogLayout("ArtifactsList", ArtifactsList);
-                LogLayout("LecturesList", LecturesList);
-                System.Console.WriteLine("OCWLAYOUT: done");
-            }
-            catch (System.Exception ex)
-            {
-                System.Console.WriteLine("OCWLAYOUT: EXCEPTION " + ex.GetType().Name + ": " + ex.Message);
-            }
-        });
-    }
-
-    private static void LogLayout(string name, VisualElement? view)
-    {
-        if (view is null)
-        {
-            System.Console.WriteLine($"OCWLAYOUT: {name} is null");
-            return;
-        }
-
-        double x = 0;
-        double y = 0;
-        for (var e = view; e is not null; e = e.Parent as VisualElement)
-        {
-            x += e.X;
-            y += e.Y;
-        }
-
-        System.Console.WriteLine($"OCWLAYOUT: {name} x={x:F0} y={y:F0} w={view.Width:F0} h={view.Height:F0} visible={view.IsVisible}");
     }
 
     // PushAsync inside an async void event handler: an uncaught failure

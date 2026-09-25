@@ -468,3 +468,50 @@ normally (no exception escapes the item method); a mid-flight cancel
 throws OperationCanceledException from the transport, deletes the
 partial file, and resets the entity the same way; cancel on a fully
 unknown key is a silent no-op.
+
+## 2026-09-25: Offline indicator via MAUI ConnectivityChanged only (worker C)
+
+The offline indicator Mike authorized (2026-09-25, only if simple and
+reliable) is implemented as `MauiConnectivityService`, a singleton that
+subscribes to `Connectivity.Current.ConnectivityChanged` exactly once at
+app startup (subscription forced by injecting `IConnectivityService`
+into `App.xaml.cs`). `IsConnected` is `NetworkAccess == NetworkAccess.Internet`;
+the event forwards the bool to `AppStatusViewModel.IsOffline`, which shows
+a subtle line ("You're offline. Downloaded courses still work.",
+FontSize 12, Opacity 0.6) in the shared `StatusBannerView`. There is no
+polling, no probing, no periodic check anywhere in the app. The service
+is never constructed in tests (MAUI static seam), matching the existing
+Maui* convention. If the OS event ever proves unreliable on a target
+platform, the banner is a pure consumer of `IConnectivityService` and can
+be silenced without touching the download code.
+
+## 2026-09-25: Last-course restore behavior (worker A)
+
+`ILastCourseStore` (`PreferencesLastCourseStore` in the app,
+`InMemoryLastCourseStore` in tests) persists the course ID on every
+successful fetch. `CoursePage.OnAppearing` calls
+`RestoreLastCourseAsync` once per page instance (once-guarded); it fetches
+only when connected, skips silently when nothing is stored, and on an
+offline restore leaves the first-run intro visible with no error panel.
+The restore repopulates the results, so a returning user with no signal
+still sees their last course's lists and can tap Open/Watch on downloaded
+items. No account, no cloud, just a preferences key.
+
+## 2026-09-25: UX reviewer disagreement resolutions
+
+Three reviewer disagreements were on the table in
+notes/ux-implementation-plan.md and were resolved during implementation:
+
+- Storage line on Browse: REMOVED (2 of 3 reviewers). The "Browse storage"
+  label is gone from CoursePage; the storage summary now lives only on the
+  Downloads dashboard where it is human-readable ("1.2 GB downloaded, ...").
+- Error presentation: the panel, not the inline line. Fetch failures now
+  render a `FetchErrorInfo`-classified error panel in the results area
+  (network vs bad-address vs generic, each with its own remedy), replacing
+  the thin status line.
+- Downloads Refresh button: REMOVED. Loading on appear already covers it;
+  the button did nothing `OnAppearing` did not.
+- Pre-filled example vs empty field on the landing screen (raised in the
+  feedback package, not the plan): worker A's call was the empty field with
+  placeholder text ("Paste a link from ocw.mit.edu"), per the reviewers'
+  note that the pre-filled identifier fragment contradicted "paste a link."

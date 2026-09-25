@@ -14,19 +14,4 @@ namespace OcwOffline;
         ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
 public class MainActivity : MauiAppCompatActivity
 {
-    // TEMPORARY diagnostic logging (screenshot-run branch only).
-    protected override void OnCreate(Bundle? savedInstanceState)
-    {
-        System.Console.WriteLine("OCWSTARTUP: MainActivity.OnCreate entry");
-        try
-        {
-            base.OnCreate(savedInstanceState);
-            System.Console.WriteLine("OCWSTARTUP: MainActivity.OnCreate base returned");
-        }
-        catch (System.Exception ex)
-        {
-            System.Console.WriteLine("OCWSTARTUP: EXCEPTION in MainActivity.OnCreate: " + ex);
-            throw;
-        }
-    }
 }
