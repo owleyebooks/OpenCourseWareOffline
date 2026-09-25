@@ -156,4 +156,13 @@
     <Compile Include="..\OcwOffline\ExternalLinks.cs" Link="ExternalLinks.cs" />
   </ItemGroup>
 
+  <!-- Worker C UX additions (screenshot-run): the banner ViewModel is
+       MAUI-free; MauiConnectivityService compiles here (Essentials is
+       referenced) but tests never construct it, same as the other
+       Maui* production implementations. -->
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\ViewModels\AppStatusViewModel.cs" Link="ViewModels\AppStatusViewModel.cs" />
+    <Compile Include="..\OcwOffline\Services\MauiConnectivityService.cs" Link="Services\MauiConnectivityService.cs" />
+  </ItemGroup>
+
 </Project>

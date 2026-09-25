@@ -51,6 +51,12 @@ public class FakeDownloadManager : IDownloadManager
     public void QueueExtractFailure(string destinationSubfolder, Exception exception) =>
         _extractFailures[destinationSubfolder] = exception;
 
+    // Fires the aggregate event with a hand-built roll-up, the same event
+    // DownloadAsync/FireProgress raises internally, so AppStatusViewModel
+    // tests can drive exact counts and fractions.
+    public void RaiseAggregate(DownloadAggregate aggregate) =>
+        AggregateChanged?.Invoke(aggregate);
+
     // Lets a test plant a partial file that Cancel must delete, mirroring
     // bytes left on disk by an interrupted real download.
     public void SimulatePartialFile(string relativePath, long bytes) =>

@@ -1,5 +1,6 @@
 using OcwOffline.Models;
 using OcwOffline.Services;
+using OcwOffline.ViewModels;
 
 namespace OcwOffline.Views;
 
@@ -10,9 +11,10 @@ public partial class ArtifactViewerPage : ContentPage
 {
     private Artifact? _artifact;
 
-    public ArtifactViewerPage()
+    public ArtifactViewerPage(AppStatusViewModel statusViewModel)
     {
         InitializeComponent();
+        StatusBanner.BindingContext = statusViewModel;
     }
 
     // Called by the caller right after resolving this page from its
@@ -54,7 +56,6 @@ public partial class ArtifactViewerPage : ContentPage
         else
         {
             PdfPanel.IsVisible = true;
-            StatusLabel.Text = "Tap Open PDF to view it in your device's PDF app.";
         }
     }
 
@@ -78,11 +79,11 @@ public partial class ArtifactViewerPage : ContentPage
 
             await Launcher.Default.OpenAsync(new OpenFileRequest(_artifact.Title, new ReadOnlyFile(sharePath)));
         }
-        catch (Exception ex)
+        catch
         {
             // Mirrors VideoPlayerPage's OnMediaFailed posture: surface
             // the failure on the page rather than throwing past it.
-            StatusLabel.Text = $"Couldn't open PDF: {ex.Message}";
+            StatusLabel.Text = "Couldn't open the PDF. If no PDF reader is installed, install one and try again.";
         }
     }
 }

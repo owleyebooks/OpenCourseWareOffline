@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OcwOffline.Views.StatusBannerView">
+    <VerticalStackLayout Spacing="0">
+        <!-- Persistent download banner. Bound to AppStatusViewModel; each
+             page sets this view's BindingContext from its injected
+             singleton. Tapping jumps to the in-progress rows. -->
+        <Label Text="{Binding ActiveDownloadText}"
+               IsVisible="{Binding HasActiveDownloads}"
+               FontSize="13"
+               Padding="12,8"
+               HorizontalTextAlignment="Center"
+               BackgroundColor="#E3EDF7"
+               TextColor="#1A3A5C">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ShowActiveDownloadsCommand}" />
+            </Label.GestureRecognizers>
+        </Label>
+        <!-- Subtle offline line: small and low opacity by design. -->
+        <Label Text="You're offline. Downloaded courses still work."
+               IsVisible="{Binding IsOffline}"
+               FontSize="12"
+               Opacity="0.6"
+               Padding="12,4"
+               HorizontalTextAlignment="Center" />
+    </VerticalStackLayout>
+</ContentView>

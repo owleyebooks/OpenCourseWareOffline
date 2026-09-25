@@ -3,19 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:OcwOffline.ViewModels"
              xmlns:models="clr-namespace:OcwOffline.Models"
+             xmlns:views="clr-namespace:OcwOffline.Views"
              x:Class="OcwOffline.Views.CatalogPage"
              x:Name="RootPage"
              x:DataType="vm:CatalogViewModel"
              Title="Browse Courses">
-    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="16" RowSpacing="12">
+    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" Padding="16" RowSpacing="12">
 
-        <Entry Grid.Row="0"
+        <views:StatusBannerView x:Name="StatusBanner" Grid.Row="0" />
+
+        <Entry Grid.Row="1"
                Text="{Binding SearchText}"
-               Placeholder="Filter loaded courses by title" />
+               Placeholder="Search courses by title" />
 
-        <Label Grid.Row="1" Text="{Binding StatusText}" FontAttributes="Italic" FontSize="12" />
+        <Label Grid.Row="2" Text="{Binding StatusText}" FontAttributes="Italic" FontSize="12" />
 
-        <CollectionView Grid.Row="2"
+        <CollectionView Grid.Row="3"
                          ItemsSource="{Binding DisplayedCourses}"
                          SelectionMode="Single"
                          SelectionChanged="OnCourseSelected">
@@ -29,7 +32,7 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <Button Grid.Row="3"
+        <Button Grid.Row="4"
                 Text="Load More"
                 Command="{Binding LoadMoreCommand}"
                 IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
