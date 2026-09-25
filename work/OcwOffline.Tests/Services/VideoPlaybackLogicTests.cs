@@ -71,6 +71,54 @@ public class VideoPlaybackLogicTests
         Assert.Equal(string.Empty, status);
     }
 
+    [Theory]
+    [InlineData("one second under the threshold", 29)]
+    [InlineData("a few seconds in", 5)]
+    public void DetermineLoadStatus_SavedPositionUnderThreshold_ReturnsEmpty(string description, int positionSeconds)
+    {
+        var lecture = new Lecture
+        {
+            LocalVideoPath = "lectures/1.mp4",
+            LastWatchedPositionSeconds = positionSeconds,
+            IsCompleted = false
+        };
+
+        var status = VideoPlaybackLogic.DetermineLoadStatus(lecture, fileExists: true);
+
+        status.Should().BeEmpty(because: $"{description}: the resume banner only appears from 30 seconds on");
+    }
+
+    [Fact]
+    public void DetermineLoadStatus_SavedPositionAtThreshold_ReturnsResumingMessage()
+    {
+        var lecture = new Lecture
+        {
+            LocalVideoPath = "lectures/1.mp4",
+            LastWatchedPositionSeconds = 30,
+            IsCompleted = false
+        };
+
+        var status = VideoPlaybackLogic.DetermineLoadStatus(lecture, fileExists: true);
+
+        status.Should().Be("Resuming from 00:30.",
+            because: "30 seconds is the first position that earns the banner");
+    }
+
+    [Fact]
+    public void DetermineLoadStatus_CompletedWithPositionAtThreshold_ReturnsEmpty()
+    {
+        var lecture = new Lecture
+        {
+            LocalVideoPath = "lectures/1.mp4",
+            LastWatchedPositionSeconds = 30,
+            IsCompleted = true
+        };
+
+        var status = VideoPlaybackLogic.DetermineLoadStatus(lecture, fileExists: true);
+
+        status.Should().BeEmpty(because: "a finished lecture has nothing to resume");
+    }
+
     [Fact]
     public void DetermineCompletionState_NoDurationYet_ReturnsNulls()
     {

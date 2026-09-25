@@ -57,6 +57,14 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<IMainThreadDispatcher, MauiMainThreadDispatcher>();
         builder.Services.AddSingleton<IAppPaths, AppPathsProvider>();
+        // OS connectivity events only: no polling, no probing. The App
+        // ctor takes this interface so the singleton subscribes once at
+        // startup; never construct MauiConnectivityService in tests (MAUI
+        // statics throw on a bare net10.0 host).
+        builder.Services.AddSingleton<IConnectivityService, MauiConnectivityService>();
+        builder.Services.AddSingleton<ILastCourseStore, PreferencesLastCourseStore>();
+        // Shared status behind every page's StatusBannerView.
+        builder.Services.AddSingleton<AppStatusViewModel>();
         builder.Services.AddTransient<CourseViewModel>();
         builder.Services.AddTransient<CoursePage>();
 

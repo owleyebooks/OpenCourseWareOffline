@@ -2,16 +2,17 @@ namespace OcwOffline.Views;
 
 public partial class AboutPage : ContentPage
 {
-    public AboutPage()
+    public AboutPage(ViewModels.AppStatusViewModel statusViewModel)
     {
         InitializeComponent();
+        StatusBanner.BindingContext = statusViewModel;
         VersionLabel.Text = $"Version {AppInfo.VersionString}";
     }
 
     private async void OnPrivacyPolicyClicked(object sender, EventArgs e) =>
         await OpenExternalLinkAsync(ExternalLinks.PrivacyPolicyUrl);
 
-    private async void OnContributeClicked(object sender, EventArgs e) =>
+    private async void OnHelpImproveClicked(object sender, EventArgs e) =>
         await OpenExternalLinkAsync(ExternalLinks.GitHubRepositoryUrl);
 
     private async Task OpenExternalLinkAsync(string url)
