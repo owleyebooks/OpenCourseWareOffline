@@ -25,7 +25,7 @@
     <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="16" RowSpacing="12">
 
         <VerticalStackLayout Grid.Row="0" Spacing="12">
-            <Entry x:Name="SearchEntry" Text="{Binding CourseSlug}" Placeholder="course-slug-from-ocw-url" />
+            <Entry x:Name="SearchEntry" Text="{Binding CourseSlug}" Placeholder="Paste a course link from ocw.mit.edu" />
             <Button x:Name="FetchButton" Text="Fetch Course" Command="{Binding FetchCommand}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
             <Label x:Name="StatusLabel" Text="{Binding StatusText}" FontAttributes="Italic" />
             <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />

@@ -27,8 +27,22 @@ public class OcwScraperService : IOcwScraperService
     private static readonly Regex SizeUnitHint = new(
         @"\d\s*(kB|KB|MB|GB)", RegexOptions.IgnoreCase);
 
+    // Accepts either a pasted ocw.mit.edu course link or a bare slug and
+    // returns the slug the download URL is built from.
+    // internal, not private: OcwOffline.Tests compiles this file directly.
+    internal static string NormalizeCourseInput(string? input)
+    {
+        var fromUrl = OcwCatalogService.SlugFromUrl(input);
+        if (!string.IsNullOrWhiteSpace(fromUrl))
+            return fromUrl;
+        return (input ?? string.Empty).Trim();
+    }
+
     public async Task<ScrapedCourse> ScrapeDownloadPageAsync(string courseId)
     {
+        // Users paste a course link from ocw.mit.edu; reduce it to the slug
+        // the download URL is built from. A bare slug passes through unchanged.
+        courseId = NormalizeCourseInput(courseId);
         var url = $"https://ocw.mit.edu/courses/{courseId}/download/";
         var html = await _http.GetStringAsync(url);
 

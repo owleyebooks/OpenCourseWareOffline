@@ -7,7 +7,7 @@ using OcwOffline.Services;
 namespace OcwOffline.ViewModels;
 
 /// <summary>
-/// Drives a single-course screen: enter a slug, scrape it, download
+/// Drives a single-course screen: enter a course link, scrape it, download
 /// what's picked. Deliberately minimal. See AUDIT_TRAIL v1.
 /// </summary>
 public partial class CourseViewModel : ObservableObject
@@ -37,7 +37,7 @@ public partial class CourseViewModel : ObservableObject
     private string courseSlug = "hst-508-genomics-and-computational-biology-fall-2002";
 
     [ObservableProperty]
-    private string statusText = "Enter a course slug (from its OCW URL) and tap Fetch.";
+    private string statusText = "Paste the course's web address from ocw.mit.edu and tap Fetch.";
 
     [ObservableProperty]
     private bool isBusy;
