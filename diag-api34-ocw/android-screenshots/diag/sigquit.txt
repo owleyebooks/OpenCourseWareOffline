@@ -1,0 +1,1 @@
+SIGQUIT sent to pid 2943 at 20:54:21

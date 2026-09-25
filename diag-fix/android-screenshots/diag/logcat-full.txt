@@ -1,0 +1,566 @@
+--------- beginning of main
+09-23 02:08:23.221  1944  2206 W system_server: Long monitor contention with owner PackageManager (1987) at void com.android.server.pm.PackageManagerService.installPackagesLI(java.util.List)(PackageManagerService.java:17017) waiters=0 in android.content.pm.ProviderInfo com.android.server.pm.ComponentResolver.queryProvider(java.lang.String, int, int) for 750ms
+09-23 02:08:23.225  1944  2820 W system_server: Long monitor contention with owner PackageManager (1987) at void com.android.server.pm.PackageManagerService.installPackagesLI(java.util.List)(PackageManagerService.java:17017) waiters=1 in int com.android.server.pm.PackageManagerService.checkUidPermission(java.lang.String, int) for 671ms
+09-23 02:08:23.392  3131  3148 I d.process.medi: ThreadFlipBegin blocked for 22.046ms
+09-23 02:08:23.409  3131  3284 I d.process.medi: IncrementDisableThreadFlip blocked for 22.242ms
+09-23 02:08:23.684  1944  2206 D WificondControl: Scan result ready event
+09-23 02:08:23.727  2136  2181 E BackupHelper: Could not parse delayed permissions
+09-23 02:08:23.727  2136  2181 E BackupHelper: java.io.FileNotFoundException: /data/user_de/0/com.android.permissioncontroller/files/delayed_restore_permissions.xml: open failed: ENOENT (No such file or directory)
+09-23 02:08:23.727  2136  2181 E BackupHelper: 	at libcore.io.IoBridge.open(IoBridge.java:496)
+09-23 02:08:23.727  2136  2181 E BackupHelper: 	at java.io.FileInputStream.<init>(FileInputStream.java:159)
+09-23 02:08:23.727  2136  2181 E BackupHelper: 	at android.app.ContextImpl.openFileInput(ContextImpl.java:600)
+09-23 02:08:23.727  2136  2181 E BackupHelper: 	at com.android.packageinstaller.permission.service.BackupHelper.restoreDelayedState(BackupHelper.java:338)
+09-23 02:08:23.727  2136  2181 E BackupHelper: 	at com.android.packageinstaller.permission.service.PermissionControllerServiceImpl.onRestoreDelayedRuntimePermissionsBackup(PermissionControllerServiceImpl.java:358)
+09-23 02:08:23.727  2136  2181 E BackupHelper: 	at com.android.packageinstaller.permission.service.PermissionControllerServiceImpl.lambda$onRestoreDelayedRuntimePermissionsBackup$3$PermissionControllerServiceImpl(PermissionControllerServiceImpl.java:352)
+09-23 02:08:23.727  2136  2181 E BackupHelper: 	at com.android.packageinstaller.permission.service.-$$Lambda$PermissionControllerServiceImpl$wHAhob5PsX8wKMTaFp8IJWkb1LE.run(Unknown Source:8)
+09-23 02:08:23.727  2136  2181 E BackupHelper: 	at android.os.AsyncTask$SerialExecutor$1.run(AsyncTask.java:289)
+09-23 02:08:23.727  2136  2181 E BackupHelper: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167)
+09-23 02:08:23.727  2136  2181 E BackupHelper: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641)
+09-23 02:08:23.727  2136  2181 E BackupHelper: 	at java.lang.Thread.run(Thread.java:919)
+09-23 02:08:23.727  2136  2181 E BackupHelper: Caused by: android.system.ErrnoException: open failed: ENOENT (No such file or directory)
+09-23 02:08:23.727  2136  2181 E BackupHelper: 	at libcore.io.Linux.open(Native Method)
+09-23 02:08:23.727  2136  2181 E BackupHelper: 	at libcore.io.ForwardingOs.open(ForwardingOs.java:167)
+09-23 02:08:23.727  2136  2181 E BackupHelper: 	at libcore.io.BlockGuardOs.open(BlockGuardOs.java:252)
+09-23 02:08:23.727  2136  2181 E BackupHelper: 	at libcore.io.ForwardingOs.open(ForwardingOs.java:167)
+09-23 02:08:23.727  2136  2181 E BackupHelper: 	at android.app.ActivityThread$AndroidOs.open(ActivityThread.java:7255)
+09-23 02:08:23.727  2136  2181 E BackupHelper: 	at libcore.io.IoBridge.open(IoBridge.java:482)
+09-23 02:08:23.727  2136  2181 E BackupHelper: 	... 10 more
+09-23 02:08:23.747  1944  1971 E memtrack: Couldn't load memtrack module
+09-23 02:08:23.747  1944  1971 W android.os.Debug: failed to get memory consumption info: -1
+09-23 02:08:23.831  1690  1880 I netd    : trafficSetNetPermForUids(4, [10116]) <0.33ms>
+09-23 02:08:23.842  1944  1971 E memtrack: Couldn't load memtrack module
+09-23 02:08:23.843  1944  1971 W android.os.Debug: failed to get memory consumption info: -1
+09-23 02:08:23.910  1778  1778 E         : Couldn't opendir /data/app/vmdl823736369.tmp: No such file or directory
+09-23 02:08:23.910  1778  1778 E installd: Failed to delete /data/app/vmdl823736369.tmp: No such file or directory
+09-23 02:08:23.999  1944  1944 W Binder:1944_1: type=1400 audit(0.0:22): avc: denied { getopt } for scontext=u:r:system_server:s0 tcontext=u:r:shell:s0 tclass=unix_stream_socket permissive=0
+--------- beginning of system
+09-23 02:08:24.069  1944  2943 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.owleyebooks.ocwoffline flg=0x4000010 (has extras) } to com.android.packageinstaller/.PackageInstalledReceiver
+09-23 02:08:24.072  1944  1972 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.owleyebooks.ocwoffline flg=0x4000010 (has extras) } to com.android.gallery3d/.app.PackagesMonitor
+09-23 02:08:24.072  1944  1972 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.owleyebooks.ocwoffline flg=0x4000010 (has extras) } to com.android.musicfx/.Compatibility$Receiver
+09-23 02:08:23.999  1944  1944 I chatty  : uid=1000 system_server identical 1 line
+09-23 02:08:23.999  1944  1944 W Binder:1944_1: type=1400 audit(0.0:24): avc: denied { getopt } for scontext=u:r:system_server:s0 tcontext=u:r:shell:s0 tclass=unix_stream_socket permissive=0
+09-23 02:08:24.089  1759  1759 W adbd    : type=1400 audit(0.0:25): avc: denied { shutdown } for scontext=u:r:adbd:s0 tcontext=u:r:shell:s0 tclass=unix_stream_socket permissive=0
+09-23 02:08:24.206  1944  1944 I RoleManagerService: Granting default permissions...
+09-23 02:08:24.206  1944  1944 W Looper  : Slow dispatch took 265ms main h=android.app.ActivityThread$H c=android.app.-$$Lambda$LoadedApk$ReceiverDispatcher$Args$_BumDX2UKsnxLVrE6UJsJZkotuA@3e821e2 m=0
+09-23 02:08:24.232  1944  2053 I InputReader: Reconfiguring input devices.  changes=0x00000010
+09-23 02:08:24.320  1944  1963 W Looper  : Slow dispatch took 111ms android.fg h=android.os.Handler c=<recycled PooledLambda@2a447b7> m=0
+09-23 02:08:24.465  1944  1963 W Looper  : Slow dispatch took 144ms android.fg h=android.os.Handler c=<recycled PooledLambda@7433568> m=0
+09-23 02:08:24.548  1944  1960 W system_server: Long monitor contention with owner android.bg (1971) at void com.android.server.am.ActivityManagerService$5.handleMessage(android.os.Message)(ActivityManagerService.java:1992) waiters=0 in java.lang.String com.android.server.am.ActivityManagerService.checkContentProviderAccess(java.lang.String, int) for 149ms
+09-23 02:08:24.594  1944  1963 W Looper  : Slow dispatch took 128ms android.fg h=android.os.Handler c=<recycled PooledLambda@aa439cf> m=0
+09-23 02:08:24.674  1944  1963 W Looper  : Slow delivery took 284ms android.fg h=android.os.Handler c=<recycled PooledLambda@8d528e6> m=0
+09-23 02:08:24.826  1944  1963 W Looper  : Slow dispatch took 151ms android.fg h=android.os.Handler c=<recycled PooledLambda@3d12ba6> m=0
+09-23 02:08:24.833  2384  2384 D CarrierSvcBindHelper: No carrier app for: 0
+09-23 02:08:25.034  1944  1963 W Looper  : Slow dispatch took 207ms android.fg h=android.os.Handler c=<recycled PooledLambda@f7ba106> m=0
+09-23 02:08:25.047  2384  2384 D CarrierConfigLoader: mHandler: 9 phoneId: 0
+09-23 02:08:25.304  1944  1963 W Looper  : Slow dispatch took 190ms android.fg h=android.os.Handler c=<recycled PooledLambda@7a7a068> m=0
+09-23 02:08:25.704  1944  1963 W Looper  : Drained
+09-23 02:08:26.433  1944  1944 W Looper  : Slow delivery took 272ms main h=android.app.ActivityThread$H c=android.app.-$$Lambda$LoadedApk$ReceiverDispatcher$Args$_BumDX2UKsnxLVrE6UJsJZkotuA@f0dd38d m=0
+09-23 02:08:26.434  1944  1944 W Looper  : Slow dispatch took 2226ms main h=android.app.ActivityThread$H c=android.app.-$$Lambda$LoadedApk$ReceiverDispatcher$Args$_BumDX2UKsnxLVrE6UJsJZkotuA@f0dd38d m=0
+09-23 02:08:27.366  1944  1944 W system_server: Long monitor contention with owner android.bg (1971) at android.content.res.Resources android.app.ResourcesManager.getOrCreateResources(android.os.IBinder, android.content.res.ResourcesKey, java.lang.ClassLoader)(ResourcesManager.java:762) waiters=0 in android.content.res.Resources android.app.ResourcesManager.getOrCreateResources(android.os.IBinder, android.content.res.ResourcesKey, java.lang.ClassLoader) for 912ms
+09-23 02:08:28.494  1944  1944 W Looper  : Slow dispatch took 2060ms main h=android.app.ActivityThread$H c=android.app.-$$Lambda$LoadedApk$ReceiverDispatcher$Args$_BumDX2UKsnxLVrE6UJsJZkotuA@8edfadd m=0
+09-23 02:08:28.639  1944  1944 I Telecom : DefaultDialerCache: Refreshing default dialer for user 0: now com.android.dialer: CM.CCCR->CM.UECNT->CM.CCCR->CM.UECNT@AEE
+09-23 02:08:29.235  1944  1955 I system_server: Background concurrent copying GC freed 58966(4435KB) AllocSpace objects, 15(1160KB) LOS objects, 42% free, 8115KB/13MB, paused 189us total 5.385s
+09-23 02:08:29.460  2136  2156 I ssioncontrolle: Background young concurrent copying GC freed 2894(246KB) AllocSpace objects, 0(0B) LOS objects, 4% free, 1550KB/1621KB, paused 89us total 631.803ms
+09-23 02:08:30.286  2136  2156 I ssioncontrolle: Background concurrent copying GC freed 7452(459KB) AllocSpace objects, 0(0B) LOS objects, 57% free, 1139KB/2675KB, paused 90us total 318.133ms
+09-23 02:08:30.684  1944  1971 W VoiceInteractionManagerService: no available voice recognition services found for user 0
+09-23 02:08:30.726  1944  1944 W system_server: Long monitor contention with owner backup-0 (2733) at void com.android.server.backup.UserBackupManagerService$1.run()(UserBackupManagerService.java:990) waiters=0 in void com.android.server.backup.UserBackupManagerService.dataChangedImpl(java.lang.String, java.util.HashSet) for 1.842s
+09-23 02:08:30.785  1944  1944 W Looper  : Slow dispatch took 2144ms main h=android.app.ActivityThread$H c=android.app.-$$Lambda$LoadedApk$ReceiverDispatcher$Args$_BumDX2UKsnxLVrE6UJsJZkotuA@33f70dc m=0
+09-23 02:08:31.480  1944  1971 I RoleUserState: Wrote roles.xml successfully
+09-23 02:08:33.865  1944  1944 W Looper  : Drained
+09-23 02:08:33.865  1944  1944 W Looper  : Slow dispatch took 117ms main h=android.os.Handler c=<recycled PooledLambda@b0fe9df> m=2
+09-23 02:08:33.912  1944  1971 E memtrack: Couldn't load memtrack module
+09-23 02:08:33.912  1944  1971 W android.os.Debug: failed to get memory consumption info: -1
+09-23 02:08:34.218  1944  1971 E memtrack: Couldn't load memtrack module
+09-23 02:08:34.218  1944  1971 W android.os.Debug: failed to get memory consumption info: -1
+09-23 02:08:34.312  1944  1971 E memtrack: Couldn't load memtrack module
+09-23 02:08:34.312  1944  1971 W android.os.Debug: failed to get memory consumption info: -1
+09-23 02:08:35.087  3566  3566 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+09-23 02:08:35.289  3566  3566 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.enable_apex_image"
+09-23 02:08:35.290  3566  3566 I AndroidRuntime: Using default boot image
+09-23 02:08:35.308  3566  3566 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.disable_lock_profiling"
+09-23 02:08:35.309  3566  3566 I AndroidRuntime: Leaving lock profiling enabled
+09-23 02:08:35.310  3566  3566 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.enable_generational_cc"
+09-23 02:08:35.481  3566  3566 I app_process: Core platform API reporting enabled, enforcing=false
+09-23 02:08:35.249  3566  3566 W app_process: type=1400 audit(0.0:26): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=7134 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+09-23 02:08:35.279  3566  3566 I chatty  : uid=2000(shell) app_process identical 1 line
+09-23 02:08:35.299  3566  3566 W app_process: type=1400 audit(0.0:28): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=7134 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+09-23 02:08:36.837  3131  3284 E SQLiteLog: (1) no such table: audio_genres
+09-23 02:08:40.127  3566  3566 D ICU     : Time zone APEX file found: /apex/com.android.tzdata/etc/icu/icu_tzdata.dat
+09-23 02:08:40.556  3566  3566 W app_process: Unexpected CPU variant for X86 using defaults: x86_64
+09-23 02:08:40.806  3566  3566 I app_process: The ClassLoaderContext is a special shared library.
+09-23 02:08:41.343  3566  3566 W app_process: JNI RegisterNativeMethods: attempt to register 0 native methods for android.media.AudioAttributes
+09-23 02:08:41.532  3566  3566 D AndroidRuntime: Calling main entry com.android.commands.monkey.Monkey
+09-23 02:08:41.588  3566  3566 W Monkey  : args: [-p, com.owleyebooks.ocwoffline, -c, android.intent.category.LAUNCHER, 1]
+09-23 02:08:41.601  3566  3566 W Monkey  :  arg: "-p"
+09-23 02:08:41.603  3566  3566 W Monkey  :  arg: "com.owleyebooks.ocwoffline"
+09-23 02:08:41.606  3566  3566 W Monkey  :  arg: "-c"
+09-23 02:08:41.617  3566  3566 W Monkey  :  arg: "android.intent.category.LAUNCHER"
+09-23 02:08:41.623  3566  3566 W Monkey  :  arg: "1"
+09-23 02:08:41.625  3566  3566 W Monkey  : data="com.owleyebooks.ocwoffline"
+09-23 02:08:41.627  3566  3566 W Monkey  : data="android.intent.category.LAUNCHER"
+09-23 02:08:42.776  1944  1972 W BroadcastQueue: Skipping deliver [background] BroadcastRecord{5e2d2ce u-1 android.net.conn.CONNECTIVITY_CHANGE} to ReceiverList{722b5ef 3566 (unknown name)/2000/u-1 remote:5102fd0}: process gone or crashing
+09-23 02:08:42.936  1944  1960 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.owleyebooks.ocwoffline/crc64c5330a72fd5e49b2.MainActivity} from uid 2000
+09-23 02:08:42.965  1944  1960 W Binder  : Outgoing transactions from this process must be FLAG_ONEWAY
+09-23 02:08:42.965  1944  1960 W Binder  : java.lang.Throwable
+09-23 02:08:42.965  1944  1960 W Binder  : 	at android.os.BinderProxy.transact(BinderProxy.java:480)
+09-23 02:08:42.965  1944  1960 W Binder  : 	at android.app.IActivityController$Stub$Proxy.activityStarting(IActivityController.java:273)
+09-23 02:08:42.965  1944  1960 W Binder  : 	at com.android.server.wm.ActivityStarter.startActivity(ActivityStarter.java:794)
+09-23 02:08:42.965  1944  1960 W Binder  : 	at com.android.server.wm.ActivityStarter.startActivity(ActivityStarter.java:583)
+09-23 02:08:42.965  1944  1960 W Binder  : 	at com.android.server.wm.ActivityStarter.startActivityMayWait(ActivityStarter.java:1288)
+09-23 02:08:42.965  1944  1960 W Binder  : 	at com.android.server.wm.ActivityStarter.execute(ActivityStarter.java:514)
+09-23 02:08:42.965  1944  1960 W Binder  : 	at com.android.server.wm.ActivityTaskManagerService.startActivityAsUser(ActivityTaskManagerService.java:1058)
+09-23 02:08:42.965  1944  1960 W Binder  : 	at com.android.server.wm.ActivityTaskManagerService.startActivityAsUser(ActivityTaskManagerService.java:1032)
+09-23 02:08:42.965  1944  1960 W Binder  : 	at com.android.server.am.ActivityManagerService.startActivityAsUser(ActivityManagerService.java:3504)
+09-23 02:08:42.965  1944  1960 W Binder  : 	at android.app.IActivityManager$Stub.onTransact(IActivityManager.java:3537)
+09-23 02:08:42.965  1944  1960 W Binder  : 	at com.android.server.am.ActivityManagerService.onTransact(ActivityManagerService.java:2741)
+09-23 02:08:42.965  1944  1960 W Binder  : 	at android.os.Binder.execTransactInternal(Binder.java:1021)
+09-23 02:08:42.965  1944  1960 W Binder  : 	at android.os.Binder.execTransact(Binder.java:994)
+09-23 02:08:43.509  1944  1966 W system_server: Long monitor contention with owner Binder:1944_2 (1960) at int com.android.server.wm.ActivityStarter.startActivityMayWait(android.app.IApplicationThread, int, java.lang.String, int, int, android.content.Intent, java.lang.String, android.service.voice.IVoiceInteractionSession, com.android.internal.app.IVoiceInteractor, android.os.IBinder, java.lang.String, int, int, android.app.ProfilerInfo, android.app.WaitResult, android.content.res.Configuration, com.android.server.wm.SafeActivityOptions, boolean, int, com.android.server.wm.TaskRecord, java.lang.String, boolean, com.android.server.am.PendingIntentRecord, boolean)(ActivityStarter.java:1217) waiters=1 in void com.android.server.wm.TaskChangeNotificationController.forAllRemoteListeners(com.android.server.wm.TaskChangeNotificationController$TaskStackConsumer, android.os.Message) for 341ms
+09-23 02:08:43.561  3566  3566 I Monkey  : Events injected: 1
+09-23 02:08:43.572  1944  2943 W InputReader: Device has associated, but no associated display id.
+09-23 02:08:43.573  1944  2943 I chatty  : uid=1000(system) Binder:1944_C identical 8 lines
+09-23 02:08:43.573  1944  2943 W InputReader: Device has associated, but no associated display id.
+09-23 02:08:43.664  1944  1967 E system_server: Invalid ID 0x00000000.
+09-23 02:08:43.722  1944  1973 W ActivityManager: Slow operation: 97ms so far, now at startProcess: asking zygote to start proc
+09-23 02:08:43.745  1944  1966 W ActivityManager: Slow operation: 138ms so far, now at startProcess: done starting proc!
+09-23 02:08:43.803  3566  3566 I Monkey  : ## Network stats: elapsed time=768ms (0ms mobile, 0ms wifi, 768ms not connected)
+09-23 02:08:43.885  1944  1944 V SettingsProvider: Notifying for 0: content://settings/system/accelerometer_rotation
+09-23 02:08:43.886  1944  1944 W Looper  : Slow dispatch took 248ms main h=com.android.providers.settings.SettingsProvider$SettingsRegistry$MyHandler c=null m=1
+09-23 02:08:43.953  1944  1944 W Looper  : Slow delivery took 244ms main h=com.android.providers.settings.SettingsProvider$SettingsRegistry$MyHandler c=null m=2
+09-23 02:08:44.086  1712  1756 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 823296
+09-23 02:08:44.140  1944  1944 V SettingsProvider: Notifying for 0: content://settings/system/user_rotation
+09-23 02:08:44.141  1944  1944 W Looper  : Slow dispatch took 188ms main h=com.android.providers.settings.SettingsProvider$SettingsRegistry$MyHandler c=null m=1
+09-23 02:08:44.184  1944  1944 V SettingsProvider: Notifying for 0: content://settings/system/accelerometer_rotation
+09-23 02:08:44.303  3566  3566 I app_process: System.exit called, status: 0
+09-23 02:08:44.303  3566  3566 I AndroidRuntime: VM exiting with result code 0.
+09-23 02:08:44.507  1691  1691 D Zygote  : Forked child process 3581
+09-23 02:08:44.647  1944  1973 W ActivityManager: Slow operation: 1022ms so far, now at startProcess: returned from zygote!
+09-23 02:08:44.701  1944  1973 W ActivityManager: Slow operation: 1076ms so far, now at startProcess: done updating battery stats
+09-23 02:08:44.741  1944  1973 W ActivityManager: Slow operation: 1116ms so far, now at startProcess: building log message
+09-23 02:08:44.761  1944  1973 I ActivityManager: Start proc 3581:com.owleyebooks.ocwoffline/u0a116 for activity {com.owleyebooks.ocwoffline/crc64c5330a72fd5e49b2.MainActivity}
+09-23 02:08:44.761  1944  1973 W ActivityManager: Slow operation: 1136ms so far, now at startProcess: starting to update pids map
+09-23 02:08:44.766  1944  1973 W ActivityManager: Slow operation: 1141ms so far, now at startProcess: done updating pids map
+09-23 02:08:44.851  3581  3581 I ooks.ocwofflin: Late-enabling -Xcheck:jni
+09-23 02:08:45.049  2792  2879 I OpenGLRenderer: Davey! duration=946ms; Flags=0, IntendedVsync=320471242318, Vsync=320571242314, OldestInputEvent=9223372036854775807, NewestInputEvent=0, HandleInputStart=320583323924, AnimationStart=320583375903, PerformTraversalsStart=320583380560, DrawStart=320583982614, SyncQueued=320758567546, SyncStart=320765197564, IssueDrawCommandsStart=320792137994, SwapBuffers=321366625499, FrameCompleted=321424274811, DequeueBufferDuration=11615000, QueueBufferDuration=41082000, 
+09-23 02:08:45.231  3581  3581 E ooks.ocwofflin: Unknown bits set in runtime_flags: 0x8000
+09-23 02:08:45.272  1944  1955 I system_server: Background young concurrent copying GC freed 60331(6318KB) AllocSpace objects, 2(40KB) LOS objects, 44% free, 7760KB/13MB, paused 176us total 1.653s
+09-23 02:08:45.301  3581  3581 W ooks.ocwofflin: Unexpected CPU variant for X86 using defaults: x86_64
+09-23 02:08:45.645  1944  2820 W InputReader: Device has associated, but no associated display id.
+09-23 02:08:45.793  1944  2820 W ActivityManager: Slow operation: 169ms so far, now at attachApplicationLocked: after mServices.attachApplicationLocked
+09-23 02:08:45.736  1944  2820 I chatty  : uid=1000(system) Binder:1944_A identical 28 lines
+09-23 02:08:45.736  1944  2820 W InputReader: Device has associated, but no associated display id.
+09-23 02:08:45.913  1944  1967 W InputReader: Device has associated, but no associated display id.
+09-23 02:08:45.913  1944  1967 I chatty  : uid=1000(system) android.anim identical 8 lines
+09-23 02:08:45.913  1944  1967 W InputReader: Device has associated, but no associated display id.
+09-23 02:08:46.175  2792  2879 D EGL_emulation: eglMakeCurrent: 0x798eafa4a7c0: ver 3 0 (tinfo 0x798eafa18e20)
+09-23 02:08:46.226  1944  1966 W system_server: Long monitor contention with owner android.fg (1963) at boolean com.android.server.am.ActivityManagerService.unbindService(android.app.IServiceConnection)(ActivityManagerService.java:14080) waiters=0 in void com.android.server.am.ProcessRecord.onStartActivity(int, boolean, java.lang.String, long) for 127ms
+09-23 02:08:46.235  1944  1960 I ActivityManager: Killing 2617:com.android.cellbroadcastreceiver/u0a59 (adj 985): empty #17
+09-23 02:08:46.291  1944  1963 W Looper  : Slow dispatch took 508ms android.fg h=android.os.Handler c=<recycled PooledLambda@9b51df8> m=2
+09-23 02:08:46.317  1944  1944 W Looper  : Drained
+09-23 02:08:46.880  1691  1691 I Zygote  : Process 2617 exited due to signal 9 (Killed)
+09-23 02:08:46.904  1944  1974 I libprocessgroup: Successfully killed process cgroup uid 10059 pid 2617 in 656ms
+09-23 02:08:48.073  1944  2716 W system_server: Long monitor contention with owner Binder:1944_7 (2348) at void com.android.server.wm.WindowManagerService.doDump(java.io.FileDescriptor, java.io.PrintWriter, java.lang.String[], boolean)(WindowManagerService.java:6302) waiters=0 in void com.android.server.wm.TaskPersister$TaskWriteQueueItem.process() for 455ms
+09-23 02:08:49.275  1944  2716 E TaskPersister: File error accessing recents directory (directory doesn't exist?).
+09-23 02:08:51.097  3581  3581 W monodroid: Creating public update directory: `/data/user/0/com.owleyebooks.ocwoffline/files/.__override__/x86_64`
+09-23 02:08:51.100  3581  3581 W ooks.ocwofflin: Attempt to remove non-JNI local reference, dumping thread
+09-23 02:08:51.109  3581  3581 W monodroid: runtime args empty
+09-23 02:08:51.265  3581  3581 W monodroid-assembly: open_from_update_dir: assembly file DOES NOT EXIST
+09-23 02:08:52.096  3581  3581 D DOTNET  : AndroidCryptoNative_InitLibraryOnLoad: jint AndroidCryptoNative_InitLibraryOnLoad(JavaVM *, void *) in /__w/1/s/src/runtime/src/native/libs/System.Security.Cryptography.Native.Android/pal_jni.c
+09-23 02:08:52.132  3581  3581 D DOTNET  : GetOptionalClassGRef: optional class com/android/org/conscrypt/OpenSSLEngineImpl was not found
+09-23 02:08:52.869  1944  1963 W Looper  : Slow dispatch took 149ms android.fg h=com.android.server.location.GnssLocationProvider$ProviderHandler c=null m=18
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: Error inserting title_key=RLN*B:DFL instance_id=null duration=12956 is_ringtone=1 album_artist=null orientation=null format=47362 height=null is_drm=0 bucket_display_name=ringtones is_audiobook=0 parent=140 volume_name=internal title_resource_uri=null date_modified=1629523148 composer=null _display_name=URSAMINOR.ogg datetaken=null mime_type=audio/ogg is_notification=0 year=null _data=/system/product/media/audio/ringtones/URSAMINOR.ogg _size=144112 is_alarm=0 title=Ursa Minor track=0 width=null is_music=0 group_id=1957744874 document_id=null artist_id=2 date_added=1790129333 is_podcast=0 album_id=6 original_document_id=null bucket_id=-2044634724 media_type=2 relative_path=null
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: android.database.sqlite.SQLiteConstraintException: UNIQUE constraint failed: files._data (code 2067 SQLITE_CONSTRAINT_UNIQUE)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at android.database.sqlite.SQLiteConnection.nativeExecuteForLastInsertedRowId(Native Method)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at android.database.sqlite.SQLiteConnection.executeForLastInsertedRowId(SQLiteConnection.java:879)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at android.database.sqlite.SQLiteSession.executeForLastInsertedRowId(SQLiteSession.java:790)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at android.database.sqlite.SQLiteStatement.executeInsert(SQLiteStatement.java:88)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at android.database.sqlite.SQLiteDatabase.insertWithOnConflict(SQLiteDatabase.java:1599)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at android.database.sqlite.SQLiteDatabase.insert(SQLiteDatabase.java:1468)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at com.android.providers.media.MediaProvider.insertFile(MediaProvider.java:2713)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at com.android.providers.media.MediaProvider.insertInternal(MediaProvider.java:3076)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at com.android.providers.media.MediaProvider.insert(MediaProvider.java:2903)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at android.content.ContentProviderOperation.applyInternal(ContentProviderOperation.java:321)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at android.content.ContentProviderOperation.apply(ContentProviderOperation.java:304)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at android.content.ContentProvider.applyBatch(ContentProvider.java:2126)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at com.android.providers.media.MediaProvider.applyBatch(MediaProvider.java:3302)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at android.content.ContentProvider.applyBatch(ContentProvider.java:2117)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at android.content.ContentResolver.applyBatch(ContentResolver.java:1865)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at com.android.providers.media.scan.ModernMediaScanner$Scan.applyPending(ModernMediaScanner.java:439)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at com.android.providers.media.scan.ModernMediaScanner$Scan.walkFileTree(ModernMediaScanner.java:274)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at com.android.providers.media.scan.ModernMediaScanner$Scan.run(ModernMediaScanner.java:245)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at com.android.providers.media.scan.ModernMediaScanner.scanDirectory(ModernMediaScanner.java:166)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at com.android.providers.media.MediaService.onScanVolume(MediaService.java:150)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at com.android.providers.media.MediaService.onScanVolume(MediaService.java:131)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at com.android.providers.media.MediaService.onHandleIntent(MediaService.java:86)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at android.app.IntentService$ServiceHandler.handleMessage(IntentService.java:78)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at android.os.Handler.dispatchMessage(Handler.java:107)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at android.os.Looper.loop(Looper.java:214)
+09-23 02:08:53.154  3131  3284 E SQLiteDatabase: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+09-23 02:08:53.379  1944  1966 W ActivityTaskManager: Launch timeout has expired, giving up wake lock!
+09-23 02:08:54.052  1944  2820 W system_server: Long monitor contention with owner PackageManager (1987) at void com.android.server.pm.PackageManagerService$PackageHandler.doHandleMessage(android.os.Message)(PackageManagerService.java:1566) waiters=0 in android.content.pm.ApplicationInfo com.android.server.pm.PackageManagerService.getApplicationInfoInternal(java.lang.String, int, int, int) for 367ms
+09-23 02:08:54.174  3581  3581 W ooks.ocwofflin: Attempt to remove non-JNI local reference, dumping thread
+09-23 02:08:55.031  1944  1944 V SettingsProvider: Notifying for 0: content://settings/secure/sync_parent_sounds
+09-23 02:08:55.144  1944  1944 V SettingsProvider: Notifying for 0: content://settings/system/ringtone
+09-23 02:08:55.345  1944  1944 V SettingsProvider: Notifying for 0: content://settings/system/ringtone_set
+09-23 02:08:55.768  1944  1944 V SettingsProvider: Notifying for 0: content://settings/system/notification_sound
+09-23 02:08:56.017  1944  1944 V SettingsProvider: Notifying for 0: content://settings/system/notification_sound_set
+09-23 02:08:56.147  3131  3148 W d.process.medi: Suspending all threads took: 8.648ms
+09-23 02:08:56.397  3581  3602 I ooks.ocwofflin: Waiting for a blocking GC ProfileSaver
+09-23 02:08:56.429  3581  3602 I ooks.ocwofflin: WaitForGcToComplete blocked ProfileSaver on ClassLinker for 49.651ms
+09-23 02:08:56.474  1944  1944 V SettingsProvider: Notifying for 0: content://settings/system/alarm_alert
+09-23 02:08:56.566  1944  1971 E memtrack: Couldn't load memtrack module
+09-23 02:08:56.567  1944  1971 W android.os.Debug: failed to get memory consumption info: -1
+09-23 02:08:56.616  1944  1944 V SettingsProvider: Notifying for 0: content://settings/system/alarm_alert_set
+09-23 02:08:57.020  1762  1762 E netmgr  : Failed to open QEMU pipe 'qemud:network': Invalid argument
+09-23 02:08:57.748  3581  3581 W monodroid-assembly: Shared library 'liblog' not loaded, p/invoke '__android_log_print' may fail
+09-23 02:08:57.756  3581  3581 I DOTNET  : OCWSTARTUP: CreateMauiApp entry
+09-23 02:08:58.248  3581  3581 I DOTNET  : OCWSTARTUP: builder created
+09-23 02:08:58.488  3131  3284 I MediaProvider: End Intent { act=android.intent.action.MEDIA_MOUNTED dat=file:///storage/emulated/0 flg=0x5000010 cmp=com.android.providers.media/.MediaService (has extras) }
+09-23 02:08:58.561  1944  2348 I ActivityManager: Killing 3300:com.android.calendar/u0a106 (adj 985): empty #17
+09-23 02:08:58.615  1944  1944 W Telecom : Logging: Stale Sessions Cleaned:
+09-23 02:08:58.615  1944  1944 W Telecom : CM.CCCR@AEE
+09-23 02:08:58.615  1944  1944 W Telecom : 	CM.CCCR->CM.UECNT@AEE
+09-23 02:08:58.615  1944  1944 W Telecom : 		CM.CCCR->CM.UECNT@AEE
+09-23 02:08:58.615  1944  1944 W Telecom : 			CM.CCCR->CM.UECNT->CM.CCCR->CM.UECNT@AEE
+09-23 02:08:58.761  1691  1691 I Zygote  : Process 3300 exited due to signal 9 (Killed)
+09-23 02:08:58.778  1944  1974 I libprocessgroup: Successfully killed process cgroup uid 10106 pid 3300 in 198ms
+09-23 02:09:00.086  2129  2129 D KeyguardClockSwitch: Updating clock: 209
+09-23 02:09:00.220  1803  1803 E wifi_forwarder: RemoteConnection failed to initialize: RemoteConnection failed to open pipe
+09-23 02:09:00.862  3581  3581 I DOTNET  : OCWSTARTUP: maui app + mediaelement + fonts done
+09-23 02:09:01.084  3581  3581 I DOTNET  : OCWSTARTUP: services registered, calling Build()
+09-23 02:09:02.053  1944  1955 I system_server: Background young concurrent copying GC freed 71591(5468KB) AllocSpace objects, 13(452KB) LOS objects, 41% free, 8114KB/13MB, paused 188us total 844.602ms
+09-23 02:09:02.564  3581  3581 I DOTNET  : OCWSTARTUP: Build() returned
+09-23 02:09:10.029  3581  3581 D AndroidRuntime: Shutting down VM
+--------- beginning of crash
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: FATAL EXCEPTION: main
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: Process: com.owleyebooks.ocwoffline, PID: 3581
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: android.runtime.JavaProxyThrowable: [Microsoft.Maui.Controls.Xaml.XamlParseException]: Position 19:74. StaticResource not found for key InvertedBoolConverter
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Maui.Controls.Xaml.StaticResourceExtension.ProvideValue + 0xf7(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Maui.Controls.Xaml.ApplyPropertiesVisitor.ProvideValue + 0xb2(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Maui.Controls.Xaml.ApplyPropertiesVisitor.Visit + 0xea(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Maui.Controls.Xaml.ElementNode.Accept + 0x90(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Maui.Controls.Xaml.ElementNode.Accept + 0x3e(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Maui.Controls.Xaml.ElementNode.Accept + 0x3e(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Maui.Controls.Xaml.ElementNode.Accept + 0x67(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Maui.Controls.Xaml.ElementNode.Accept + 0x67(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Maui.Controls.Xaml.RootNode.Accept + 0x81(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Maui.Controls.Xaml.XamlLoader.Visit + 0x97(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Maui.Controls.Xaml.XamlLoader.Load + 0x18e(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Maui.Controls.Xaml.XamlLoader.Load + 0x0(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Maui.Controls.Xaml.XamlLoader.Load + 0x29(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Maui.Controls.Xaml.Extensions.LoadFromXaml + 0x0(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at OcwOffline.Views.CoursePage.InitializeComponent + 0x1(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at OcwOffline.Views.CoursePage..ctor + 0x8(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Unknown.Unknown(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Constructor + 0x0(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at System.Reflection.MethodBaseInvoker.InvokeWithManyArgs + 0x21b(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at System.Reflection.RuntimeConstructorInfo.Invoke + 0x82(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor + 0x3f(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2[[Microsoft.Extensions.DependencyInjection.ServiceLookup.RuntimeResolverContext, Microsoft.Extensions.DependencyInjection, Version=10.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60],[System.Object, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]].VisitCallSiteMain + 0x3f(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitDisposeCache + 0x0(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2[[Microsoft.Extensions.DependencyInjection.ServiceLookup.RuntimeResolverContext, Microsoft.Extensions.DependencyInjection, Version=10.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60],[System.Object, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]].VisitCallSite + 0x61(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor + 0x23(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2[[Microsoft.Extensions.DependencyInjection.ServiceLookup.RuntimeResolverContext, Microsoft.Extensions.DependencyInjection, Version=10.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60],[System.Object, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]].VisitCallSiteMain + 0x3f(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache + 0x3f(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2[[Microsoft.Extensions.DependencyInjection.ServiceLookup.RuntimeResolverContext, Microsoft.Extensions.DependencyInjection, Version=10.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60],[System.Object, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]].VisitCallSite + 0x4f(Unknown Source)
+09-23 02:09:10.036  3581  3581 E AndroidRuntime: 	at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.Resolve + 0x14(Unknown Source)
+09-23 02:09:10.057  3581  3581 E AndroidRuntime: 	at Microsoft.Extensions.DependencyInjection.ServiceProvider.CreateServiceAccessor + 0x48(Unknown Source)
+09-23 02:09:10.057  3581  3581 E AndroidRuntime: 	at System.Collections.Concurrent.ConcurrentDictionary`2[[Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceIdentifier, Microsoft.Extensions.DependencyInjection, Version=10.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60],[Microsoft.Extensions.DependencyInjection.ServiceProvider+ServiceAccessor, Microsoft.Extensions.DependencyInjection, Version=10.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60]].GetOrAdd + 0x3f(Unknown Source)
+09-23 02:09:10.057  3581  3581 E AndroidRuntime: 	at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService + 0xd(Unknown Source)
+09-23 02:09:10.057  3581  3581 E AndroidRuntime: 	at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService + 0x0(Unknown Source)
+09-23 02:09:10.057  3581  3581 E AndroidRuntime: 	at Microsoft.Maui.MauiContext+WrappedServiceProvider.GetService + 0x26(Unknown Source)
+09-23 02:09:10.057  3581  3581 E AndroidRuntime: 	at Microsoft.Maui.MauiContext+WrappedServiceProvider.GetService + 0x26(Unknown Source)
+09-23 02:09:10.057  3581  3581 E AndroidRuntime: 	at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService + 0x28(Unknown Source)
+09-23 02:09:10.057  3581  3581 E AndroidRuntime: 	at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService + 0xb(Unknown Source)
+09-23 02:09:10.057  3581  3581 E AndroidRuntime: 	at Microsoft.Maui.MauiApplication.OnCreate + 0x4a(Unknown Source)
+09-23 02:09:10.057  3581  3581 E AndroidRuntime: 	at Android.App.Application.n_OnCreate + 0xe(Unknown Source)
+09-23 02:09:10.057  3581  3581 E AndroidRuntime: 	at crc6488302ad6e9e4df1a.MauiApplication.n_onCreate(Native Method)
+09-23 02:09:10.057  3581  3581 E AndroidRuntime: 	at crc6488302ad6e9e4df1a.MauiApplication.onCreate(MauiApplication.java:27)
+09-23 02:09:10.057  3581  3581 E AndroidRuntime: 	at android.app.Instrumentation.callApplicationOnCreate(Instrumentation.java:1182)
+09-23 02:09:10.057  3581  3581 E AndroidRuntime: 	at android.app.ActivityThread.handleBindApplication(ActivityThread.java:6460)
+09-23 02:09:10.057  3581  3581 E AndroidRuntime: 	at android.app.ActivityThread.access$1300(ActivityThread.java:219)
+09-23 02:09:10.057  3581  3581 E AndroidRuntime: 	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1859)
+09-23 02:09:10.057  3581  3581 E AndroidRuntime: 	at android.os.Handler.dispatchMessage(Handler.java:107)
+09-23 02:09:10.057  3581  3581 E AndroidRuntime: 	at android.os.Looper.loop(Looper.java:214)
+09-23 02:09:10.057  3581  3581 E AndroidRuntime: 	at android.app.ActivityThread.main(ActivityThread.java:7356)
+09-23 02:09:10.057  3581  3581 E AndroidRuntime: 	at java.lang.reflect.Method.invoke(Native Method)
+09-23 02:09:10.057  3581  3581 E AndroidRuntime: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:492)
+09-23 02:09:10.057  3581  3581 E AndroidRuntime: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:930)
+09-23 02:09:10.080  3581  3581 W monodroid-assembly: Shared library 'liblog' not loaded, p/invoke '__android_log_print' may fail
+09-23 02:09:10.089  3581  3581 I MonoDroid: UNHANDLED EXCEPTION:
+09-23 02:09:10.097  3581  3581 I MonoDroid: Android.Runtime.JavaProxyThrowable: Exception of type 'Android.Runtime.JavaProxyThrowable' was thrown.
+09-23 02:09:10.097  3581  3581 I MonoDroid: 
+09-23 02:09:10.097  3581  3581 I MonoDroid:   --- End of managed Android.Runtime.JavaProxyThrowable stack trace ---
+09-23 02:09:10.097  3581  3581 I MonoDroid: android.runtime.JavaProxyThrowable
+09-23 02:09:10.097  3581  3581 I MonoDroid: 
+09-23 02:09:10.244  1944  2348 W ActivityTaskManager:   Force finishing activity com.owleyebooks.ocwoffline/crc64c5330a72fd5e49b2.MainActivity
+09-23 02:09:10.255  1944  2348 W InputReader: Device has associated, but no associated display id.
+09-23 02:09:10.275  1944  3616 I DropBoxManagerService: add tag=data_app_crash isTagEnabled=true flags=0x2
+09-23 02:09:10.256  1944  2348 I chatty  : uid=1000(system) Binder:1944_7 identical 8 lines
+09-23 02:09:10.256  1944  2348 W InputReader: Device has associated, but no associated display id.
+09-23 02:09:10.335  3581  3581 I Process : Sending signal. PID: 3581 SIG: 9
+09-23 02:09:10.681  1691  1691 I Zygote  : Process 3581 exited due to signal 9 (Killed)
+09-23 02:09:10.684  1944  1960 I ActivityManager: Process com.owleyebooks.ocwoffline (pid 3581) has died: fore TOP 
+09-23 02:09:10.686  1944  1974 I libprocessgroup: Successfully killed process cgroup uid 10116 pid 3581 in 0ms
+09-23 02:09:10.752  1944  1960 W InputReader: Device has associated, but no associated display id.
+09-23 02:09:10.883  1944  1960 I chatty  : uid=1000(system) Binder:1944_2 identical 18 lines
+09-23 02:09:10.883  1944  1960 W InputReader: Device has associated, but no associated display id.
+09-23 02:09:10.947  1944  1967 W system_server: Long monitor contention with owner Binder:1944_2 (1960) at void com.android.server.wm.ActivityTaskManagerService$LocalService.handleAppDied(com.android.server.wm.WindowProcessController, boolean, java.lang.Runnable)(ActivityTaskManagerService.java:6758) waiters=0 in void com.android.server.wm.InputMonitor$1.run() for 228ms
+09-23 02:09:11.044  1944  1967 W WindowManager: Failed looking up window callers=com.android.server.wm.WindowManagerService.windowForClientLocked:5281 com.android.server.wm.WindowManagerService.removeWindow:1753 com.android.server.wm.Session.remove:176 
+09-23 02:09:11.147  1944  1966 W system_server: Long monitor contention with owner Binder:1944_2 (1960) at void com.android.server.am.ActivityManagerService$AppDeathRecipient.binderDied()(ActivityManagerService.java:1503) waiters=1 in void com.android.server.am.ActivityManagerService$LocalService.updateActivityUsageStats(android.content.ComponentName, int, int, android.os.IBinder, android.content.ComponentName) for 428ms
+09-23 02:09:11.162  1944  1964 W Looper  : Slow dispatch took 476ms android.ui h=com.android.server.am.ActivityManagerService$UiHandler c=null m=53
+09-23 02:09:11.165  1944  1964 W Looper  : Slow delivery took 411ms android.ui h=com.android.server.wm.BarController$BarHandler c=com.android.server.wm.-$$Lambda$StatusBarController$1$3FiQ0kybPCSlgcNJkCsNm5M12iA@44ec9ba m=0
+09-23 02:09:11.199  1944  1966 W ActivityTaskManager: Activity top resumed state loss timeout for ActivityRecord{1c87b85 u0 com.owleyebooks.ocwoffline/crc64c5330a72fd5e49b2.MainActivity t-1 f}
+09-23 02:09:11.233  1944  1971 E memtrack: Couldn't load memtrack module
+09-23 02:09:11.233  1944  1971 W android.os.Debug: failed to get memory consumption info: -1
+09-23 02:09:11.252  1712  1756 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 823296
+09-23 02:09:11.307  1712  1756 I chatty  : uid=1000(system) HwBinder:1712_2 identical 1 line
+09-23 02:09:11.312  1712  1756 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 823296
+09-23 02:09:11.350  2792  2879 D EGL_emulation: eglMakeCurrent: 0x798eafa4a7c0: ver 3 0 (tinfo 0x798eafa18e20)
+09-23 02:09:11.464  1944  1964 W Looper  : Drained
+09-23 02:09:11.919  1944  1965 I DropBoxManagerService: add tag=system_app_strictmode isTagEnabled=true flags=0x2
+09-23 02:09:12.526  3184  3262 I Dialer  : OmtpVvmCarrierCfgHlpr - OmtpEvent:CONFIG_STATUS_SMS_TIME_OUT
+09-23 02:09:12.529  3184  3184 I Dialer  : RetryPolicy - discarding deferred status: configuration_state=4
+09-23 02:09:12.546  3184  3184 I Dialer  : VvmTaskExecutor - no more tasks, stopping service if no task are added in 5000 millis
+09-23 02:09:12.570  3184  3184 I Dialer  : VvmTaskReceiver - task received
+09-23 02:09:12.570  3184  3184 I Dialer  : VvmTaskReceiver - TaskExecutor already running
+09-23 02:09:12.571  3184  3184 I Dialer  : Task.createTask - create task:com.android.voicemail.impl.ActivationTask
+09-23 02:09:12.572  3184  3184 I Dialer  : RetryPolicy - retry #2 for com.android.voicemail.impl.ActivationTask@b5544c3 queued, executing in 5000
+09-23 02:09:12.573  3184  3184 I Dialer  : VvmTaskExecutor - com.android.voicemail.impl.ActivationTask@b5544c3 added
+09-23 02:09:12.573  3184  3184 I Dialer  : VvmTaskExecutor - minimal wait time:4999
+09-23 02:09:12.574  3184  3184 I Dialer  : VvmTaskExecutor - sleep for 4999 millis
+09-23 02:09:12.077  1944  1965 I chatty  : uid=1000(system) android.io identical 3 lines
+09-23 02:09:12.117  1944  1965 I DropBoxManagerService: add tag=system_app_strictmode isTagEnabled=true flags=0x2
+09-23 02:09:13.803  1944  2716 E TaskPersister: File error accessing recents directory (directory doesn't exist?).
+09-23 02:09:17.623  3184  3262 I Dialer  : VvmTaskExecutor - executing task com.android.voicemail.impl.ActivationTask@b5544c3
+09-23 02:09:17.624  3184  3262 I Dialer  : PreOMigrationHandler - ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, ***, UserHandle{0} already migrated
+09-23 02:09:18.010  3013  3030 I VoicemailNotifier: receivers for android.intent.action.PROVIDER_CHANGED :[]
+09-23 02:09:18.060  3184  3262 I Dialer  : VvmActivationTask - VVM content provider configured - vvm_type_cvvm
+09-23 02:09:18.069  3184  3262 I Dialer  : OmtpVvmCarrierCfgHlpr - OmtpEvent:CONFIG_ACTIVATING
+09-23 02:09:18.247  3013  3030 I VoicemailNotifier: receivers for android.intent.action.PROVIDER_CHANGED :[]
+09-23 02:09:18.325  2384  2400 I LocationAccessPolicy: Allowing com.android.dialer fine because it doesn't target API 29 yet. Please fix this app. Called from getServiceStateForSubscriber
+09-23 02:09:18.331  2384  2400 I LocationAccessPolicy: Allowing com.android.dialer coarse because it doesn't target API 29 yet. Please fix this app. Called from getServiceStateForSubscriber
+09-23 02:09:19.331  1944  1971 E memtrack: Couldn't load memtrack module
+09-23 02:09:19.331  1944  1971 W android.os.Debug: failed to get memory consumption info: -1
+09-23 02:09:25.591  1691  1691 D Zygote  : Forked child process 3628
+09-23 02:09:25.587  3628  3628 W ndroid.keychai: Unexpected CPU variant for X86 using defaults: x86_64
+09-23 02:09:25.634  1944  1973 W ActivityManager: Slow operation: 339ms so far, now at startProcess: returned from zygote!
+09-23 02:09:25.635  1944  1973 W ActivityManager: Slow operation: 340ms so far, now at startProcess: done updating battery stats
+09-23 02:09:25.635  1944  1973 W ActivityManager: Slow operation: 340ms so far, now at startProcess: building log message
+09-23 02:09:25.635  1944  1973 I ActivityManager: Start proc 3628:com.android.keychain/1000 for service {com.android.keychain/com.android.keychain.KeyChainService}
+09-23 02:09:25.635  1944  1973 W ActivityManager: Slow operation: 340ms so far, now at startProcess: starting to update pids map
+09-23 02:09:25.643  1944  1973 W ActivityManager: Slow operation: 348ms so far, now at startProcess: done updating pids map
+09-23 02:09:25.940  3628  3628 I ndroid.keychai: The ClassLoaderContext is a special shared library.
+09-23 02:09:41.155  1944  1955 I system_server: Background young concurrent copying GC freed 86588(4327KB) AllocSpace objects, 69(1380KB) LOS objects, 42% free, 7944KB/13MB, paused 217us total 293.636ms
+09-23 02:09:41.822  1944  2054 E ReportEncoder: No watchlist hash
+09-23 02:09:41.842  1944  2054 I WatchlistLoggingHandler: Milliseconds spent on tryAggregateRecords(): 301043
+09-23 02:09:41.857  1944  1965 I DropBoxManagerService: add tag=system_server_strictmode isTagEnabled=true flags=0x2
+09-23 02:09:57.078  1762  1762 E netmgr  : Failed to open QEMU pipe 'qemud:network': Invalid argument
+09-23 02:10:00.013  2129  2129 D KeyguardClockSwitch: Updating clock: 210
+09-23 02:10:00.230  1803  1803 E wifi_forwarder: RemoteConnection failed to initialize: RemoteConnection failed to open pipe
+09-23 02:10:14.305  1712  1756 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 823296
+09-23 02:10:14.527  1567  1567 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@3.0::IMapper/default in either framework or device manifest.
+09-23 02:10:14.534  3656  3656 W Gralloc3: mapper 3.x is not supported
+09-23 02:10:14.710  3656  3656 D HostConnection: createUnique: call
+09-23 02:10:14.712  3656  3656 D HostConnection: HostConnection::get() New Host Connection established 0x722a127875a0, tid 3656
+09-23 02:10:14.742  3656  3656 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+09-23 02:10:14.749  3656  3656 D eglCodecCommon: allocate: Ask for block of size 0x1000
+09-23 02:10:14.749  3656  3656 D eglCodecCommon: allocate: ioctl allocate returned offset 0x3fff28000 size 0x2000
+09-23 02:10:14.757  3656  3656 D eglCodecCommon: allocate: Ask for block of size 0xc9000
+09-23 02:10:14.757  3656  3656 D eglCodecCommon: allocate: ioctl allocate returned offset 0x3ffe60000 size 0xca000
+09-23 02:10:15.901  3131  3664 I MediaProvider: Begin Intent { act=android.intent.action.MEDIA_SCANNER_SCAN_FILE dat=file:///sdcard/shot1.png flg=0x1400010 cmp=com.android.providers.media/.MediaService }
+09-23 02:09:41.930  1944  1965 I chatty  : uid=1000(system) android.io identical 8 lines
+09-23 02:09:41.935  1944  1965 I DropBoxManagerService: add tag=system_server_strictmode isTagEnabled=true flags=0x2
+09-23 02:10:15.970  1944  1964 W Looper  : Slow dispatch took 113ms android.ui h=com.android.server.am.ActivityManagerService$UiHandler c=null m=53
+09-23 02:10:15.993  1944  1971 E memtrack: Couldn't load memtrack module
+09-23 02:10:15.993  1944  1971 W android.os.Debug: failed to get memory consumption info: -1
+09-23 02:10:16.096  3131  3664 W ExifInterface: Invalid image: ExifInterface got an unsupported image format file(ExifInterface supports JPEG and some RAW image formats only) or a corrupted JPEG file to ExifInterface.
+09-23 02:10:16.096  3131  3664 W ExifInterface: java.io.IOException: Invalid byte order: ffff8950
+09-23 02:10:16.096  3131  3664 W ExifInterface: 	at android.media.ExifInterface.readByteOrder(ExifInterface.java:3121)
+09-23 02:10:16.096  3131  3664 W ExifInterface: 	at android.media.ExifInterface.isOrfFormat(ExifInterface.java:2437)
+09-23 02:10:16.096  3131  3664 W ExifInterface: 	at android.media.ExifInterface.getMimeType(ExifInterface.java:2315)
+09-23 02:10:16.096  3131  3664 W ExifInterface: 	at android.media.ExifInterface.loadAttributes(ExifInterface.java:1753)
+09-23 02:10:16.096  3131  3664 W ExifInterface: 	at android.media.ExifInterface.<init>(ExifInterface.java:1447)
+09-23 02:10:16.096  3131  3664 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner.scanItemImage(ModernMediaScanner.java:729)
+09-23 02:10:16.096  3131  3664 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner.scanItem(ModernMediaScanner.java:502)
+09-23 02:10:16.096  3131  3664 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner.access$500(ModernMediaScanner.java:118)
+09-23 02:10:16.096  3131  3664 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner$Scan.visitFile(ModernMediaScanner.java:406)
+09-23 02:10:16.096  3131  3664 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner$Scan.visitFile(ModernMediaScanner.java:207)
+09-23 02:10:16.096  3131  3664 W ExifInterface: 	at java.nio.file.Files.walkFileTree(Files.java:2670)
+09-23 02:10:16.096  3131  3664 W ExifInterface: 	at java.nio.file.Files.walkFileTree(Files.java:2742)
+09-23 02:10:16.096  3131  3664 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner$Scan.walkFileTree(ModernMediaScanner.java:267)
+09-23 02:10:16.096  3131  3664 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner$Scan.run(ModernMediaScanner.java:245)
+09-23 02:10:16.096  3131  3664 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner.scanFile(ModernMediaScanner.java:174)
+09-23 02:10:16.096  3131  3664 W ExifInterface: 	at com.android.providers.media.MediaService.onScanFile(MediaService.java:164)
+09-23 02:10:16.096  3131  3664 W ExifInterface: 	at com.android.providers.media.MediaService.onHandleIntent(MediaService.java:90)
+09-23 02:10:16.096  3131  3664 W ExifInterface: 	at android.app.IntentService$ServiceHandler.handleMessage(IntentService.java:78)
+09-23 02:10:16.096  3131  3664 W ExifInterface: 	at android.os.Handler.dispatchMessage(Handler.java:107)
+09-23 02:10:16.096  3131  3664 W ExifInterface: 	at android.os.Looper.loop(Looper.java:214)
+09-23 02:10:16.096  3131  3664 W ExifInterface: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+09-23 02:10:16.178  3131  3664 I MediaProvider: End Intent { act=android.intent.action.MEDIA_SCANNER_SCAN_FILE dat=file:///sdcard/shot1.png flg=0x1400010 cmp=com.android.providers.media/.MediaService }
+09-23 02:10:16.195  1944  2206 I ActivityManager: Killing 3325:com.android.camera2/u0a113 (adj 985): empty #17
+09-23 02:10:16.227  1944  1971 E memtrack: Couldn't load memtrack module
+09-23 02:10:16.227  1944  1971 W android.os.Debug: failed to get memory consumption info: -1
+09-23 02:10:16.321  1691  1691 I Zygote  : Process 3325 exited due to signal 9 (Killed)
+09-23 02:10:16.358  1944  1974 I libprocessgroup: Successfully killed process cgroup uid 10113 pid 3325 in 156ms
+09-23 02:10:18.598  3184  3262 I Dialer  : OmtpVvmCarrierCfgHlpr - OmtpEvent:CONFIG_STATUS_SMS_TIME_OUT
+09-23 02:10:18.600  3184  3184 I Dialer  : RetryPolicy - discarding deferred status: configuration_state=4
+09-23 02:10:18.610  3184  3184 I Dialer  : VvmTaskExecutor - no more tasks, stopping service if no task are added in 5000 millis
+09-23 02:10:18.611  3184  3184 I Dialer  : VvmTaskReceiver - task received
+09-23 02:10:18.611  3184  3184 I Dialer  : VvmTaskReceiver - TaskExecutor already running
+09-23 02:10:18.612  3184  3184 I Dialer  : Task.createTask - create task:com.android.voicemail.impl.ActivationTask
+09-23 02:10:18.615  3184  3184 I Dialer  : RetryPolicy - retry #3 for com.android.voicemail.impl.ActivationTask@bf5d16c queued, executing in 5000
+09-23 02:10:18.615  3184  3184 I Dialer  : VvmTaskExecutor - com.android.voicemail.impl.ActivationTask@bf5d16c added
+09-23 02:10:18.616  3184  3184 I Dialer  : VvmTaskExecutor - minimal wait time:4999
+09-23 02:10:18.616  3184  3184 I Dialer  : VvmTaskExecutor - sleep for 4999 millis
+09-23 02:10:23.540  1944  1960 E memtrack: Couldn't load memtrack module
+09-23 02:10:23.540  1944  1960 W android.os.Debug: failed to get memory consumption info: -1
+09-23 02:10:23.632  3184  3262 I Dialer  : VvmTaskExecutor - executing task com.android.voicemail.impl.ActivationTask@bf5d16c
+09-23 02:10:23.633  3184  3262 I Dialer  : PreOMigrationHandler - ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, ***, UserHandle{0} already migrated
+09-23 02:10:23.780  3013  3030 I VoicemailNotifier: receivers for android.intent.action.PROVIDER_CHANGED :[]
+09-23 02:10:23.793  3184  3262 I Dialer  : VvmActivationTask - VVM content provider configured - vvm_type_cvvm
+09-23 02:10:23.795  3184  3262 I Dialer  : OmtpVvmCarrierCfgHlpr - OmtpEvent:CONFIG_ACTIVATING
+09-23 02:10:23.849  3013  3030 I VoicemailNotifier: receivers for android.intent.action.PROVIDER_CHANGED :[]
+09-23 02:10:23.875  2384  2400 I LocationAccessPolicy: Allowing com.android.dialer fine because it doesn't target API 29 yet. Please fix this app. Called from getServiceStateForSubscriber
+09-23 02:10:23.880  2384  2400 I LocationAccessPolicy: Allowing com.android.dialer coarse because it doesn't target API 29 yet. Please fix this app. Called from getServiceStateForSubscriber
+09-23 02:10:57.138  1762  1762 E netmgr  : Failed to open QEMU pipe 'qemud:network': Invalid argument
+09-23 02:11:00.016  2129  2129 D KeyguardClockSwitch: Updating clock: 211
+09-23 02:11:00.290  1803  1803 E wifi_forwarder: RemoteConnection failed to initialize: RemoteConnection failed to open pipe
+09-23 02:11:03.535  1944  2206 D WificondControl: Scan result ready event
+09-23 02:11:24.039  3184  3262 I Dialer  : OmtpVvmCarrierCfgHlpr - OmtpEvent:CONFIG_STATUS_SMS_TIME_OUT
+09-23 02:11:24.045  3184  3184 I Dialer  : RetryPolicy - discarding deferred status: configuration_state=4
+09-23 02:11:24.079  3184  3184 I Dialer  : VvmTaskExecutor - no more tasks, stopping service if no task are added in 5000 millis
+09-23 02:11:24.106  3184  3184 I Dialer  : VvmTaskReceiver - task received
+09-23 02:11:24.107  3184  3184 I Dialer  : VvmTaskReceiver - TaskExecutor already running
+09-23 02:11:24.115  3184  3184 I Dialer  : Task.createTask - create task:com.android.voicemail.impl.ActivationTask
+09-23 02:11:24.122  1944  1971 E memtrack: Couldn't load memtrack module
+09-23 02:11:24.122  1944  1971 W android.os.Debug: failed to get memory consumption info: -1
+09-23 02:11:24.124  3184  3184 I Dialer  : RetryPolicy - retry #4 for com.android.voicemail.impl.ActivationTask@30fddb1 queued, executing in 5000
+09-23 02:11:24.125  3184  3184 I Dialer  : VvmTaskExecutor - com.android.voicemail.impl.ActivationTask@30fddb1 added
+09-23 02:11:24.126  3184  3184 I Dialer  : VvmTaskExecutor - minimal wait time:4999
+09-23 02:11:24.127  3184  3184 I Dialer  : VvmTaskExecutor - sleep for 4999 millis
+09-23 02:11:26.198  1712  1756 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 823296
+09-23 02:11:26.276  1567  1567 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@3.0::IMapper/default in either framework or device manifest.
+09-23 02:11:26.282  3677  3677 W Gralloc3: mapper 3.x is not supported
+09-23 02:11:26.360  3677  3677 D HostConnection: createUnique: call
+09-23 02:11:26.362  3677  3677 D HostConnection: HostConnection::get() New Host Connection established 0x7d5daf48f5a0, tid 3677
+09-23 02:11:26.376  3677  3677 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+09-23 02:11:26.381  3677  3677 D eglCodecCommon: allocate: Ask for block of size 0x1000
+09-23 02:11:26.382  3677  3677 D eglCodecCommon: allocate: ioctl allocate returned offset 0x3fff28000 size 0x2000
+09-23 02:11:26.395  3677  3677 D eglCodecCommon: allocate: Ask for block of size 0xc9000
+09-23 02:11:26.396  3677  3677 D eglCodecCommon: allocate: ioctl allocate returned offset 0x3ffe60000 size 0xca000
+09-23 02:11:27.406  1944  1971 E memtrack: Couldn't load memtrack module
+09-23 02:11:27.407  1944  1971 W android.os.Debug: failed to get memory consumption info: -1
+09-23 02:11:27.493  3131  3685 I MediaProvider: Begin Intent { act=android.intent.action.MEDIA_SCANNER_SCAN_FILE dat=file:///sdcard/shot2.png flg=0x1400010 cmp=com.android.providers.media/.MediaService }
+09-23 02:11:27.819  3131  3685 W ExifInterface: Invalid image: ExifInterface got an unsupported image format file(ExifInterface supports JPEG and some RAW image formats only) or a corrupted JPEG file to ExifInterface.
+09-23 02:11:27.819  3131  3685 W ExifInterface: java.io.IOException: Invalid byte order: ffff8950
+09-23 02:11:27.819  3131  3685 W ExifInterface: 	at android.media.ExifInterface.readByteOrder(ExifInterface.java:3121)
+09-23 02:11:27.819  3131  3685 W ExifInterface: 	at android.media.ExifInterface.isOrfFormat(ExifInterface.java:2437)
+09-23 02:11:27.819  3131  3685 W ExifInterface: 	at android.media.ExifInterface.getMimeType(ExifInterface.java:2315)
+09-23 02:11:27.819  3131  3685 W ExifInterface: 	at android.media.ExifInterface.loadAttributes(ExifInterface.java:1753)
+09-23 02:11:27.819  3131  3685 W ExifInterface: 	at android.media.ExifInterface.<init>(ExifInterface.java:1447)
+09-23 02:11:27.819  3131  3685 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner.scanItemImage(ModernMediaScanner.java:729)
+09-23 02:11:27.819  3131  3685 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner.scanItem(ModernMediaScanner.java:502)
+09-23 02:11:27.819  3131  3685 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner.access$500(ModernMediaScanner.java:118)
+09-23 02:11:27.819  3131  3685 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner$Scan.visitFile(ModernMediaScanner.java:406)
+09-23 02:11:27.819  3131  3685 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner$Scan.visitFile(ModernMediaScanner.java:207)
+09-23 02:11:27.819  3131  3685 W ExifInterface: 	at java.nio.file.Files.walkFileTree(Files.java:2670)
+09-23 02:11:27.819  3131  3685 W ExifInterface: 	at java.nio.file.Files.walkFileTree(Files.java:2742)
+09-23 02:11:27.819  3131  3685 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner$Scan.walkFileTree(ModernMediaScanner.java:267)
+09-23 02:11:27.819  3131  3685 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner$Scan.run(ModernMediaScanner.java:245)
+09-23 02:11:27.819  3131  3685 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner.scanFile(ModernMediaScanner.java:174)
+09-23 02:11:27.819  3131  3685 W ExifInterface: 	at com.android.providers.media.MediaService.onScanFile(MediaService.java:164)
+09-23 02:11:27.819  3131  3685 W ExifInterface: 	at com.android.providers.media.MediaService.onHandleIntent(MediaService.java:90)
+09-23 02:11:27.819  3131  3685 W ExifInterface: 	at android.app.IntentService$ServiceHandler.handleMessage(IntentService.java:78)
+09-23 02:11:27.819  3131  3685 W ExifInterface: 	at android.os.Handler.dispatchMessage(Handler.java:107)
+09-23 02:11:27.819  3131  3685 W ExifInterface: 	at android.os.Looper.loop(Looper.java:214)
+09-23 02:11:27.819  3131  3685 W ExifInterface: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+09-23 02:11:27.961  3131  3685 I MediaProvider: End Intent { act=android.intent.action.MEDIA_SCANNER_SCAN_FILE dat=file:///sdcard/shot2.png flg=0x1400010 cmp=com.android.providers.media/.MediaService }
+09-23 02:11:29.169  3184  3262 I Dialer  : VvmTaskExecutor - executing task com.android.voicemail.impl.ActivationTask@30fddb1
+09-23 02:11:29.180  3184  3262 I Dialer  : PreOMigrationHandler - ComponentInfo{com.android.phone/com.android.services.telephony.TelephonyConnectionService}, ***, UserHandle{0} already migrated
+09-23 02:11:29.519  3013  3030 I VoicemailNotifier: receivers for android.intent.action.PROVIDER_CHANGED :[]
+09-23 02:11:29.534  3184  3262 I Dialer  : VvmActivationTask - VVM content provider configured - vvm_type_cvvm
+09-23 02:11:29.536  3184  3262 I Dialer  : OmtpVvmCarrierCfgHlpr - OmtpEvent:CONFIG_ACTIVATING
+09-23 02:11:29.630  3013  3030 I VoicemailNotifier: receivers for android.intent.action.PROVIDER_CHANGED :[]
+09-23 02:11:29.657  2384  2400 I LocationAccessPolicy: Allowing com.android.dialer fine because it doesn't target API 29 yet. Please fix this app. Called from getServiceStateForSubscriber
+09-23 02:11:29.661  2384  2400 I LocationAccessPolicy: Allowing com.android.dialer coarse because it doesn't target API 29 yet. Please fix this app. Called from getServiceStateForSubscriber
+09-23 02:11:57.153  1762  1762 E netmgr  : Failed to open QEMU pipe 'qemud:network': Invalid argument
+09-23 02:12:00.029  2129  2129 D KeyguardClockSwitch: Updating clock: 212
+09-23 02:12:00.363  1803  1803 E wifi_forwarder: RemoteConnection failed to initialize: RemoteConnection failed to open pipe
+09-23 02:12:29.681  3691  3691 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+09-23 02:12:29.689  3691  3691 W app_process: type=1400 audit(0.0:29): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=7134 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+09-23 02:12:29.711  3691  3691 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.enable_apex_image"
+09-23 02:12:29.712  3691  3691 I AndroidRuntime: Using default boot image
+09-23 02:12:29.713  3691  3691 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.disable_lock_profiling"
+09-23 02:12:29.713  3691  3691 I AndroidRuntime: Leaving lock profiling enabled
+09-23 02:12:29.716  3691  3691 E libc    : Access denied finding property "persist.device_config.runtime_native_boot.enable_generational_cc"
+09-23 02:12:29.699  3691  3691 W app_process: type=1400 audit(0.0:30): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=7134 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+09-23 02:12:29.699  3691  3691 W app_process: type=1400 audit(0.0:31): avc: denied { read } for name="u:object_r:device_config_runtime_native_boot_prop:s0" dev="tmpfs" ino=7134 scontext=u:r:shell:s0 tcontext=u:object_r:device_config_runtime_native_boot_prop:s0 tclass=file permissive=0
+09-23 02:12:29.800  3691  3691 I app_process: Core platform API reporting enabled, enforcing=false
+09-23 02:12:29.910  3184  3262 I Dialer  : OmtpVvmCarrierCfgHlpr - OmtpEvent:CONFIG_STATUS_SMS_TIME_OUT
+09-23 02:12:29.913  3184  3184 I Dialer  : RetryPolicy - Retry limit for com.android.voicemail.impl.ActivationTask@30fddb1 reached
+09-23 02:12:29.914  3184  3184 I Dialer  : RetryPolicy - committing deferred status: configuration_state=4
+09-23 02:12:30.176  3013  3030 I VoicemailNotifier: receivers for android.intent.action.PROVIDER_CHANGED :[]
+09-23 02:12:30.214  3184  3184 I Dialer  : VvmTaskExecutor - no more tasks, stopping service if no task are added in 5000 millis
+09-23 02:12:30.545  3691  3691 D ICU     : Time zone APEX file found: /apex/com.android.tzdata/etc/icu/icu_tzdata.dat
+09-23 02:12:30.638  3691  3691 W app_process: Unexpected CPU variant for X86 using defaults: x86_64
+09-23 02:12:30.694  3691  3691 I app_process: The ClassLoaderContext is a special shared library.
+09-23 02:12:30.717  3691  3691 I app_process: The ClassLoaderContext is a special shared library.
+09-23 02:12:30.875  3691  3691 W app_process: JNI RegisterNativeMethods: attempt to register 0 native methods for android.media.AudioAttributes
+09-23 02:12:30.952  3691  3691 D AndroidRuntime: Calling main entry com.android.commands.uiautomator.Launcher
+09-23 02:12:31.255  1944  1944 V SettingsProvider: Notifying for 0: content://settings/secure/accessibility_enabled
+09-23 02:12:32.725  3691  3691 I AccessibilityNodeInfoDumper: Skipping invisible child: android.view.accessibility.AccessibilityNodeInfo@e89f; boundsInParent: Rect(0, 0 - 320, 36); boundsInScreen: Rect(0, 664 - 320, 640); packageName: com.android.launcher3; className: android.widget.LinearLayout; text: null; error: null; maxTextLength: -1; contentDescription: null; tooltipText: null; viewIdResName: com.android.launcher3:id/all_apps_header; checkable: false; checked: false; focusable: false; focused: false; selected: false; clickable: false; longClickable: false; contextClickable: false; enabled: true; password: false; scrollable: false; importantForAccessibility: false; visible: false; actions: [AccessibilityAction: ACTION_SELECT - null, AccessibilityAction: ACTION_CLEAR_SELECTION - null, AccessibilityAction: ACTION_ACCESSIBILITY_FOCUS - null, AccessibilityAction: ACTION_SHOW_ON_SCREEN - null]
+09-23 02:12:32.759  3691  3691 I AccessibilityNodeInfoDumper: Skipping invisible child: android.view.accessibility.AccessibilityNodeInfo@111ea; boundsInParent: Rect(0, 0 - 75, 62); boundsInScreen: Rect(226, 664 - 301, 640); packageName: com.android.launcher3; className: android.widget.TextView; text: null; error: null; maxTextLength: -1; contentDescription: null; tooltipText: null; viewIdResName: com.android.launcher3:id/fast_scroller_popup; checkable: false; checked: false; focusable: false; focused: false; selected: false; clickable: false; longClickable: false; contextClickable: false; enabled: true; password: false; scrollable: false; importantForAccessibility: false; visible: false; actions: [AccessibilityAction: ACTION_SELECT - null, AccessibilityAction: ACTION_CLEAR_SELECTION - null, AccessibilityAction: ACTION_ACCESSIBILITY_FOCUS - null, AccessibilityAction: ACTION_SHOW_ON_SCREEN - null]
+09-23 02:12:32.770  3691  3691 W AccessibilityNodeInfoDumper: Fetch time: 124ms
+09-23 02:12:32.775  1944  1960 W WindowManager: removeWindowToken: Attempted to remove non-existing token: android.os.Binder@3fcde97
+09-23 02:12:32.822  1944  1944 V SettingsProvider: Notifying for 0: content://settings/secure/accessibility_enabled
+09-23 02:12:33.042  3691  3691 D AndroidRuntime: Shutting down VM
+09-23 02:12:33.171  3691  3691 W app_process: Suspending all threads took: 8.516ms
+09-23 02:12:35.256  3184  3184 I Dialer  : VvmTaskExecutor - Stopping service
+09-23 02:12:35.256  3184  3184 I Dialer  : VvmTaskExecutor - finishing Job
+09-23 02:12:35.257  3184  3184 I Dialer  : TaskSchedulerJobService - finishing job
+09-23 02:12:35.294  3184  3184 I Dialer  : JobFinishedPoller.run - Job finished
+09-23 02:12:35.294  3184  3184 I Dialer  : VvmTaskExecutor - terminated
+09-23 02:12:57.163  1762  1762 E netmgr  : Failed to open QEMU pipe 'qemud:network': Invalid argument
+09-23 02:13:00.011  2129  2129 D KeyguardClockSwitch: Updating clock: 213
+09-23 02:13:00.363  1803  1803 E wifi_forwarder: RemoteConnection failed to initialize: RemoteConnection failed to open pipe
+09-23 02:13:34.574  1712  1756 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 823296
+09-23 02:13:34.607  1567  1567 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@3.0::IMapper/default in either framework or device manifest.
+09-23 02:13:34.610  3714  3714 W Gralloc3: mapper 3.x is not supported
+09-23 02:13:34.675  3714  3714 D HostConnection: createUnique: call
+09-23 02:13:34.677  3714  3714 D HostConnection: HostConnection::get() New Host Connection established 0x7e677b2655a0, tid 3714
+09-23 02:13:34.689  3714  3714 D HostConnection: HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+09-23 02:13:34.691  3714  3714 D eglCodecCommon: allocate: Ask for block of size 0x1000
+09-23 02:13:34.691  3714  3714 D eglCodecCommon: allocate: ioctl allocate returned offset 0x3fff28000 size 0x2000
+09-23 02:13:34.705  3714  3714 D eglCodecCommon: allocate: Ask for block of size 0xc9000
+09-23 02:13:34.705  3714  3714 D eglCodecCommon: allocate: ioctl allocate returned offset 0x3ffe60000 size 0xca000
+09-23 02:13:35.657  1944  1971 E memtrack: Couldn't load memtrack module
+09-23 02:13:35.657  1944  1971 W android.os.Debug: failed to get memory consumption info: -1
+09-23 02:13:35.662  3131  3721 I MediaProvider: Begin Intent { act=android.intent.action.MEDIA_SCANNER_SCAN_FILE dat=file:///sdcard/shot3.png flg=0x1400010 cmp=com.android.providers.media/.MediaService }
+09-23 02:13:35.802  3131  3721 W ExifInterface: Invalid image: ExifInterface got an unsupported image format file(ExifInterface supports JPEG and some RAW image formats only) or a corrupted JPEG file to ExifInterface.
+09-23 02:13:35.802  3131  3721 W ExifInterface: java.io.IOException: Invalid byte order: ffff8950
+09-23 02:13:35.802  3131  3721 W ExifInterface: 	at android.media.ExifInterface.readByteOrder(ExifInterface.java:3121)
+09-23 02:13:35.802  3131  3721 W ExifInterface: 	at android.media.ExifInterface.isOrfFormat(ExifInterface.java:2437)
+09-23 02:13:35.802  3131  3721 W ExifInterface: 	at android.media.ExifInterface.getMimeType(ExifInterface.java:2315)
+09-23 02:13:35.802  3131  3721 W ExifInterface: 	at android.media.ExifInterface.loadAttributes(ExifInterface.java:1753)
+09-23 02:13:35.802  3131  3721 W ExifInterface: 	at android.media.ExifInterface.<init>(ExifInterface.java:1447)
+09-23 02:13:35.802  3131  3721 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner.scanItemImage(ModernMediaScanner.java:729)
+09-23 02:13:35.802  3131  3721 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner.scanItem(ModernMediaScanner.java:502)
+09-23 02:13:35.802  3131  3721 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner.access$500(ModernMediaScanner.java:118)
+09-23 02:13:35.802  3131  3721 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner$Scan.visitFile(ModernMediaScanner.java:406)
+09-23 02:13:35.802  3131  3721 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner$Scan.visitFile(ModernMediaScanner.java:207)
+09-23 02:13:35.802  3131  3721 W ExifInterface: 	at java.nio.file.Files.walkFileTree(Files.java:2670)
+09-23 02:13:35.802  3131  3721 W ExifInterface: 	at java.nio.file.Files.walkFileTree(Files.java:2742)
+09-23 02:13:35.802  3131  3721 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner$Scan.walkFileTree(ModernMediaScanner.java:267)
+09-23 02:13:35.802  3131  3721 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner$Scan.run(ModernMediaScanner.java:245)
+09-23 02:13:35.802  3131  3721 W ExifInterface: 	at com.android.providers.media.scan.ModernMediaScanner.scanFile(ModernMediaScanner.java:174)
+09-23 02:13:35.802  3131  3721 W ExifInterface: 	at com.android.providers.media.MediaService.onScanFile(MediaService.java:164)
+09-23 02:13:35.802  3131  3721 W ExifInterface: 	at com.android.providers.media.MediaService.onHandleIntent(MediaService.java:90)
+09-23 02:13:35.802  3131  3721 W ExifInterface: 	at android.app.IntentService$ServiceHandler.handleMessage(IntentService.java:78)
+09-23 02:13:35.802  3131  3721 W ExifInterface: 	at android.os.Handler.dispatchMessage(Handler.java:107)
+09-23 02:13:35.802  3131  3721 W ExifInterface: 	at android.os.Looper.loop(Looper.java:214)
+09-23 02:13:35.802  3131  3721 W ExifInterface: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+09-23 02:13:35.852  3131  3721 I MediaProvider: End Intent { act=android.intent.action.MEDIA_SCANNER_SCAN_FILE dat=file:///sdcard/shot3.png flg=0x1400010 cmp=com.android.providers.media/.MediaService }
+09-23 02:13:35.900  1944  1959 I ActivityManager: Killing 3348:com.android.contacts/u0a98 (adj 985): empty #17
+09-23 02:13:36.102  1691  1691 I Zygote  : Process 3348 exited due to signal 9 (Killed)
+09-23 02:13:36.130  1944  1974 I libprocessgroup: Successfully killed process cgroup uid 10098 pid 3348 in 224ms

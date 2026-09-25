@@ -1,0 +1,12 @@
+stage: start
+stage: listed
+stage: installed
+stage: hide-dialogs
+stage: monkey
+stage: focus-poll
+stage: pid
+stage: shot1
+stage: shot2
+stage: shot3+dump
+stage: logs
+stage: done

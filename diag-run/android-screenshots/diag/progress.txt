@@ -1,0 +1,13 @@
+stage: start
+stage: listed
+stage: installed
+stage: monkey
+stage: focus-poll
+stage: pid
+stage: shot1
+stage: cpu2
+stage: threads+shot2
+stage: cpu3+dump
+stage: cpu4+shot3
+stage: logs
+stage: done

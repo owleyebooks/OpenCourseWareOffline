@@ -1,0 +1,5 @@
+09-23 02:08:57.756  3581  3581 I DOTNET  : OCWSTARTUP: CreateMauiApp entry
+09-23 02:08:58.248  3581  3581 I DOTNET  : OCWSTARTUP: builder created
+09-23 02:09:00.862  3581  3581 I DOTNET  : OCWSTARTUP: maui app + mediaelement + fonts done
+09-23 02:09:01.084  3581  3581 I DOTNET  : OCWSTARTUP: services registered, calling Build()
+09-23 02:09:02.564  3581  3581 I DOTNET  : OCWSTARTUP: Build() returned

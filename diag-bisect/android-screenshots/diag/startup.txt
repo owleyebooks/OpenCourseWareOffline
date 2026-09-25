@@ -1,0 +1,2 @@
+09-22 23:26:41.515  3562  3562 I DOTNET  : OCWSTARTUP: MainActivity.OnCreate entry
+09-22 23:26:42.779  3562  3562 I DOTNET  : OCWSTARTUP: MainActivity.OnCreate base returned

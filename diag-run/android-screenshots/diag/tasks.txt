@@ -1,0 +1,43 @@
+    mMinHeight=-1
+    mLastNonFullscreenBounds=null
+    * TaskRecord{505b221 #6 A=com.owleyebooks.ocwoffline U=0 StackId=1 sz=1}
+      userId=0 effectiveUid=u0a116 mCallingUid=2000 mUserSetupComplete=true mCallingPackage=null
+      affinity=com.owleyebooks.ocwoffline
+      intent={act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.owleyebooks.ocwoffline/crc64c5330a72fd5e49b2.MainActivity}
+      mActivityComponent=com.owleyebooks.ocwoffline/crc64c5330a72fd5e49b2.MainActivity
+      autoRemoveRecents=false isPersistable=true numFullscreen=1 activityType=1
+      rootWasReset=true mNeverRelinquishIdentity=true mReuseTask=false mLockTaskAuth=LOCK_TASK_AUTH_PINNABLE
+      Activities=[ActivityRecord{ef1784d u0 com.owleyebooks.ocwoffline/crc64c5330a72fd5e49b2.MainActivity t6}]
+      askedCompatMode=false inRecents=true isAvailable=true
+      mRootProcess=ProcessRecord{6391646 3573:com.owleyebooks.ocwoffline/u0a116}
+      stackId=1
+      hasBeenVisible=true mResizeMode=RESIZE_MODE_RESIZEABLE mSupportsPictureInPicture=false isResizeable=true lastActiveTime=290766 (inactive for 281s)
+      * Hist #0: ActivityRecord{ef1784d u0 com.owleyebooks.ocwoffline/crc64c5330a72fd5e49b2.MainActivity t6}
+          packageName=com.owleyebooks.ocwoffline processName=com.owleyebooks.ocwoffline
+          launchedFromUid=2000 launchedFromPackage=null userId=0
+          app=ProcessRecord{6391646 3573:com.owleyebooks.ocwoffline/u0a116}
+          Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.owleyebooks.ocwoffline/crc64c5330a72fd5e49b2.MainActivity }
+          frontOfTask=true task=TaskRecord{505b221 #6 A=com.owleyebooks.ocwoffline U=0 StackId=1 sz=1}
+          taskAffinity=com.owleyebooks.ocwoffline
+          mActivityComponent=com.owleyebooks.ocwoffline/crc64c5330a72fd5e49b2.MainActivity
+          baseDir=/data/app/com.owleyebooks.ocwoffline-OVhaBgxZ7mXoblKWuRPQMg==/base.apk
+          dataDir=/data/user/0/com.owleyebooks.ocwoffline
+          stateNotNeeded=false componentSpecified=true mActivityType=standard
+          compat={160dpi} labelRes=0x0 icon=0x7f0f0000 theme=0x7f120162
+--
+
+    Running activities (most recent first):
+      TaskRecord{505b221 #6 A=com.owleyebooks.ocwoffline U=0 StackId=1 sz=1}
+        Run #0: ActivityRecord{ef1784d u0 com.owleyebooks.ocwoffline/crc64c5330a72fd5e49b2.MainActivity t6}
+
+    mResumedActivity: ActivityRecord{ef1784d u0 com.owleyebooks.ocwoffline/crc64c5330a72fd5e49b2.MainActivity t6}
+
+  Stack #0: type=home mode=fullscreen
+--
+    mLastPausedActivity: ActivityRecord{5a867ca u0 com.android.launcher3/.Launcher t5}
+
+ ResumedActivity:ActivityRecord{ef1784d u0 com.owleyebooks.ocwoffline/crc64c5330a72fd5e49b2.MainActivity t6}
+
+  ResumedActivity: ActivityRecord{ef1784d u0 com.owleyebooks.ocwoffline/crc64c5330a72fd5e49b2.MainActivity t6}
+
+ActivityStackSupervisor state:

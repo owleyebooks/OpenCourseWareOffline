@@ -1,0 +1,24 @@
+09-22 19:59:18.891  1943  3405 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.owleyebooks.ocwoffline flg=0x4000010 (has extras) } to com.android.packageinstaller/.PackageInstalledReceiver
+09-22 19:59:18.895  1943  1971 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.owleyebooks.ocwoffline flg=0x4000010 (has extras) } to com.android.gallery3d/.app.PackagesMonitor
+09-22 19:59:18.896  1943  1971 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.owleyebooks.ocwoffline flg=0x4000010 (has extras) } to com.android.musicfx/.Compatibility$Receiver
+09-22 19:59:25.532  3558  3558 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+09-22 19:59:25.721  3558  3558 I AndroidRuntime: Using default boot image
+09-22 19:59:25.723  3558  3558 I AndroidRuntime: Leaving lock profiling enabled
+09-22 19:59:30.844  3558  3558 D AndroidRuntime: Calling main entry com.android.commands.monkey.Monkey
+09-22 19:59:30.889  3558  3558 W Monkey  : args: [-p, com.owleyebooks.ocwoffline, -c, android.intent.category.LAUNCHER, 1]
+09-22 19:59:30.893  3558  3558 W Monkey  :  arg: "com.owleyebooks.ocwoffline"
+09-22 19:59:30.895  3558  3558 W Monkey  : data="com.owleyebooks.ocwoffline"
+09-22 19:59:32.054  1943  2202 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.owleyebooks.ocwoffline/crc64c5330a72fd5e49b2.MainActivity} from uid 2000
+09-22 19:59:32.903  3558  3558 I AndroidRuntime: VM exiting with result code 0.
+09-22 19:59:33.635  1943  1972 I ActivityManager: Start proc 3573:com.owleyebooks.ocwoffline/u0a116 for activity {com.owleyebooks.ocwoffline/crc64c5330a72fd5e49b2.MainActivity}
+09-22 19:59:39.572  3573  3573 W monodroid: Creating public update directory: `/data/user/0/com.owleyebooks.ocwoffline/files/.__override__/x86_64`
+09-22 19:59:43.050  3573  3573 W RenderThread: type=1400 audit(0.0:29): avc: denied { write } for name="property_service" dev="tmpfs" ino=6986 scontext=u:r:untrusted_app:s0:c116,c256,c512,c768 tcontext=u:object_r:property_socket:s0 tclass=sock_file permissive=0 app=com.owleyebooks.ocwoffline
+09-22 19:59:45.183  3573  3573 I DOTNET  : OCWSTARTUP: MainActivity.OnCreate entry
+09-22 19:59:46.280  3573  3573 I DOTNET  : OCWSTARTUP: MainActivity.OnCreate base returned
+09-22 19:59:47.715  1943  1970 I ActivityTaskManager: Displayed com.owleyebooks.ocwoffline/crc64c5330a72fd5e49b2.MainActivity: +15s396ms
+09-22 19:59:52.257  3573  3611 D ProfileInstaller: Installing profile for com.owleyebooks.ocwoffline
+09-22 20:03:11.092  3686  3686 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+09-22 20:03:11.115  3686  3686 I AndroidRuntime: Using default boot image
+09-22 20:03:11.116  3686  3686 I AndroidRuntime: Leaving lock profiling enabled
+09-22 20:03:12.024  3686  3686 D AndroidRuntime: Calling main entry com.android.commands.uiautomator.Launcher
+09-22 20:03:13.623  3686  3686 D AndroidRuntime: Shutting down VM

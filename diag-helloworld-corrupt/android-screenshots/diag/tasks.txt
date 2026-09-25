@@ -1,0 +1,97 @@
+ACTIVITY MANAGER ACTIVITIES (dumpsys activity activities)
+Display #0 (activities from top to bottom):
+  * Task{f06a275 #8 type=standard A=10141:com.companyname.helloworld U=0 visible=true visibleRequested=true mode=fullscreen translucent=false sz=1}
+    mLastNonFullscreenBounds=Rect(77, 172 - 243, 492)
+    isSleeping=false
+    topResumedActivity=ActivityRecord{abb675f u0 com.companyname.helloworld/crc64382e7c390968e9cf.MainActivity t8}
+    * Hist  #0: ActivityRecord{abb675f u0 com.companyname.helloworld/crc64382e7c390968e9cf.MainActivity t8}
+      packageName=com.companyname.helloworld processName=com.companyname.helloworld
+      launchedFromUid=2000 launchedFromPackage=com.android.shell launchedFromFeature=null userId=0
+      app=ProcessRecord{26d5e6c 3062:com.companyname.helloworld/u0a141}
+      Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.companyname.helloworld/crc64382e7c390968e9cf.MainActivity }
+      rootOfTask=true task=Task{f06a275 #8 type=standard A=10141:com.companyname.helloworld}
+      taskAffinity=10141:com.companyname.helloworld
+      mActivityComponent=com.companyname.helloworld/crc64382e7c390968e9cf.MainActivity
+      baseDir=/data/app/~~xbnSf-OVfkqNf_RwCmoXgg==/com.companyname.helloworld-QCgxkQ7jATP4WEH6mtMeQg==/base.apk
+      dataDir=/data/user/0/com.companyname.helloworld
+      stateNotNeeded=false componentSpecified=false mActivityType=standard
+      compat={160dpi} labelRes=0x0 icon=0x7f0d0000 theme=0x7f10013f
+--
+      mActivityType=standard
+      mImeInsetsFrozenUntilStartInput=false
+      windows=[Window{a0b2226 u0 com.companyname.helloworld/crc64382e7c390968e9cf.MainActivity}]
+      windowType=2 waitingToShow=true
+      mOccludesParent=true
+--
+
+  Resumed activities in task display areas (from top to bottom):
+    Resumed: ActivityRecord{abb675f u0 com.companyname.helloworld/crc64382e7c390968e9cf.MainActivity t8}
+
+  ResumedActivity: ActivityRecord{abb675f u0 com.companyname.helloworld/crc64382e7c390968e9cf.MainActivity t8}
+
+ActivityTaskSupervisor state:
+  topDisplayFocusedRootTask=Task{f06a275 #8 type=standard A=10141:com.companyname.helloworld}
+  Display: mDisplayId=0 (organized)
+    init=320x640 160dpi mMinSizeOfResizeableTaskDp=220 cur=320x640 app=320x640 rng=320x296-640x616
+--
+
+  mLastOrientationSource=WindowedMagnification:0:31@121200683
+  deepestLastOrientationSource=ActivityRecord{abb675f u0 com.companyname.helloworld/crc64382e7c390968e9cf.MainActivity t8}
+  overrideConfig={1.0 310mcc260mnc [en_US] ldltr sw320dp w320dp h616dp 160dpi nrml long port finger qwerty/v/v -nav/h winConfig={ mBounds=Rect(0, 0 - 320, 640) mAppBounds=Rect(0, 0 - 320, 640) mMaxBounds=Rect(0, 0 - 320, 640) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mDisplayWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=ROTATION_0} as.2 s.78 fontWeightAdjustment=0}
+  mLayoutSeq=94
+  mCurrentFocus=Window{a0b2226 u0 com.companyname.helloworld/crc64382e7c390968e9cf.MainActivity}
+  mFocusedApp=ActivityRecord{abb675f u0 com.companyname.helloworld/crc64382e7c390968e9cf.MainActivity t8}
+
+  mHoldScreenWindow=null
+  mObscuringWindow=Window{a0b2226 u0 com.companyname.helloworld/crc64382e7c390968e9cf.MainActivity}
+  mLastWakeLockHoldingWindow=null
+  mLastWakeLockObscuringWindow=null
+--
+    TaskDisplayArea DefaultTaskDisplayArea
+      overrideConfig={0.0 ?mcc0mnc ?localeList ?layoutDir ?swdp ?wdp ?hdp ?density ?lsize ?long ?ldr ?wideColorGamut ?orien ?uimode ?night ?touch ?keyb/?/? ?nav/? winConfig={ mBounds=Rect(0, 0 - 0, 0) mAppBounds=null mMaxBounds=Rect(0, 0 - 0, 0) mDisplayRotation=undefined mWindowingMode=fullscreen mDisplayWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=undefined} ?fontWeightAdjustment}
+      mPreferredTopFocusableRootTask=Task{f06a275 #8 type=standard A=10141:com.companyname.helloworld}
+      mLastFocusedRootTask=Task{f06a275 #8 type=standard A=10141:com.companyname.helloworld}
+      Application tokens in top down Z order:
+      * Task{f06a275 #8 type=standard A=10141:com.companyname.helloworld U=0 visible=true visibleRequested=true mode=fullscreen translucent=false sz=1}
+        bounds=[0,0][320,640]
+        * ActivityRecord{abb675f u0 com.companyname.helloworld/crc64382e7c390968e9cf.MainActivity t8}
+      * Task{f746621 #1 type=home U=0 visible=false visibleRequested=false mode=fullscreen translucent=true sz=1}
+        bounds=[0,0][320,640]
+--
+    isKeyguardShowing=false
+    mTopGestureHost=Window{19ddc87 u0 StatusBar}
+    mFocusedWindow=Window{a0b2226 u0 com.companyname.helloworld/crc64382e7c390968e9cf.MainActivity}
+    mTopFullscreenOpaqueWindowState=Window{a0b2226 u0 com.companyname.helloworld/crc64382e7c390968e9cf.MainActivity}
+    mSystemBarColorApps={ActivityRecord{abb675f u0 com.companyname.helloworld/crc64382e7c390968e9cf.MainActivity t8}}
+    mLastStatusBarAppearanceRegions=
+      AppearanceRegion{LIGHT_STATUS_BARS bounds=[0,0][320,640]}
+    mLastLetterboxDetails=
+    mStatusBarBackgroundWindows=
+      Window{a0b2226 u0 com.companyname.helloworld/crc64382e7c390968e9cf.MainActivity}
+    mTopIsFullscreen=false
+    mForceShowNavigationBarEnabled=false mAllowLockscreenWhenOn=false
+--
+        InsetsSource id=3 type=ime frame=[0,0][0,0] visible=false flags= insetsRoundedCornerFrame=false
+    Control map:
+      Window{a0b2226 u0 com.companyname.helloworld/crc64382e7c390968e9cf.MainActivity}:
+        InsetsSourceControl: {3 mType=ime mSurfacePosition=Point(160, 640) mInsetsHint=Insets{left=0, top=0, right=0, bottom=0}}
+        InsetsSourceControl: {a6280000 mType=statusBars initiallyVisible mSurfacePosition=Point(0, 0) mInsetsHint=Insets{left=0, top=24, right=0, bottom=0}}
+--
+        mWindowContainer=Window{459325c u0 InputMethod}
+        mAdapter=ControlAdapter mCapturedLeash=Surface(name=Surface(name=459325c InputMethod)/@0xaf5163a - animation-leash of insets_animation)/@0x25cee5f
+        mControlTarget=Window{a0b2226 u0 com.companyname.helloworld/crc64382e7c390968e9cf.MainActivity}
+        mImeShowing=false
+      InsetsSourceProvider
+--
+        mWindowContainer=Window{19ddc87 u0 StatusBar}
+        mAdapter=ControlAdapter mCapturedLeash=Surface(name=Surface(name=19ddc87 StatusBar)/@0x6c0e7c8 - animation-leash of insets_animation)/@0xeaca0ac
+        mControlTarget=Window{a0b2226 u0 com.companyname.helloworld/crc64382e7c390968e9cf.MainActivity}
+
+  KeyguardController:
+--
+        (multi-window) Task{93eb734 #3 type=undefined}
+        (multi-window) Task{1be095d #4 type=undefined}
+        (fullscreen) Task{f06a275 #8 type=standard A=10141:com.companyname.helloworld}
+
+  VisibleActivityProcess:[ ProcessRecord{26d5e6c 3062:com.companyname.helloworld/u0a141}]
+  NumNonAppVisibleWindowUidMap:[ 10116:1]
