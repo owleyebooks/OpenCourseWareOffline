@@ -25,22 +25,34 @@ public partial class CoursePage : ContentPage
     // twice at once, so it takes the factory rather than a shared instance.
     private readonly Func<AboutPage> _aboutPageFactory;
 
-    public CoursePage(CourseViewModel vm, Func<DownloadsDashboardPage> dashboardPageFactory, Func<CatalogPage> catalogPageFactory,
+    public CoursePage(CourseViewModel vm, AppStatusViewModel appStatus, Func<DownloadsDashboardPage> dashboardPageFactory, Func<CatalogPage> catalogPageFactory,
         Func<VideoPlayerPage> videoPlayerPageFactory, Func<ArtifactViewerPage> artifactViewerPageFactory,
         Func<AboutPage> aboutPageFactory)
     {
         InitializeComponent();
         BindingContext = vm;
+        StatusBanner.BindingContext = appStatus;
         _dashboardPageFactory = dashboardPageFactory;
         _catalogPageFactory = catalogPageFactory;
         _videoPlayerPageFactory = videoPlayerPageFactory;
         _artifactViewerPageFactory = artifactViewerPageFactory;
         _aboutPageFactory = aboutPageFactory;
+
+        vm.NavigateToDownloadsRequested += OnNavigateToDownloadsRequested;
+        vm.RefocusCourseEntryRequested += OnRefocusCourseEntryRequested;
+        vm.OpenArtifactRequested += OnOpenArtifactRequested;
+        vm.OpenLectureRequested += OnOpenLectureRequested;
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        // Restores the last-viewed course when there is connectivity; the
+        // ViewModel guards this to run once. Offline, the first-run intro
+        // stays put instead of an error screen.
+        if (BindingContext is CourseViewModel vm)
+            _ = vm.RestoreLastCourseAsync();
+
         // TEMPORARY diagnostic (screenshot-run only): log MAUI-side layout
         // bounds to logcat so CI can verify the Grid fix even when the
         // emulator's System UI ANR makes screenshots and uiautomator
@@ -57,7 +69,6 @@ public partial class CoursePage : ContentPage
                 LogLayout("LecturesTabButton", LecturesTabButton);
                 LogLayout("ArtifactsList", ArtifactsList);
                 LogLayout("LecturesList", LecturesList);
-                LogLayout("StorageLabel", StorageLabel);
                 System.Console.WriteLine("OCWLAYOUT: done");
             }
             catch (System.Exception ex)
@@ -116,13 +127,19 @@ public partial class CoursePage : ContentPage
         await PushSafelyAsync(_catalogPageFactory, "catalog");
     }
 
-    private async void OnWatchLectureClicked(object sender, EventArgs e)
-    {
-        if (sender is not Button { BindingContext: Lecture lecture })
-        {
-            return;
-        }
+    private async void OnNavigateToDownloadsRequested() =>
+        await PushSafelyAsync(_dashboardPageFactory, "downloads");
 
+    private void OnRefocusCourseEntryRequested() => SearchEntry.Focus();
+
+    private async void OnOpenArtifactRequested(Artifact artifact) =>
+        await OpenArtifactAsync(artifact);
+
+    private async void OnOpenLectureRequested(Lecture lecture) =>
+        await OpenLectureAsync(lecture);
+
+    private async Task OpenLectureAsync(Lecture lecture)
+    {
         try
         {
             var player = _videoPlayerPageFactory();
@@ -135,13 +152,8 @@ public partial class CoursePage : ContentPage
         }
     }
 
-    private async void OnViewArtifactClicked(object sender, EventArgs e)
+    private async Task OpenArtifactAsync(Artifact artifact)
     {
-        if (sender is not Button { BindingContext: Artifact artifact })
-        {
-            return;
-        }
-
         try
         {
             var viewer = _artifactViewerPageFactory();

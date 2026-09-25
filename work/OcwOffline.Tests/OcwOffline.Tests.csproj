@@ -70,8 +70,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\OcwOffline\Views\DownloadButtonTextConverter.cs" Link="Views\DownloadButtonTextConverter.cs" />
     <Compile Include="..\OcwOffline\Views\ByteSizeConverter.cs" Link="Views\ByteSizeConverter.cs" />
+    <Compile Include="..\OcwOffline\Views\PrimaryActionTextConverter.cs" Link="Views\PrimaryActionTextConverter.cs" />
+    <Compile Include="..\OcwOffline\Views\DownloadProgressTextConverter.cs" Link="Views\DownloadProgressTextConverter.cs" />
+    <Compile Include="..\OcwOffline\Views\LongIsPositiveConverter.cs" Link="Views\LongIsPositiveConverter.cs" />
+    <Compile Include="..\OcwOffline\Views\StatusIsCancellableConverter.cs" Link="Views\StatusIsCancellableConverter.cs" />
+    <Compile Include="..\OcwOffline\Views\StatusIsCompletedConverter.cs" Link="Views\StatusIsCompletedConverter.cs" />
     <Compile Include="..\OcwOffline\Views\InvertedBoolConverter.cs" Link="Views\InvertedBoolConverter.cs" />
     <Compile Include="..\OcwOffline\Views\StatusIsActiveConverter.cs" Link="Views\StatusIsActiveConverter.cs" />
     <Compile Include="..\OcwOffline\Views\StatusIsInProgressConverter.cs" Link="Views\StatusIsInProgressConverter.cs" />
@@ -108,6 +112,7 @@
 
   <ItemGroup>
     <Compile Include="..\OcwOffline\Services\IDownloadManager.cs" Link="Services\IDownloadManager.cs" />
+    <Compile Include="..\OcwOffline\Services\FetchErrorInfo.cs" Link="Services\FetchErrorInfo.cs" />
     <Compile Include="..\OcwOffline\Services\IConnectivityService.cs" Link="Services\IConnectivityService.cs" />
     <Compile Include="..\OcwOffline\Services\ILastCourseStore.cs" Link="Services\ILastCourseStore.cs" />
     <Compile Include="..\OcwOffline\Services\InMemoryLastCourseStore.cs" Link="Services\InMemoryLastCourseStore.cs" />

@@ -45,7 +45,7 @@ public partial class CatalogPage : ContentPage
         {
             courseVm.CourseSlug = entry.Slug;
             await Navigation.PushAsync(coursePage);
-            await courseVm.FetchCommand.ExecuteAsync(null);
+            await courseVm.GetCourseCommand.ExecuteAsync(null);
         }
     }
 }

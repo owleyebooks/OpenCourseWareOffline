@@ -13,7 +13,7 @@ public class CourseViewModelCommandTests
     {
         db = new FakeCourseDatabase();
         downloads = new FakeDownloadManager();
-        return new CourseViewModel(new OcwScraperService(), db, downloads, new FakeMainThreadDispatcher(), new FakeAppPaths());
+        return new CourseViewModel(new OcwScraperService(), db, downloads, new InMemoryLastCourseStore(), new FakeConnectivityService());
     }
 
     [Fact]
