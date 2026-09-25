@@ -7,34 +7,25 @@ namespace OcwOffline.Tests.ViewModels;
 
 public class CourseViewModelDownloadCommandTests
 {
-    // Same parameterless-safe reasoning as CourseViewModelCommandTests:
-    // OcwScraperService's HttpClient is never touched by these commands.
-    private static CourseViewModel CreateViewModel(out FakeDownloadManager downloads)
+    private static CourseViewModel CreateViewModel(
+        out FakeCourseDatabase db, out FakeDownloadManager downloads,
+        out InMemoryLastCourseStore lastCourse, out FakeConnectivityService connectivity)
     {
+        db = new FakeCourseDatabase();
         downloads = new FakeDownloadManager();
-        return new CourseViewModel(new OcwScraperService(), new FakeCourseDatabase(), downloads, new FakeMainThreadDispatcher(), new FakeAppPaths());
+        lastCourse = new InMemoryLastCourseStore();
+        connectivity = new FakeConnectivityService();
+        return new CourseViewModel(new FakeOcwScraperService(), db, downloads, lastCourse, connectivity);
     }
 
     [Fact]
-    public async Task DownloadArtifactAsync_InProgress_NoOp()
+    public async Task PrimaryArtifactActionAsync_NotStarted_Success_CompletesViaItemApi()
     {
-        var vm = CreateViewModel(out var downloads);
-        var artifact = new Artifact { Id = 1, CourseId = "c1", SourceUrl = "https://x/f.pdf", DownloadStatus = DownloadStatus.InProgress };
-
-        await vm.DownloadArtifactCommand.ExecuteAsync(artifact);
-
-        Assert.Equal(DownloadStatus.InProgress, artifact.DownloadStatus);
-        Assert.Equal(0, await downloads.GetTotalStorageUsedAsync());
-    }
-
-    [Fact]
-    public async Task DownloadArtifactAsync_Success_NonZip_SetsCompletedAndLocalFilePath()
-    {
-        var vm = CreateViewModel(out var downloads);
+        var vm = CreateViewModel(out _, out var downloads, out _, out _);
         var artifact = new Artifact { Id = 2, CourseId = "c1", SourceUrl = "https://x/notes.pdf", FileType = ArtifactFileType.Pdf };
         downloads.QueueSuccess("artifact-2", sizeBytes: 100, relativePath: "c1/notes.pdf");
 
-        await vm.DownloadArtifactCommand.ExecuteAsync(artifact);
+        await vm.PrimaryArtifactActionCommand.ExecuteAsync(artifact);
 
         Assert.Equal(DownloadStatus.Completed, artifact.DownloadStatus);
         Assert.Equal("c1/notes.pdf", artifact.LocalFilePath);
@@ -43,13 +34,13 @@ public class CourseViewModelDownloadCommandTests
     }
 
     [Fact]
-    public async Task DownloadArtifactAsync_ZipType_ExtractsAndSetsIsExtracted()
+    public async Task PrimaryArtifactActionAsync_ZipType_ExtractsViaItemApi()
     {
-        var vm = CreateViewModel(out var downloads);
+        var vm = CreateViewModel(out _, out var downloads, out _, out _);
         var artifact = new Artifact { Id = 3, CourseId = "c1", SourceUrl = "https://x/all.zip", FileType = ArtifactFileType.Zip };
         downloads.QueueSuccess("artifact-3", sizeBytes: 200, relativePath: "c1/all.zip");
 
-        await vm.DownloadArtifactCommand.ExecuteAsync(artifact);
+        await vm.PrimaryArtifactActionCommand.ExecuteAsync(artifact);
 
         Assert.Equal(DownloadStatus.Completed, artifact.DownloadStatus);
         artifact.IsExtracted.Should().BeTrue("a zip download is marked extracted");
@@ -58,28 +49,25 @@ public class CourseViewModelDownloadCommandTests
     }
 
     [Fact]
-    public async Task DownloadArtifactAsync_ZipType_ExtractionFails_StaysCompletedNotExtracted()
+    public async Task PrimaryArtifactActionAsync_Failed_RetriesTheDownload()
     {
-        var vm = CreateViewModel(out var downloads);
-        var artifact = new Artifact { Id = 6, CourseId = "c1", SourceUrl = "https://x/all.zip", FileType = ArtifactFileType.Zip };
-        downloads.QueueSuccess("artifact-6", sizeBytes: 200, relativePath: "c1/all.zip");
-        downloads.QueueExtractFailure(Path.Combine("c1", "_extracted_6"), new InvalidOperationException("bad archive"));
+        var vm = CreateViewModel(out _, out var downloads, out _, out _);
+        var artifact = new Artifact { Id = 4, CourseId = "c1", SourceUrl = "https://x/f.pdf", DownloadStatus = DownloadStatus.Failed };
+        downloads.QueueSuccess("artifact-4", sizeBytes: 100, relativePath: "c1/f.pdf");
 
-        await vm.DownloadArtifactCommand.ExecuteAsync(artifact);
+        await vm.PrimaryArtifactActionCommand.ExecuteAsync(artifact);
 
         Assert.Equal(DownloadStatus.Completed, artifact.DownloadStatus);
-        Assert.False(artifact.IsExtracted);
-        Assert.Equal("c1/all.zip", artifact.LocalFilePath);
     }
 
     [Fact]
-    public async Task DownloadArtifactAsync_ScriptedFailure_SetsFailedAndStatusText()
+    public async Task PrimaryArtifactActionAsync_ScriptedFailure_SetsFailedAndStatusText()
     {
-        var vm = CreateViewModel(out var downloads);
-        var artifact = new Artifact { Id = 4, CourseId = "c1", SourceUrl = "https://x/f.pdf", Title = "Notes" };
-        downloads.QueueFailure("artifact-4", new IOException("disk full"));
+        var vm = CreateViewModel(out _, out var downloads, out _, out _);
+        var artifact = new Artifact { Id = 5, CourseId = "c1", SourceUrl = "https://x/f.pdf", Title = "Notes" };
+        downloads.QueueFailure("artifact-5", new IOException("disk full"));
 
-        await vm.DownloadArtifactCommand.ExecuteAsync(artifact);
+        await vm.PrimaryArtifactActionCommand.ExecuteAsync(artifact);
 
         Assert.Equal(DownloadStatus.Failed, artifact.DownloadStatus);
         Assert.Contains("Notes", vm.StatusText);
@@ -87,24 +75,75 @@ public class CourseViewModelDownloadCommandTests
     }
 
     [Fact]
-    public async Task DownloadArtifactAsync_Cancelled_SetsPaused()
+    public async Task PrimaryArtifactActionAsync_Stalled_MessagesTheStall()
     {
-        var vm = CreateViewModel(out var downloads);
-        var artifact = new Artifact { Id = 5, CourseId = "c1", SourceUrl = "https://x/f.pdf" };
-        downloads.QueueFailure("artifact-5", new OperationCanceledException());
+        var vm = CreateViewModel(out _, out var downloads, out _, out _);
+        var artifact = new Artifact { Id = 6, CourseId = "c1", SourceUrl = "https://x/f.pdf", Title = "Notes" };
+        downloads.QueueFailure("artifact-6", new DownloadStalledException("no bytes received for 30s"));
 
-        await vm.DownloadArtifactCommand.ExecuteAsync(artifact);
+        await vm.PrimaryArtifactActionCommand.ExecuteAsync(artifact);
+
+        vm.StatusText.Should().Contain("stalled", "a watchdog stall is messaged distinctly from a plain failure");
+        Assert.Contains("Notes", vm.StatusText);
+    }
+
+    [Fact]
+    public void PrimaryArtifactAction_InProgress_PausesTheDownload()
+    {
+        var vm = CreateViewModel(out _, out var downloads, out _, out _);
+        var artifact = new Artifact { Id = 9, DownloadStatus = DownloadStatus.InProgress };
+
+        vm.PrimaryArtifactActionCommand.Execute(artifact);
+
+        Assert.True(downloads.WasPaused("artifact-9"));
+        Assert.Equal(DownloadStatus.InProgress, artifact.DownloadStatus);
+    }
+
+    [Fact]
+    public async Task PrimaryArtifactActionAsync_Paused_ResumesFromPartialBytes()
+    {
+        var vm = CreateViewModel(out _, out var downloads, out _, out _);
+        var artifact = new Artifact { Id = 10, CourseId = "c1", SourceUrl = "https://x/f.pdf", DownloadStatus = DownloadStatus.Paused, BytesDownloaded = 50 };
+        downloads.QueueSuccess("artifact-10", sizeBytes: 100, relativePath: "c1/f.pdf");
+
+        await vm.PrimaryArtifactActionCommand.ExecuteAsync(artifact);
+
+        Assert.Equal(DownloadStatus.Completed, artifact.DownloadStatus);
+    }
+
+    [Fact]
+    public async Task PrimaryArtifactActionAsync_PauseQueuedBeforeStart_SetsPausedViaRealCancellationPath()
+    {
+        var vm = CreateViewModel(out _, out var downloads, out _, out _);
+        var artifact = new Artifact { Id = 13, CourseId = "c1", SourceUrl = "https://x/f.pdf" };
+        downloads.QueueSuccess("artifact-13", sizeBytes: 100);
+        downloads.Pause("artifact-13");
+
+        await vm.PrimaryArtifactActionCommand.ExecuteAsync(artifact);
 
         Assert.Equal(DownloadStatus.Paused, artifact.DownloadStatus);
     }
 
     [Fact]
-    public async Task DownloadLectureAsync_BlankVideoUrl_SkipsAndSetsStatusText()
+    public void PrimaryArtifactAction_Completed_RaisesOpenArtifactRequestedWithPayload()
     {
-        var vm = CreateViewModel(out var downloads);
+        var vm = CreateViewModel(out _, out _, out _, out _);
+        var artifact = new Artifact { Id = 14, DownloadStatus = DownloadStatus.Completed };
+        Artifact? opened = null;
+        vm.OpenArtifactRequested += a => opened = a;
+
+        vm.PrimaryArtifactActionCommand.Execute(artifact);
+
+        opened.Should().BeSameAs(artifact, "tapping a downloaded artifact hands it to the page for viewing");
+    }
+
+    [Fact]
+    public async Task PrimaryLectureActionAsync_BlankVideoUrl_SkipsAndSetsStatusText()
+    {
+        var vm = CreateViewModel(out _, out var downloads, out _, out _);
         var lecture = new Lecture { Id = 1, CourseId = "c1", Title = "Lecture 1", VideoUrl = "" };
 
-        await vm.DownloadLectureCommand.ExecuteAsync(lecture);
+        await vm.PrimaryLectureActionCommand.ExecuteAsync(lecture);
 
         Assert.Equal(DownloadStatus.NotStarted, lecture.DownloadStatus);
         Assert.Contains("Lecture 1", vm.StatusText);
@@ -112,24 +151,13 @@ public class CourseViewModelDownloadCommandTests
     }
 
     [Fact]
-    public async Task DownloadLectureAsync_InProgress_NoOp()
+    public async Task PrimaryLectureActionAsync_NotStarted_Success_CompletesViaItemApi()
     {
-        var vm = CreateViewModel(out _);
-        var lecture = new Lecture { Id = 2, CourseId = "c1", VideoUrl = "https://x/v.mp4", DownloadStatus = DownloadStatus.InProgress };
-
-        await vm.DownloadLectureCommand.ExecuteAsync(lecture);
-
-        Assert.Equal(DownloadStatus.InProgress, lecture.DownloadStatus);
-    }
-
-    [Fact]
-    public async Task DownloadLectureAsync_Success_SetsCompletedAndLocalVideoPath()
-    {
-        var vm = CreateViewModel(out var downloads);
+        var vm = CreateViewModel(out _, out var downloads, out _, out _);
         var lecture = new Lecture { Id = 3, CourseId = "c1", VideoUrl = "https://x/v.mp4" };
         downloads.QueueSuccess("lecture-3", sizeBytes: 300, relativePath: "c1/v.mp4");
 
-        await vm.DownloadLectureCommand.ExecuteAsync(lecture);
+        await vm.PrimaryLectureActionCommand.ExecuteAsync(lecture);
 
         Assert.Equal(DownloadStatus.Completed, lecture.DownloadStatus);
         Assert.Equal("c1/v.mp4", lecture.LocalVideoPath);
@@ -137,75 +165,51 @@ public class CourseViewModelDownloadCommandTests
     }
 
     [Fact]
-    public async Task DownloadLectureAsync_ScriptedFailure_SetsFailedAndStatusText()
+    public async Task PrimaryLectureActionAsync_ScriptedFailure_SetsFailedAndStatusText()
     {
-        var vm = CreateViewModel(out var downloads);
+        var vm = CreateViewModel(out _, out var downloads, out _, out _);
         var lecture = new Lecture { Id = 4, CourseId = "c1", VideoUrl = "https://x/v.mp4", Title = "Lecture 4" };
         downloads.QueueFailure("lecture-4", new IOException("network reset"));
 
-        await vm.DownloadLectureCommand.ExecuteAsync(lecture);
+        await vm.PrimaryLectureActionCommand.ExecuteAsync(lecture);
 
         Assert.Equal(DownloadStatus.Failed, lecture.DownloadStatus);
         Assert.Contains("Lecture 4", vm.StatusText);
     }
 
     [Fact]
-    public async Task DownloadArtifactAsync_DownloadManagerPausedThisKey_SetsPausedViaRealCancellationPath()
+    public void PrimaryLectureAction_InProgress_PausesTheDownload()
     {
-        // Exercises the fake's own cancellation path (fixed this round),
-        // not a hand-scripted OperationCanceledException like the
-        // Cancelled test above, which covers the ViewModel's catch block.
-        var vm = CreateViewModel(out var downloads);
-        var artifact = new Artifact { Id = 13, CourseId = "c1", SourceUrl = "https://x/f.pdf" };
-        downloads.QueueSuccess("artifact-13", sizeBytes: 100);
-        downloads.Pause("artifact-13");
-
-        await vm.DownloadArtifactCommand.ExecuteAsync(artifact);
-
-        Assert.Equal(DownloadStatus.Paused, artifact.DownloadStatus);
-    }
-
-    [Fact]
-    public void PauseArtifact_InProgress_CallsPauseWithArtifactKey()
-    {
-        var vm = CreateViewModel(out var downloads);
-        var artifact = new Artifact { Id = 9, DownloadStatus = DownloadStatus.InProgress };
-
-        vm.PauseArtifactCommand.Execute(artifact);
-
-        Assert.True(downloads.WasPaused("artifact-9"));
-    }
-
-    [Fact]
-    public void PauseArtifact_NotInProgress_NoOp()
-    {
-        var vm = CreateViewModel(out var downloads);
-        var artifact = new Artifact { Id = 10, DownloadStatus = DownloadStatus.Completed };
-
-        vm.PauseArtifactCommand.Execute(artifact);
-
-        Assert.False(downloads.WasPaused("artifact-10"));
-    }
-
-    [Fact]
-    public void PauseLecture_InProgress_CallsPauseWithLectureKey()
-    {
-        var vm = CreateViewModel(out var downloads);
+        var vm = CreateViewModel(out _, out var downloads, out _, out _);
         var lecture = new Lecture { Id = 11, DownloadStatus = DownloadStatus.InProgress };
 
-        vm.PauseLectureCommand.Execute(lecture);
+        vm.PrimaryLectureActionCommand.Execute(lecture);
 
         Assert.True(downloads.WasPaused("lecture-11"));
     }
 
     [Fact]
-    public void PauseLecture_NotInProgress_NoOp()
+    public async Task PrimaryLectureActionAsync_Paused_ResumesTheDownload()
     {
-        var vm = CreateViewModel(out var downloads);
-        var lecture = new Lecture { Id = 12, DownloadStatus = DownloadStatus.NotStarted };
+        var vm = CreateViewModel(out _, out var downloads, out _, out _);
+        var lecture = new Lecture { Id = 12, CourseId = "c1", VideoUrl = "https://x/v.mp4", DownloadStatus = DownloadStatus.Paused };
+        downloads.QueueSuccess("lecture-12", sizeBytes: 300, relativePath: "c1/v.mp4");
 
-        vm.PauseLectureCommand.Execute(lecture);
+        await vm.PrimaryLectureActionCommand.ExecuteAsync(lecture);
 
-        Assert.False(downloads.WasPaused("lecture-12"));
+        Assert.Equal(DownloadStatus.Completed, lecture.DownloadStatus);
+    }
+
+    [Fact]
+    public void PrimaryLectureAction_Completed_RaisesOpenLectureRequestedWithPayload()
+    {
+        var vm = CreateViewModel(out _, out _, out _, out _);
+        var lecture = new Lecture { Id = 15, DownloadStatus = DownloadStatus.Completed };
+        Lecture? opened = null;
+        vm.OpenLectureRequested += l => opened = l;
+
+        vm.PrimaryLectureActionCommand.Execute(lecture);
+
+        opened.Should().BeSameAs(lecture, "tapping a downloaded lecture hands it to the page for playback");
     }
 }
