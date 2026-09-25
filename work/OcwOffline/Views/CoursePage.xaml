@@ -42,8 +42,8 @@
         <VerticalStackLayout Grid.Row="2" Spacing="6"
                              IsVisible="{Binding IsFirstRunIntroVisible}">
             <Label Text="Get MIT course videos and readings onto your device, then watch them anywhere, no signal needed." />
-            <Label Text="1. Paste a course link below." />
-            <Label Text="2. Tap Get course." />
+            <Label Text="1. Copy a course link from ocw.mit.edu." />
+            <Label Text="2. Paste it above and tap Get course." />
             <Label Text="3. Download what you want to watch offline." />
         </VerticalStackLayout>
 
