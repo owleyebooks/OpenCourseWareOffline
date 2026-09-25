@@ -1,23 +1,23 @@
 {
  "STATUS.md": {
   "id": "1XlCr6B_hOSmGuWlMqrHkBPswMiqD7VpQ",
-  "mtime": 1789770141.0766716,
-  "size": 7755
+  "mtime": 1789787032.5812974,
+  "size": 10029
  },
  "docs/privacy-policy.md": {
   "id": "1q1qQbzQq7drpK07HbUkt6Ujc48DIgQaj",
-  "mtime": 1789768602.3873084,
-  "size": 5600
+  "mtime": 1789786811.6416657,
+  "size": 5604
  },
  "docs/release-checklist.md": {
   "id": "1z0VD4ziFivZtFCC6-adTW6w79PQhkUoo",
-  "mtime": 1789768610.2493083,
-  "size": 8291
+  "mtime": 1789954228.499154,
+  "size": 8814
  },
  "docs/store-listing.md": {
   "id": "1liumg4ENM6EFSd6NlxeMQvnBDqpo_5UL",
-  "mtime": 1789768617.9653084,
-  "size": 5600
+  "mtime": 1789954226.650154,
+  "size": 5604
  },
  "notes/assessment-2026-09-18.md": {
   "id": "1CjqSH-EHqTGHEKrKYCsiIJlEoSo-HbeI",
@@ -26,8 +26,8 @@
  },
  "notes/decisions.md": {
   "id": "1p125oZE0ykbCnFs3quP7BbQImo3QYzdq",
-  "mtime": 1789769038.0243068,
-  "size": 16693
+  "mtime": 1790366944.0798388,
+  "size": 30043
  },
  "notes/device-test-plan.md": {
   "id": "1Dtwp06ys-V82Ws9BohUt9JzsESR_-vES",
@@ -51,13 +51,13 @@
  },
  "work/OcwOffline.Tests/Fakes/FakeCourseDatabase.cs": {
   "id": "1n7buIbCAdW-a8P3LBvYgmZ4y_qaeSzY1",
-  "mtime": 1789768614.6318483,
-  "size": 3840
+  "mtime": 1790366927.6805737,
+  "size": 4419
  },
  "work/OcwOffline.Tests/Fakes/FakeDownloadManager.cs": {
   "id": "1TRtOwcJXE4VNM_OtEnEod7Ia9ZiHgwvg",
-  "mtime": 1789768687.009308,
-  "size": 4846
+  "mtime": 1790366927.680891,
+  "size": 20495
  },
  "work/OcwOffline.Tests/Fakes/FakeMainThreadDispatcher.cs": {
   "id": "1hH3yvbGGOE1LE-wPsbSUUMwSyA0JnxvR",
@@ -76,8 +76,8 @@
  },
  "work/OcwOffline.Tests/Models/ArtifactTests.cs": {
   "id": "1sRx7VFPW_pOJzToC9SqMKmfBbjt4gxao",
-  "mtime": 1789759879.9097774,
-  "size": 2471
+  "mtime": 1789772042.776517,
+  "size": 2598
  },
  "work/OcwOffline.Tests/Models/CatalogEntryTests.cs": {
   "id": "1Uk_9x3pRUtkPAS20WKDC5gJ5IoFS-srJ",
@@ -96,18 +96,18 @@
  },
  "work/OcwOffline.Tests/OcwOffline.Tests.csproj": {
   "id": "1K_R_DXLihKNnKE-u3-XvPeTJnw2LeNV3",
-  "mtime": 1789768625.0663083,
-  "size": 6934
+  "mtime": 1790366927.680891,
+  "size": 9586
  },
  "work/OcwOffline.Tests/Services/ArtifactViewingLogicTests.cs": {
   "id": "1tc0Zpc8EDb64Vo2iDPmzBNNMv5bXkmzu",
-  "mtime": 1789759879.910549,
-  "size": 2062
+  "mtime": 1789772044.3537455,
+  "size": 2189
  },
  "work/OcwOffline.Tests/Services/CourseDatabaseIntegrationTests.cs": {
   "id": "1VptP3aQ-J5TJV_vL45Z9x4qrM8MWETNy",
-  "mtime": 1789768629.0690887,
-  "size": 16225
+  "mtime": 1790366927.6812875,
+  "size": 18882
  },
  "work/OcwOffline.Tests/Services/DownloadManagerResumeLogicTests.cs": {
   "id": "11aWeCKk_7jsQ0IU2VRMtmfQooQ3bBtI9",
@@ -121,8 +121,8 @@
  },
  "work/OcwOffline.Tests/Services/FakeCourseDatabaseTests.cs": {
   "id": "16DyUU0Va433tGLblHX-oecva56DUspsb",
-  "mtime": 1789759879.9110458,
-  "size": 5605
+  "mtime": 1790366927.6815622,
+  "size": 7971
  },
  "work/OcwOffline.Tests/Services/FakeDownloadManagerTests.cs": {
   "id": "178jZY_wlYwgMF38XNxwd-y4_QO_slc2x",
@@ -136,8 +136,8 @@
  },
  "work/OcwOffline.Tests/Services/OcwCatalogServiceSlugFromUrlTests.cs": {
   "id": "1XejKhQfSmMvZZ_vyeTE2fso2o-df35v2",
-  "mtime": 1789768631.2765045,
-  "size": 2586
+  "mtime": 1789772044.3387454,
+  "size": 2683
  },
  "work/OcwOffline.Tests/Services/OcwCatalogServiceToCatalogEntryTests.cs": {
   "id": "13x3kGpkKISivWUp1R73ht0hL6Q-pRe2_",
@@ -151,13 +151,13 @@
  },
  "work/OcwOffline.Tests/Services/OcwScraperServiceTests.cs": {
   "id": "1fRl___J-j1pCpprFORNUZF16_nRIKQTZ",
-  "mtime": 1789759879.9110055,
-  "size": 3276
+  "mtime": 1790366927.6818602,
+  "size": 4860
  },
  "work/OcwOffline.Tests/Services/VideoPlaybackLogicTests.cs": {
   "id": "1s_rQMVhaqd9pZOjINZjtGm2gkoqhYmcl",
-  "mtime": 1789759879.91079,
-  "size": 2985
+  "mtime": 1790366927.681995,
+  "size": 4589
  },
  "work/OcwOffline.Tests/ViewModels/CatalogViewModelFilterTests.cs": {
   "id": "1YcHxJgh_a7zSNNb5D-dxUxw20EZRmAyD",
@@ -166,18 +166,18 @@
  },
  "work/OcwOffline.Tests/ViewModels/CatalogViewModelLoadMoreTests.cs": {
   "id": "1zAFqljmERYtS8YPmWlGYtMxQk2JnaYIr",
-  "mtime": 1789768686.9423082,
-  "size": 3767
+  "mtime": 1789772057.463746,
+  "size": 3900
  },
  "work/OcwOffline.Tests/ViewModels/CourseViewModelCommandTests.cs": {
   "id": "1q8ucVrljIlJsYvUcIqz6yqD3HHIGtnsw",
-  "mtime": 1789768624.4173083,
-  "size": 4517
+  "mtime": 1790366927.6822639,
+  "size": 4753
  },
  "work/OcwOffline.Tests/ViewModels/CourseViewModelDownloadCommandTests.cs": {
   "id": "1v_YOascD7vyPrs5FXmMCqzR0Wx-3jNdH",
-  "mtime": 1789768624.4043083,
-  "size": 8470
+  "mtime": 1790366927.6825442,
+  "size": 9357
  },
  "work/OcwOffline.Tests/ViewModels/CourseViewModelFetchTests.cs": {
   "id": "1pVgGlAS3CqExa_PvhE1_Aouq-VnK1CDP",
@@ -186,8 +186,8 @@
  },
  "work/OcwOffline.Tests/ViewModels/DownloadsDashboardViewModelCommandTests.cs": {
   "id": "1RY2odoGXZ0-AaOnmLFdyzWVk6j-GLsOo",
-  "mtime": 1789759879.9099824,
-  "size": 2556
+  "mtime": 1790366927.683133,
+  "size": 11859
  },
  "work/OcwOffline.Tests/Views/DownloadButtonTextConverterTests.cs": {
   "id": "1JwiD7uxRi8wzKcixWLHwyeN14zNOH3rL",
@@ -196,23 +196,23 @@
  },
  "work/OcwOffline.Tests/Views/InvertedBoolConverterTests.cs": {
   "id": "1pr02fEHH7DMoD9ONYNCtTHau7Dt0z2t6",
-  "mtime": 1789759879.910431,
-  "size": 1248
+  "mtime": 1789772042.7747455,
+  "size": 1388
  },
  "work/OcwOffline.Tests/Views/StatusIsActiveConverterTests.cs": {
   "id": "1NgvSWRC_3TFYN_piotPHCy78YHG4n2mE",
-  "mtime": 1789759879.9103758,
-  "size": 1405
+  "mtime": 1789772041.3457453,
+  "size": 1590
  },
  "work/OcwOffline.Tests/Views/StatusIsInProgressConverterTests.cs": {
   "id": "1eT7lNU8JMIxecOVGq9hPG2yAB3sMNYFn",
-  "mtime": 1789759879.9104671,
-  "size": 1347
+  "mtime": 1789772040.0757453,
+  "size": 1524
  },
  "work/OcwOffline.Tests/Views/StringNotEmptyConverterTests.cs": {
   "id": "1i6jdl7qGhnJCxD5ubuUUVTqRuN3e6dhM",
-  "mtime": 1789759879.9103339,
-  "size": 1129
+  "mtime": 1789772041.3357453,
+  "size": 1205
  },
  "work/OcwOffline.slnx": {
   "id": "1XZohmyjIxeZOser3fX6JIZSdTE4g51Rl",
@@ -221,18 +221,18 @@
  },
  "work/OcwOffline/App.xaml": {
   "id": "1Ssy_z5-s3LLuq66i13tmiPoBZaLZhGtl",
-  "mtime": 1789759879.9069884,
-  "size": 805
+  "mtime": 1790366927.6835334,
+  "size": 719
  },
  "work/OcwOffline/App.xaml.cs": {
   "id": "1D_jiMvELF1xe5HMgAuVLInVqCt9N8JFF",
-  "mtime": 1789759879.9054914,
-  "size": 223
+  "mtime": 1790366944.080839,
+  "size": 1059
  },
  "work/OcwOffline/MauiProgram.cs": {
   "id": "1996p17oOO3YfAc25To22FKNr9eesYIIx",
-  "mtime": 1789768604.6613085,
-  "size": 5115
+  "mtime": 1790366927.6835334,
+  "size": 6105
  },
  "work/OcwOffline/Models/Artifact.cs": {
   "id": "1KOGvySqIWL64j86a6qKyl7dc1SvM9_ph",
@@ -241,8 +241,8 @@
  },
  "work/OcwOffline/Models/CatalogEntry.cs": {
   "id": "1L9U2z0EU0k2XfiOK5vZ8GyUNqaErZjxG",
-  "mtime": 1789768616.9053085,
-  "size": 709
+  "mtime": 1790106648.1551244,
+  "size": 702
  },
  "work/OcwOffline/Models/Course.cs": {
   "id": "1GxD4HaNFopD8dDGahRnROYpKnB1LHxYk",
@@ -256,8 +256,8 @@
  },
  "work/OcwOffline/OcwOffline.csproj": {
   "id": "10A5F1hYjSbYl80jnKkcGnVz0CTrslND6",
-  "mtime": 1789768627.9343083,
-  "size": 2632
+  "mtime": 1790366944.080839,
+  "size": 4159
  },
  "work/OcwOffline/Platforms/Android/AndroidManifest.xml": {
   "id": "12NuycY-kE0ZSQHTDfsl0iCIdUsTeNcX_",
@@ -266,13 +266,13 @@
  },
  "work/OcwOffline/Platforms/Android/MainActivity.cs": {
   "id": "1WzoiudfjW5wdw2J9Pg-dYSN_W_Y5szJT",
-  "mtime": 1789768616.0253084,
+  "mtime": 1790366544.2438233,
   "size": 697
  },
  "work/OcwOffline/Platforms/Android/MainApplication.cs": {
   "id": "1Av6ZaSn17J6T2aVQIEFlY6D0B--FJNzK",
-  "mtime": 1789759879.9087517,
-  "size": 315
+  "mtime": 1790366927.6841207,
+  "size": 329
  },
  "work/OcwOffline/Platforms/Android/Resources/values/colors.xml": {
   "id": "1W-Rz2c699BdWQYubkJYlQJPp-u-vhaGf",
@@ -331,13 +331,13 @@
  },
  "work/OcwOffline/Services/CourseDatabase.cs": {
   "id": "1NtbAkvzufBWeArLr6ZsYzXfVGUryDoMe",
-  "mtime": 1789768665.4853082,
-  "size": 6781
+  "mtime": 1790366927.6844146,
+  "size": 7649
  },
  "work/OcwOffline/Services/DownloadManager.cs": {
   "id": "1UN3J2-qpKqhJVyWIrjInUXQB0j39r-mc",
-  "mtime": 1789768687.691308,
-  "size": 10891
+  "mtime": 1790366927.6851127,
+  "size": 25224
  },
  "work/OcwOffline/Services/IAppPaths.cs": {
   "id": "1_TvQKrhCjhVQLYx0PDPEc4PomDjo5QpL",
@@ -346,13 +346,13 @@
  },
  "work/OcwOffline/Services/ICourseDatabase.cs": {
   "id": "1kP0ksRsg1lZiz6U1hARp_68ZCimJl2eD",
-  "mtime": 1789768665.2753081,
-  "size": 1060
+  "mtime": 1790366927.6851127,
+  "size": 1255
  },
  "work/OcwOffline/Services/IDownloadManager.cs": {
   "id": "1lgisvDiq7qaFZQeUAxV2WBL3ETTSJd9A",
-  "mtime": 1789759879.907434,
-  "size": 921
+  "mtime": 1790366927.6851127,
+  "size": 1903
  },
  "work/OcwOffline/Services/IMainThreadDispatcher.cs": {
   "id": "1RTdeS7ce3cPSFsWImJPrz6MRVpJkOzGE",
@@ -381,13 +381,13 @@
  },
  "work/OcwOffline/Services/OcwScraperService.cs": {
   "id": "13OFCxBdOwVv8zQYEmNf-aI4wmcMlxoPw",
-  "mtime": 1789768678.2243083,
-  "size": 6456
+  "mtime": 1790366927.685952,
+  "size": 7131
  },
  "work/OcwOffline/Services/VideoPlaybackLogic.cs": {
   "id": "1sLr_zZgV0JX7j6qAze5h7E_4yKq2dv69",
-  "mtime": 1789768665.5413082,
-  "size": 1450
+  "mtime": 1790366927.685952,
+  "size": 1452
  },
  "work/OcwOffline/ViewModels/CatalogViewModel.cs": {
   "id": "1b1Mpp7I2Ng6vYg7DUL7YYVoRxEDHwm2z",
@@ -396,43 +396,43 @@
  },
  "work/OcwOffline/ViewModels/CourseViewModel.cs": {
   "id": "1lGQ7uxQX8Q55ki-98yDD-OQiL2aI6k4j",
-  "mtime": 1789768687.733308,
-  "size": 14023
+  "mtime": 1790366927.685952,
+  "size": 14431
  },
  "work/OcwOffline/ViewModels/DownloadsDashboardViewModel.cs": {
   "id": "1lTFOxNCJWd22MXL4_PgGFgqMOfyodgMd",
-  "mtime": 1789768644.5053084,
-  "size": 2942
+  "mtime": 1790366927.685952,
+  "size": 13821
  },
  "work/OcwOffline/Views/ArtifactViewerPage.xaml": {
   "id": "1EYBTNYllC2I8xbr-P7mUSchOJs-e_XoZ",
-  "mtime": 1789759879.90623,
-  "size": 1425
+  "mtime": 1790366927.6870778,
+  "size": 1982
  },
  "work/OcwOffline/Views/ArtifactViewerPage.xaml.cs": {
   "id": "1fPooHh55xM073OqKjOR3IMQuiIcDDnLQ",
-  "mtime": 1789768644.7073083,
-  "size": 2910
+  "mtime": 1790366927.6870778,
+  "size": 2977
  },
  "work/OcwOffline/Views/CatalogPage.xaml": {
   "id": "1t02aM6Uxwk22McR6Ik_zbagoqDNrNhaw",
-  "mtime": 1789759879.906559,
-  "size": 1721
+  "mtime": 1790366927.6870778,
+  "size": 1848
  },
  "work/OcwOffline/Views/CatalogPage.xaml.cs": {
   "id": "1ZU48LaiTJpFhdq44HTJF6NgZ3Z_QSRXk",
-  "mtime": 1789768644.4943082,
-  "size": 1827
+  "mtime": 1790366927.6870778,
+  "size": 1922
  },
  "work/OcwOffline/Views/CoursePage.xaml": {
   "id": "1OK4RXEEQt14XfvpnhNPqgD6ZrlwcfKy-",
-  "mtime": 1789759879.9063275,
-  "size": 6401
+  "mtime": 1790366927.6870778,
+  "size": 11958
  },
  "work/OcwOffline/Views/CoursePage.xaml.cs": {
   "id": "1_ZrbtoPoYBdHkxNZ4FCI5fEusLsxI2qD",
-  "mtime": 1789768644.4823084,
-  "size": 2539
+  "mtime": 1790366927.6870778,
+  "size": 4718
  },
  "work/OcwOffline/Views/DownloadButtonTextConverter.cs": {
   "id": "1QsJ9Iczrb3U1z8picDxWNDNe6VV0S3Rt",
@@ -441,13 +441,13 @@
  },
  "work/OcwOffline/Views/DownloadsDashboardPage.xaml": {
   "id": "1R-ziYWVVIOjSws_AKEJxwu4AR_x34TyM",
-  "mtime": 1789759879.9067926,
-  "size": 2013
+  "mtime": 1790366927.6870778,
+  "size": 7124
  },
  "work/OcwOffline/Views/DownloadsDashboardPage.xaml.cs": {
   "id": "1u4HCu88N5f9SmxzrlVsbDLUkRQhU2r1S",
-  "mtime": 1789768644.2763083,
-  "size": 737
+  "mtime": 1790366927.688167,
+  "size": 4352
  },
  "work/OcwOffline/Views/InvertedBoolConverter.cs": {
   "id": "1FVqhBYuiZCmAn_ffPrwgGKEyUJn6M87A",
@@ -471,13 +471,13 @@
  },
  "work/OcwOffline/Views/VideoPlayerPage.xaml": {
   "id": "1zLboKPVv9wLhCTHn0sSwuwFFfyWfTCDp",
-  "mtime": 1789759879.906462,
-  "size": 936
+  "mtime": 1790366927.688167,
+  "size": 2153
  },
  "work/OcwOffline/Views/VideoPlayerPage.xaml.cs": {
   "id": "1Vp-mPRBy5QFCZNwvDoohjZ3jE_sBwreK",
-  "mtime": 1789768687.668308,
-  "size": 3511
+  "mtime": 1790366927.688167,
+  "size": 4372
  },
  ".github/workflows/lint.yml": {
   "id": "1hyG1VIXJYNPae_p6f1K-QxNxMMHCI_SP",
@@ -486,7 +486,252 @@
  },
  "work/OcwOffline.Tests/ProseLintComplianceTests.cs": {
   "id": "1b__4dpuYvgUTS5UxpyMfvmaX8omwTcN_",
-  "mtime": 1789768797.8053076,
-  "size": 2651
+  "mtime": 1789772166.9147503,
+  "size": 3032
+ },
+ ".github/workflows/android.yml": {
+  "id": "12u3ESSDSRiOSTB-SpxGr5UdpWyliISBU",
+  "mtime": 1790106648.1511245,
+  "size": 4343
+ },
+ ".github/workflows/screenshots-windows.yml": {
+  "id": "1vQK-M8S9dpQjhdYUEp74nsJJctYpPDY9",
+  "mtime": 1790366944.0798388,
+  "size": 7507
+ },
+ ".github/workflows/screenshots.yml": {
+  "id": "1lv_gNjj5yIBzIxmVB_sY6XIipfXku3BH",
+  "mtime": 1790366927.67888,
+  "size": 2877
+ },
+ "docs/privacy-policy.html": {
+  "id": "1f-Oa-mnyAdzCA8GMYYRqStNB4zUgZJET",
+  "mtime": 1789957900.0806873,
+  "size": 1926
+ },
+ "notes/screenshot-iterations.md": {
+  "id": "1pODpcxXIm6F8B0HP2L94e83u_nqNzeup",
+  "mtime": 1790366927.6792464,
+  "size": 12994
+ },
+ "notes/ux-contracts.md": {
+  "id": "1W-JRp0x2O7QU8vw1xb1spbrSZujjHqc2",
+  "mtime": 1790366927.6795466,
+  "size": 6844
+ },
+ "notes/ux-implementation-plan.md": {
+  "id": "1Vo60z7ph9fVx01Ttj8AsPicWgWKMg0Gm",
+  "mtime": 1790366927.6796963,
+  "size": 5769
+ },
+ "notes/ux-review-brief.md": {
+  "id": "1WCB2AslA7muTTwqL2VE-GGju-9mgC2Y-",
+  "mtime": 1790366927.67985,
+  "size": 4722
+ },
+ "notes/ux-review-feedback.md": {
+  "id": "1_K9Ni_rA9D52_GloU7f1BA6130k4JQ1Y",
+  "mtime": 1790366927.6799846,
+  "size": 14038
+ },
+ "work/OcwOffline.Tests/ExternalLinksTests.cs": {
+  "id": "1WdWzou0AaAcvPCYi3PyhD0ud4zT3wrhe",
+  "mtime": 1789785738.2643073,
+  "size": 720
+ },
+ "work/OcwOffline.Tests/Fakes/FakeConnectivityService.cs": {
+  "id": "1hmJHRq-M0LCcYQStARGR9mRfpBXhBIso",
+  "mtime": 1790366927.6804378,
+  "size": 619
+ },
+ "work/OcwOffline.Tests/Services/DownloadAggregateTests.cs": {
+  "id": "12zhSah-tZiq4s3_nrnfSIAD8ypTpGFFO",
+  "mtime": 1790366927.6812875,
+  "size": 2445
+ },
+ "work/OcwOffline.Tests/Services/DownloadManagerItemTests.cs": {
+  "id": "1M0VwQTbqQwcTtx-kWmUvsvuHOk5Scujk",
+  "mtime": 1790366927.6814299,
+  "size": 14310
+ },
+ "work/OcwOffline.Tests/Services/FetchErrorInfoTests.cs": {
+  "id": "1vguCc9j2EdyhdoZsK6SFWJbehMY2Bjgv",
+  "mtime": 1790366927.6817243,
+  "size": 2535
+ },
+ "work/OcwOffline.Tests/Services/InMemoryLastCourseStoreTests.cs": {
+  "id": "1LmDDyfXd8LBoqUdVsx-fC1rRTBGZsAq-",
+  "mtime": 1790366927.6818602,
+  "size": 892
+ },
+ "work/OcwOffline.Tests/ViewModels/AppStatusViewModelTests.cs": {
+  "id": "17cFt7TtnbndIzplPCNdMnIBWjK_s8kX4",
+  "mtime": 1790366927.681995,
+  "size": 3202
+ },
+ "work/OcwOffline.Tests/ViewModels/CourseViewModelCancelTests.cs": {
+  "id": "18TVi2NeuFL0HaJ1YoLWBjpgdoPE-2tDJ",
+  "mtime": 1790366927.6822639,
+  "size": 4801
+ },
+ "work/OcwOffline.Tests/ViewModels/CourseViewModelFirstRunTests.cs": {
+  "id": "1iTSzRvwFkQIdETP20j1ROcqTM_lfZc_D",
+  "mtime": 1790366927.6825442,
+  "size": 3757
+ },
+ "work/OcwOffline.Tests/ViewModels/CourseViewModelGetCourseTests.cs": {
+  "id": "1J-LPp0s0G_TYXHdQDfFZByW5fIrzHB2m",
+  "mtime": 1790366927.682844,
+  "size": 10704
+ },
+ "work/OcwOffline.Tests/ViewModels/CourseViewModelRestoreTests.cs": {
+  "id": "126P4OzAP3-yecOYUkgHPageU20GWhHp0",
+  "mtime": 1790366927.682844,
+  "size": 3720
+ },
+ "work/OcwOffline.Tests/ViewModels/DownloadsDashboardActiveTests.cs": {
+  "id": "1ZmUyVsMyUPzHDcQqrE_zVQ74vbVG0GRK",
+  "mtime": 1790366927.682844,
+  "size": 8014
+ },
+ "work/OcwOffline.Tests/Views/ByteSizeConverterTests.cs": {
+  "id": "192RgTjNoCqHv6QgYPlktAzbrPNU6k571",
+  "mtime": 1790366927.683133,
+  "size": 1425
+ },
+ "work/OcwOffline.Tests/Views/DownloadProgressTextConverterTests.cs": {
+  "id": "1dQeoS8KLK_6Z3BNH9Yg8XSnx3oeEEIf5",
+  "mtime": 1790366927.683133,
+  "size": 1980
+ },
+ "work/OcwOffline.Tests/Views/PrimaryActionTextConverterTests.cs": {
+  "id": "1X11MVmNbx5p9g-pb3SkW3oFXa1VzWqzh",
+  "mtime": 1790366927.683133,
+  "size": 3237
+ },
+ "work/OcwOffline.Tests/Views/RowStateConverterTests.cs": {
+  "id": "1C7V9t1YuLQquZLYx8iII9rOwr34hKxC4",
+  "mtime": 1790366927.6835334,
+  "size": 2024
+ },
+ "work/OcwOffline/ExternalLinks.cs": {
+  "id": "1oLuuXlRyYtqfEYmIpe-QGxdsNMri-2QE",
+  "mtime": 1789992113.9726775,
+  "size": 528
+ },
+ "work/OcwOffline/Platforms/Windows/App.xaml": {
+  "id": "1dLVtmyQoeX9Tt29DjBGpqfAveZLSrAhy",
+  "mtime": 1790366927.6841207,
+  "size": 340
+ },
+ "work/OcwOffline/Platforms/Windows/App.xaml.cs": {
+  "id": "1wNZBhccaHXdN9wljucehv2YjBV1H2U3J",
+  "mtime": 1790366927.6844146,
+  "size": 691
+ },
+ "work/OcwOffline/Platforms/Windows/Package.appxmanifest": {
+  "id": "1w6wRlZGDq-4Udh302bvkIxc5ux4OGdgK",
+  "mtime": 1790366927.6844146,
+  "size": 1690
+ },
+ "work/OcwOffline/Platforms/Windows/app.manifest": {
+  "id": "1TNb_wySCTMsJSPDE161wRuXADRP-DLxR",
+  "mtime": 1790366927.6844146,
+  "size": 835
+ },
+ "work/OcwOffline/Services/ActiveDownload.cs": {
+  "id": "1HiI6esYkRw2-0kowlisqa7V5xs52F2i3",
+  "mtime": 1790366927.6844146,
+  "size": 412
+ },
+ "work/OcwOffline/Services/DownloadAggregate.cs": {
+  "id": "1-lqXAcqsbOmUuZDB94pqjufSw4tcociL",
+  "mtime": 1790366927.6844146,
+  "size": 991
+ },
+ "work/OcwOffline/Services/FetchErrorInfo.cs": {
+  "id": "1FClsSQKKE6gdSJLhTxBevqHD2Yzrmy4T",
+  "mtime": 1790366927.6851127,
+  "size": 1509
+ },
+ "work/OcwOffline/Services/IConnectivityService.cs": {
+  "id": "1f9O12Ee_aNu86h3jBcM1Ut5wQcj_ChFS",
+  "mtime": 1790366927.6851127,
+  "size": 434
+ },
+ "work/OcwOffline/Services/ILastCourseStore.cs": {
+  "id": "1ywR2wSictCA5rDTz4E8tl18j_U00yD48",
+  "mtime": 1790366927.6851127,
+  "size": 330
+ },
+ "work/OcwOffline/Services/InMemoryLastCourseStore.cs": {
+  "id": "1kjYTKtzjZzV28TDbJLRCFro0M_BlXx9B",
+  "mtime": 1790366927.6851127,
+  "size": 418
+ },
+ "work/OcwOffline/Services/MauiConnectivityService.cs": {
+  "id": "1MMpTP5ndcFygUEvjBWX7rVJ27KzTKjxE",
+  "mtime": 1790366927.6851127,
+  "size": 856
+ },
+ "work/OcwOffline/Services/PreferencesLastCourseStore.cs": {
+  "id": "1ZZKKXMErnQg53eOk4KR7_mLXaHPGrflI",
+  "mtime": 1790366927.685952,
+  "size": 648
+ },
+ "work/OcwOffline/ViewModels/AppStatusViewModel.cs": {
+  "id": "1pXNjha5L_iVD1PhrB4Y13O0llky2IGpv",
+  "mtime": 1790366927.685952,
+  "size": 2068
+ },
+ "work/OcwOffline/Views/AboutPage.xaml": {
+  "id": "10z2_C8aUFccwBVpj6OBNWE7rNEmqeVhe",
+  "mtime": 1790366927.685952,
+  "size": 2222
+ },
+ "work/OcwOffline/Views/AboutPage.xaml.cs": {
+  "id": "1koPAv2yLmpoM2uB9sbaW-r4F1bFXVPAQ",
+  "mtime": 1790366927.685952,
+  "size": 897
+ },
+ "work/OcwOffline/Views/ByteSizeConverter.cs": {
+  "id": "1Nwf-VTTkjCsTwdv7iLmh6ZQojviCnf1g",
+  "mtime": 1790366927.6870778,
+  "size": 876
+ },
+ "work/OcwOffline/Views/DownloadProgressTextConverter.cs": {
+  "id": "13sGWH7Nrpfx53gb_DvBMC2xLGWSkCPC9",
+  "mtime": 1790366927.6870778,
+  "size": 1414
+ },
+ "work/OcwOffline/Views/LongIsPositiveConverter.cs": {
+  "id": "1WqmmKgeid1oFey3lBSoRcUjWmKkInbkb",
+  "mtime": 1790366927.688167,
+  "size": 536
+ },
+ "work/OcwOffline/Views/PrimaryActionTextConverter.cs": {
+  "id": "13sbe_3YXCEUaeR958J1t2tRi3HAz5ewi",
+  "mtime": 1790366927.688167,
+  "size": 2025
+ },
+ "work/OcwOffline/Views/StatusBannerView.xaml": {
+  "id": "11sYd-5sAD0scxS4YUPsHELmsk40ed4Xr",
+  "mtime": 1790366927.688167,
+  "size": 1324
+ },
+ "work/OcwOffline/Views/StatusBannerView.xaml.cs": {
+  "id": "1shPUSuv26I02oVxKwildsoY4rSlo1Kof",
+  "mtime": 1790366927.688167,
+  "size": 293
+ },
+ "work/OcwOffline/Views/StatusIsCancellableConverter.cs": {
+  "id": "1fFkRUK8Y3TUq_RTY2u6aFLjEcvHLgohs",
+  "mtime": 1790366927.688167,
+  "size": 679
+ },
+ "work/OcwOffline/Views/StatusIsCompletedConverter.cs": {
+  "id": "1OpdeOrMjCKV3Mxknap01rpYHdrAKF5x5",
+  "mtime": 1790366927.688167,
+  "size": 552
  }
 }
