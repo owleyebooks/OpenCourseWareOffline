@@ -14,11 +14,15 @@ public interface ICourseDatabase
     Task UpsertCourseAsync(Course course);
 
     Task<List<Artifact>> GetArtifactsForCourseAsync(string courseId);
+    Task<Artifact?> GetArtifactAsync(int artifactId);
     Task UpsertArtifactAsync(Artifact artifact);
+    Task DeleteArtifactAsync(int artifactId);
     Task<Artifact?> FindArtifactBySourceUrlAsync(string courseId, string sourceUrl);
 
     Task<List<Lecture>> GetLecturesForCourseAsync(string courseId);
+    Task<Lecture?> GetLectureAsync(int lectureId);
     Task UpsertLectureAsync(Lecture lecture);
+    Task DeleteLectureAsync(int lectureId);
     Task<Lecture?> FindLectureAsync(string courseId, string videoUrl, string title);
     Task UpdateWatchProgressAsync(int lectureId, int positionSeconds, bool isCompleted);
 

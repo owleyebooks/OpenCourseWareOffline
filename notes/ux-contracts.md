@@ -7,20 +7,20 @@ to these signatures; coordinator merges.
 
 Existing members unchanged. New:
 
-- `event Action<DownloadAggregate>? AggregateChanged` — fires on download
+- `event Action<DownloadAggregate>? AggregateChanged`: fires on download
   start, each throttled progress tick, completion, pause, and cancel.
-- `Task DownloadArtifactAsync(Artifact artifact)` — item-level orchestration
+- `Task DownloadArtifactAsync(Artifact artifact)`: item-level orchestration
   moved out of CourseViewModel: drives InProgress to Completed (extracting
   zips via ExtractZipAsync), Paused, or Failed; updates the entity's
   Progress/BytesDownloaded live via IMainThreadDispatcher. Throws
   DownloadStalledException on watchdog stall so the caller can message it.
-- `Task DownloadLectureAsync(Lecture lecture)` — same for lectures.
-- `void Cancel(string progressKey)` — cancels the CTS, deletes the partial
+- `Task DownloadLectureAsync(Lecture lecture)`: same for lectures.
+- `void Cancel(string progressKey)`: cancels the CTS, deletes the partial
   file, resets the entity to NotStarted with zeroed progress. No-op on an
   unknown key. Pause keeps partial bytes; Cancel deletes them.
-- `IReadOnlyList<ActiveDownload> GetActiveDownloads()` — latest per-key
+- `IReadOnlyList<ActiveDownload> GetActiveDownloads()`: latest per-key
   snapshots for the dashboard's active section.
-- `DownloadAggregate GetAggregate()` — current roll-up.
+- `DownloadAggregate GetAggregate()`: current roll-up.
 
 `DownloadManager` ctor becomes
 `DownloadManager(ICourseDatabase db, IMainThreadDispatcher mainThread,
