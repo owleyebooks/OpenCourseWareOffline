@@ -32,6 +32,15 @@ public class FakeCourseDatabase : ICourseDatabase
     public Task<List<Artifact>> GetArtifactsForCourseAsync(string courseId) =>
         Task.FromResult(Artifacts.Where(a => a.CourseId == courseId).ToList());
 
+    public Task<Artifact?> GetArtifactAsync(int artifactId) =>
+        Task.FromResult(Artifacts.FirstOrDefault(a => a.Id == artifactId));
+
+    public Task DeleteArtifactAsync(int artifactId)
+    {
+        Artifacts.RemoveAll(a => a.Id == artifactId);
+        return Task.CompletedTask;
+    }
+
     public Task UpsertArtifactAsync(Artifact artifact)
     {
         if (artifact.Id == 0)
@@ -53,6 +62,15 @@ public class FakeCourseDatabase : ICourseDatabase
 
     public Task<List<Lecture>> GetLecturesForCourseAsync(string courseId) =>
         Task.FromResult(Lectures.Where(l => l.CourseId == courseId).ToList());
+
+    public Task<Lecture?> GetLectureAsync(int lectureId) =>
+        Task.FromResult(Lectures.FirstOrDefault(l => l.Id == lectureId));
+
+    public Task DeleteLectureAsync(int lectureId)
+    {
+        Lectures.RemoveAll(l => l.Id == lectureId);
+        return Task.CompletedTask;
+    }
 
     public Task UpsertLectureAsync(Lecture lecture)
     {

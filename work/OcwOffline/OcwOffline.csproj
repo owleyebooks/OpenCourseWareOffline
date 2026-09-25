@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFrameworks>net10.0-ios;net10.0-android</TargetFrameworks>
+    <!-- Windows target exists for screenshot/verification runs on GitHub
+         Windows runners (unpackaged, no cert needed). Conditioned on the OS
+         so Linux Android CI never tries to resolve the Windows SDK. -->
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <RootNamespace>OcwOffline</RootNamespace>
     <UseMaui>true</UseMaui>
@@ -21,6 +25,11 @@
          (Android 8.0, 2017) also keeps the .NET 10 template's reason for
          avoiding 21: no Java default-interface-method desugaring crashes. -->
     <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net10.0-android'">26.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+    <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+    <!-- Unpackaged WinUI: runs as a plain exe, no signing cert required.
+         Keeps CI screenshot runs simple; revisit if a Store build is wanted. -->
+    <WindowsPackageType>None</WindowsPackageType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,6 +44,13 @@
     <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.80" />
     <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
     <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
+    <!-- Direct pins: bundle_green 2.1.11 pulls lib.e_sqlite3(.android)
+         2.1.11, which NuGet flags NU1903 (known vulnerability). The base
+         and android packages are separate IDs, so both need explicit
+         2.1.12 references to win over the transitive ones on every target.
+         (bundle_green itself has no 2.1.12.) -->
+    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.12" />
+    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3.android" Version="2.1.12" />
     <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <!-- Stays at 10.0.0: nuget.org's canonical package page lists it as

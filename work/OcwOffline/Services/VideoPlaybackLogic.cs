@@ -21,7 +21,7 @@ public static class VideoPlaybackLogic
             return "Downloaded file is missing on disk.";
         }
 
-        return lecture.LastWatchedPositionSeconds > 0 && !lecture.IsCompleted
+        return lecture.LastWatchedPositionSeconds >= 30 && !lecture.IsCompleted
             ? $"Resuming from {TimeSpan.FromSeconds(lecture.LastWatchedPositionSeconds):mm\\:ss}."
             : string.Empty;
     }

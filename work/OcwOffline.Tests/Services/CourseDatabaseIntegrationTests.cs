@@ -425,4 +425,72 @@ public sealed class CourseDatabaseIntegrationTests : IDisposable
 
         Assert.Empty(await db.GetAllCoursesAsync());
     }
+
+    // ---- Get by ID ----
+
+    [Fact]
+    public async Task GetArtifactAsync_KnownId_ReturnsArtifact()
+    {
+        var db = CreateDatabase();
+        var artifact = new Artifact { CourseId = "c1", SourceUrl = "https://a", Title = "Notes" };
+        await db.UpsertArtifactAsync(artifact);
+
+        var found = await db.GetArtifactAsync(artifact.Id);
+
+        Assert.NotNull(found);
+        Assert.Equal("Notes", found!.Title);
+        Assert.Null(await db.GetArtifactAsync(999_999));
+    }
+
+    [Fact]
+    public async Task GetLectureAsync_KnownId_ReturnsLecture()
+    {
+        var db = CreateDatabase();
+        var lecture = new Lecture { CourseId = "c1", Title = "L1", VideoUrl = "https://a/l.mp4" };
+        await db.UpsertLectureAsync(lecture);
+
+        var found = await db.GetLectureAsync(lecture.Id);
+
+        Assert.NotNull(found);
+        Assert.Equal("L1", found!.Title);
+        Assert.Null(await db.GetLectureAsync(999_999));
+    }
+
+    // ---- Per-item deletion ----
+
+    [Fact]
+    public async Task DeleteArtifactAsync_RemovesOnlyThatRow()
+    {
+        var db = CreateDatabase(out var dbFile);
+        var keep = new Artifact { CourseId = "c1", SourceUrl = "https://keep", Title = "Keep" };
+        var drop = new Artifact { CourseId = "c1", SourceUrl = "https://drop", Title = "Drop" };
+        await db.UpsertArtifactAsync(keep);
+        await db.UpsertArtifactAsync(drop);
+
+        await db.DeleteArtifactAsync(drop.Id);
+
+        Assert.Null(await db.GetArtifactAsync(drop.Id));
+        CountRows(dbFile, "Artifact", $"Id = {drop.Id}").Should().Be(
+            0, "the row must be gone from the SQLite file, not just the ORM cache");
+        (await db.GetArtifactAsync(keep.Id)).Should().NotBeNull("the sibling artifact must survive");
+        await db.DeleteArtifactAsync(999_999);
+    }
+
+    [Fact]
+    public async Task DeleteLectureAsync_RemovesOnlyThatRow()
+    {
+        var db = CreateDatabase(out var dbFile);
+        var keep = new Lecture { CourseId = "c1", Title = "Keep" };
+        var drop = new Lecture { CourseId = "c1", Title = "Drop" };
+        await db.UpsertLectureAsync(keep);
+        await db.UpsertLectureAsync(drop);
+
+        await db.DeleteLectureAsync(drop.Id);
+
+        Assert.Null(await db.GetLectureAsync(drop.Id));
+        CountRows(dbFile, "Lecture", $"Id = {drop.Id}").Should().Be(
+            0, "the row must be gone from the SQLite file, not just the ORM cache");
+        (await db.GetLectureAsync(keep.Id)).Should().NotBeNull("the sibling lecture must survive");
+        await db.DeleteLectureAsync(999_999);
+    }
 }

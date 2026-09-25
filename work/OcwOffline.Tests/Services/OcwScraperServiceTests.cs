@@ -113,3 +113,43 @@ public class OcwScraperServiceTests
         Assert.Equal(ArtifactFileType.Other, result);
     }
 }
+
+public class OcwScraperServiceNormalizeCourseInputTests
+{
+    [Fact]
+    public void NormalizeCourseInput_FullCourseUrl_ReturnsSlug()
+    {
+        var result = OcwScraperService.NormalizeCourseInput(
+            "https://ocw.mit.edu/courses/hst-508-genomics-and-computational-biology-fall-2002/");
+
+        Assert.Equal("hst-508-genomics-and-computational-biology-fall-2002", result);
+    }
+
+    [Fact]
+    public void NormalizeCourseInput_DeepCourseUrl_ReturnsSlug()
+    {
+        var result = OcwScraperService.NormalizeCourseInput(
+            "https://ocw.mit.edu/courses/hst-508-genomics-and-computational-biology-fall-2002/pages/syllabus/");
+
+        Assert.Equal("hst-508-genomics-and-computational-biology-fall-2002", result);
+    }
+
+    [Fact]
+    public void NormalizeCourseInput_BareSlug_ReturnsTrimmedSlug()
+    {
+        var result = OcwScraperService.NormalizeCourseInput("  hst-508-genomics-and-computational-biology-fall-2002  ");
+
+        Assert.Equal("hst-508-genomics-and-computational-biology-fall-2002", result);
+    }
+
+    [Theory]
+    [InlineData("null returns empty", null)]
+    [InlineData("empty returns empty", "")]
+    [InlineData("whitespace returns empty", "   ")]
+    public void NormalizeCourseInput_NullOrWhitespace_ReturnsEmpty(string description, string? input)
+    {
+        var result = OcwScraperService.NormalizeCourseInput(input);
+
+        Assert.Equal(string.Empty, result);
+    }
+}

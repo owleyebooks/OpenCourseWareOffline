@@ -90,6 +90,20 @@ public class CourseDatabase : ICourseDatabase
         return await db.Table<Artifact>().Where(a => a.CourseId == courseId).ToListAsync();
     }
 
+    public async Task<Artifact?> GetArtifactAsync(int artifactId)
+    {
+        var db = await GetConnectionAsync();
+        return await db.FindAsync<Artifact>(artifactId);
+    }
+
+    public async Task DeleteArtifactAsync(int artifactId)
+    {
+        var db = await GetConnectionAsync();
+        var artifact = await db.FindAsync<Artifact>(artifactId);
+        if (artifact is not null)
+            await db.DeleteAsync(artifact);
+    }
+
     public async Task UpsertArtifactAsync(Artifact artifact)
     {
         var db = await GetConnectionAsync();
@@ -136,6 +150,20 @@ public class CourseDatabase : ICourseDatabase
     {
         var db = await GetConnectionAsync();
         return await db.Table<Lecture>().Where(l => l.CourseId == courseId).ToListAsync();
+    }
+
+    public async Task<Lecture?> GetLectureAsync(int lectureId)
+    {
+        var db = await GetConnectionAsync();
+        return await db.FindAsync<Lecture>(lectureId);
+    }
+
+    public async Task DeleteLectureAsync(int lectureId)
+    {
+        var db = await GetConnectionAsync();
+        var lecture = await db.FindAsync<Lecture>(lectureId);
+        if (lecture is not null)
+            await db.DeleteAsync(lecture);
     }
 
     public async Task UpsertLectureAsync(Lecture lecture)

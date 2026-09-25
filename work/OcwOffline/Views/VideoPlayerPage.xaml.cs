@@ -2,6 +2,7 @@ using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Views;
 using OcwOffline.Models;
 using OcwOffline.Services;
+using OcwOffline.ViewModels;
 
 namespace OcwOffline.Views;
 
@@ -15,10 +16,11 @@ public partial class VideoPlayerPage : ContentPage
     private readonly CourseDatabase _db;
     private Lecture? _lecture;
 
-    public VideoPlayerPage(CourseDatabase db)
+    public VideoPlayerPage(CourseDatabase db, AppStatusViewModel statusViewModel)
     {
         InitializeComponent();
         _db = db;
+        StatusBanner.BindingContext = statusViewModel;
     }
 
     // Called by the caller right after resolving this page from the
@@ -31,6 +33,7 @@ public partial class VideoPlayerPage : ContentPage
 
         if (string.IsNullOrEmpty(lecture.LocalVideoPath))
         {
+            LoadingIndicator.IsVisible = false;
             StatusLabel.Text = VideoPlaybackLogic.DetermineLoadStatus(lecture, fileExists: false);
             return;
         }
@@ -42,6 +45,7 @@ public partial class VideoPlayerPage : ContentPage
         StatusLabel.Text = VideoPlaybackLogic.DetermineLoadStatus(lecture, fileExists);
         if (!fileExists)
         {
+            LoadingIndicator.IsVisible = false;
             return;
         }
 
@@ -52,6 +56,7 @@ public partial class VideoPlayerPage : ContentPage
     // meaningful before the platform player has actually loaded the file.
     private async void OnMediaOpened(object sender, EventArgs e)
     {
+        LoadingIndicator.IsVisible = false;
         if (_lecture is { LastWatchedPositionSeconds: > 0, IsCompleted: false })
         {
             await Player.SeekTo(TimeSpan.FromSeconds(_lecture.LastWatchedPositionSeconds), CancellationToken.None);
@@ -60,13 +65,29 @@ public partial class VideoPlayerPage : ContentPage
 
     private void OnMediaFailed(object sender, MediaFailedEventArgs e)
     {
-        StatusLabel.Text = "Playback failed: the downloaded file may be corrupt or in an unsupported format.";
+        LoadingIndicator.IsVisible = false;
+        Player.IsVisible = false;
+        ErrorPanel.IsVisible = true;
     }
+
+    private async void OnBackToLecturesClicked(object sender, EventArgs e) =>
+        await Navigation.PopAsync();
 
     protected override async void OnDisappearing()
     {
         base.OnDisappearing();
-        await SaveProgressAsync();
+        try
+        {
+            await SaveProgressAsync();
+        }
+        catch (Exception ex)
+        {
+            // Best-effort save must never crash navigation. SaveProgressAsync
+            // already swallows its own DB faults; this guards the Player
+            // property reads inside it (a torn-down player can throw on
+            // Position/Duration) from escaping the async void override.
+            System.Diagnostics.Debug.WriteLine($"SaveProgressAsync fault: {ex.GetType().Name}");
+        }
     }
 
     // Best-effort watch-position save so reopening the same lecture can

@@ -1,31 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:OcwOffline.Views"
              x:Class="OcwOffline.Views.ArtifactViewerPage"
              Title="Viewer">
-    <Grid RowDefinitions="*,Auto" Padding="0">
+    <Grid RowDefinitions="Auto,*,Auto" Padding="0">
+
+        <views:StatusBannerView x:Name="StatusBanner" Grid.Row="0" />
+
         <WebView x:Name="Viewer"
-                 Grid.Row="0"
+                 Grid.Row="1"
                  IsVisible="False" />
 
         <!-- Android-only fallback (see code-behind): the system WebView
              can't render PDFs offline, so this panel hands the file to
              the device's own PDF app instead of embedding it. -->
         <VerticalStackLayout x:Name="PdfPanel"
-                              Grid.Row="0"
+                              Grid.Row="1"
                               IsVisible="False"
                               VerticalOptions="Center"
                               Padding="32"
                               Spacing="16">
-            <Label Text="This PDF opens in your device's own PDF app — the in-app viewer only embeds HTML directly."
+            <Label Text="This is a PDF file."
+                   FontAttributes="Bold"
+                   FontSize="18"
                    HorizontalTextAlignment="Center" />
+            <Label Text="Tap below to open it in your device's PDF reader."
+                   HorizontalTextAlignment="Center"
+                   LineBreakMode="WordWrap" />
             <Button Text="Open PDF"
                     Clicked="OnOpenPdfClicked"
                     HorizontalOptions="Center" />
+            <Label Text="The file is saved on this device, so it works offline."
+                   FontSize="12"
+                   Opacity="0.7"
+                   HorizontalTextAlignment="Center"
+                   LineBreakMode="WordWrap" />
         </VerticalStackLayout>
 
         <Label x:Name="StatusLabel"
-               Grid.Row="1"
+               Grid.Row="2"
                Padding="16,8"
                FontSize="12"
                Opacity="0.7" />

@@ -9,7 +9,6 @@
             <views:StringNotEmptyConverter x:Key="StringNotEmptyConverter" />
             <views:StatusIsActiveConverter x:Key="StatusIsActiveConverter" />
             <views:StatusIsInProgressConverter x:Key="StatusIsInProgressConverter" />
-            <views:DownloadButtonTextConverter x:Key="DownloadButtonTextConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

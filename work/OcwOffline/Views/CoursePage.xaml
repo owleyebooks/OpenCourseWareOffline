@@ -3,92 +3,173 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:OcwOffline.ViewModels"
              xmlns:models="clr-namespace:OcwOffline.Models"
+             xmlns:views="clr-namespace:OcwOffline.Views"
              x:Class="OcwOffline.Views.CoursePage"
              x:Name="RootPage"
              x:DataType="vm:CourseViewModel"
-             Title="OCW Offline">
+             Title="Find a course">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <views:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+            <views:ByteSizeConverter x:Key="ByteSizeConverter" />
+            <views:LongIsPositiveConverter x:Key="LongIsPositiveConverter" />
+            <views:StatusIsActiveConverter x:Key="StatusIsActiveConverter" />
+            <views:StatusIsCancellableConverter x:Key="StatusIsCancellableConverter" />
+            <views:StatusIsCompletedConverter x:Key="StatusIsCompletedConverter" />
+            <views:PrimaryActionTextConverter x:Key="PrimaryActionTextConverter" />
+            <views:DownloadProgressTextConverter x:Key="DownloadProgressTextConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Browse" Clicked="OnBrowseCatalogClicked" />
+        <ToolbarItem Text="Course catalog" Clicked="OnBrowseCatalogClicked" />
         <ToolbarItem Text="Downloads" Clicked="OnDownloadsClicked" />
         <ToolbarItem Text="About" Clicked="OnAboutClicked" />
     </ContentPage.ToolbarItems>
-    <ScrollView>
-        <VerticalStackLayout Padding="16" Spacing="12">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*" Padding="16" RowSpacing="12">
 
-            <Entry Text="{Binding CourseSlug}" Placeholder="course-slug-from-ocw-url" />
-            <Button Text="Fetch Course" Command="{Binding FetchCommand}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
-            <Label Text="{Binding StatusText}" FontAttributes="Italic" />
+        <views:StatusBannerView x:Name="StatusBanner" Grid.Row="0" />
+
+        <VerticalStackLayout Grid.Row="1" Spacing="8">
+            <Label Text="Course link" FontSize="12" Opacity="0.7" />
+            <Entry x:Name="SearchEntry" Text="{Binding CourseSlug}" Placeholder="Paste a link from ocw.mit.edu"
+                   IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
+            <Button x:Name="FetchButton" Text="Get course" Command="{Binding GetCourseCommand}"
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
+            <Label x:Name="StatusLabel" Text="{Binding StatusText}" FontAttributes="Italic" />
             <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+        </VerticalStackLayout>
 
-            <Label Text="Resources" FontAttributes="Bold" FontSize="18" Margin="0,12,0,0" />
-            <CollectionView ItemsSource="{Binding Artifacts}">
+        <VerticalStackLayout Grid.Row="2" Spacing="6"
+                             IsVisible="{Binding IsFirstRunIntroVisible}">
+            <Label Text="Get MIT course videos and readings onto your device, then watch them anywhere, no signal needed." />
+            <Label Text="1. Paste a course link below." />
+            <Label Text="2. Tap Get course." />
+            <Label Text="3. Download what you want to watch offline." />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="3" Spacing="8" IsVisible="{Binding HasFetchError}">
+            <Label Text="{Binding FetchErrorTitle}" FontAttributes="Bold" FontSize="16" />
+            <Label Text="{Binding FetchErrorDetail}" />
+            <Button Text="Try again" Command="{Binding RetryFetchCommand}" />
+            <Label Text="Your downloaded courses still work offline." />
+            <Button Text="Open Downloads" Command="{Binding OpenDownloadsCommand}" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="4" Spacing="4" IsVisible="{Binding HasCompletedFetch}">
+            <Label Text="{Binding FetchedCourseTitle}" FontAttributes="Bold" FontSize="18" />
+            <Label Text="Here's what we found. Download anything to watch it offline." FontSize="13" Opacity="0.8" />
+        </VerticalStackLayout>
+
+        <HorizontalStackLayout Grid.Row="5" Spacing="8" IsVisible="{Binding HasCompletedFetch}">
+            <Button x:Name="ResourcesTabButton" Text="Course materials"
+                    Command="{Binding ShowTabCommand}" CommandParameter="Resources"
+                    IsEnabled="{Binding ShowingLectures}" />
+            <Button x:Name="LecturesTabButton" Text="Lecture Videos"
+                    Command="{Binding ShowTabCommand}" CommandParameter="Lectures"
+                    IsEnabled="{Binding ShowingLectures, Converter={StaticResource InvertedBoolConverter}}" />
+        </HorizontalStackLayout>
+
+        <Grid Grid.Row="6" IsVisible="{Binding HasCompletedFetch}">
+            <CollectionView x:Name="ArtifactsList"
+                            ItemsSource="{Binding Artifacts}"
+                            IsVisible="{Binding ShowingLectures, Converter={StaticResource InvertedBoolConverter}}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Artifact">
                         <VerticalStackLayout Padding="0,4" Spacing="2">
-                            <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto">
-                                <Label Text="{Binding Title}" VerticalOptions="Center" LineBreakMode="TailTruncation" />
+                            <Grid ColumnDefinitions="*,Auto,Auto,Auto" ColumnSpacing="8">
+                                <VerticalStackLayout Spacing="0" VerticalOptions="Center">
+                                    <Label Text="{Binding Title}" LineBreakMode="TailTruncation" />
+                                    <Label Text="{Binding FileSizeBytes, Converter={StaticResource ByteSizeConverter}}"
+                                           IsVisible="{Binding FileSizeBytes, Converter={StaticResource LongIsPositiveConverter}}"
+                                           FontSize="12" Opacity="0.7" />
+                                </VerticalStackLayout>
                                 <Button Grid.Column="1"
-                                        Text="{Binding DownloadStatus, Converter={StaticResource DownloadButtonTextConverter}}"
-                                        Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.DownloadArtifactCommand}"
+                                        Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.PrimaryArtifactActionCommand}"
+                                        CommandParameter="{Binding .}">
+                                    <Button.Text>
+                                        <MultiBinding Converter="{StaticResource PrimaryActionTextConverter}">
+                                            <Binding Path="." />
+                                            <Binding Path="DownloadStatus" />
+                                        </MultiBinding>
+                                    </Button.Text>
+                                </Button>
+                                <Button Grid.Column="2" Text="Cancel"
+                                        IsVisible="{Binding DownloadStatus, Converter={StaticResource StatusIsCancellableConverter}}"
+                                        Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.CancelArtifactCommand}"
                                         CommandParameter="{Binding .}" />
-                                <Button Grid.Column="2"
-                                        Text="Pause"
-                                        IsVisible="{Binding DownloadStatus, Converter={StaticResource StatusIsInProgressConverter}}"
-                                        Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.PauseArtifactCommand}"
-                                        CommandParameter="{Binding .}" />
-                                <Button Grid.Column="3"
-                                        Text="View"
-                                        IsVisible="{Binding IsViewable}"
-                                        Clicked="OnViewArtifactClicked" />
-                                <Button Grid.Column="4"
-                                        Text="Delete"
-                                        IsVisible="{Binding LocalFilePath, Converter={StaticResource StringNotEmptyConverter}}"
+                                <Button Grid.Column="3" Text="Delete" TextColor="Red"
+                                        IsVisible="{Binding DownloadStatus, Converter={StaticResource StatusIsCompletedConverter}}"
                                         Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.DeleteArtifactCommand}"
                                         CommandParameter="{Binding .}" />
                             </Grid>
                             <ProgressBar Progress="{Binding Progress}"
                                          IsVisible="{Binding DownloadStatus, Converter={StaticResource StatusIsActiveConverter}}" />
+                            <Label FontSize="12" Opacity="0.7">
+                                <Label.Text>
+                                    <MultiBinding Converter="{StaticResource DownloadProgressTextConverter}">
+                                        <Binding Path="DownloadStatus" />
+                                        <Binding Path="Progress" />
+                                        <Binding Path="BytesDownloaded" />
+                                        <Binding Path="FileSizeBytes" />
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
                         </VerticalStackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <Label Text="Lecture Videos" FontAttributes="Bold" FontSize="18" Margin="0,12,0,0" />
-            <CollectionView ItemsSource="{Binding Lectures}">
+            <CollectionView x:Name="LecturesList"
+                            ItemsSource="{Binding Lectures}"
+                            IsVisible="{Binding ShowingLectures}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Lecture">
                         <VerticalStackLayout Padding="0,4" Spacing="2">
-                            <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto">
-                                <Label Text="{Binding Title}" VerticalOptions="Center" LineBreakMode="TailTruncation" />
+                            <Grid ColumnDefinitions="*,Auto,Auto,Auto" ColumnSpacing="8">
+                                <VerticalStackLayout Spacing="0" VerticalOptions="Center">
+                                    <Label Text="{Binding Title}" LineBreakMode="TailTruncation" />
+                                    <Label Text="{Binding FileSizeBytes, Converter={StaticResource ByteSizeConverter}}"
+                                           IsVisible="{Binding FileSizeBytes, Converter={StaticResource LongIsPositiveConverter}}"
+                                           FontSize="12" Opacity="0.7" />
+                                    <Label Text="Watched" IsVisible="{Binding IsCompleted}"
+                                           FontSize="12" Opacity="0.7" />
+                                </VerticalStackLayout>
                                 <Button Grid.Column="1"
-                                        Text="{Binding DownloadStatus, Converter={StaticResource DownloadButtonTextConverter}}"
-                                        Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.DownloadLectureCommand}"
+                                        Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.PrimaryLectureActionCommand}"
+                                        CommandParameter="{Binding .}">
+                                    <Button.Text>
+                                        <MultiBinding Converter="{StaticResource PrimaryActionTextConverter}">
+                                            <Binding Path="." />
+                                            <Binding Path="DownloadStatus" />
+                                        </MultiBinding>
+                                    </Button.Text>
+                                </Button>
+                                <Button Grid.Column="2" Text="Cancel"
+                                        IsVisible="{Binding DownloadStatus, Converter={StaticResource StatusIsCancellableConverter}}"
+                                        Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.CancelLectureCommand}"
                                         CommandParameter="{Binding .}" />
-                                <Button Grid.Column="2"
-                                        Text="Pause"
-                                        IsVisible="{Binding DownloadStatus, Converter={StaticResource StatusIsInProgressConverter}}"
-                                        Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.PauseLectureCommand}"
-                                        CommandParameter="{Binding .}" />
-                                <Button Grid.Column="3"
-                                        Text="Watch"
-                                        IsVisible="{Binding LocalVideoPath, Converter={StaticResource StringNotEmptyConverter}}"
-                                        Clicked="OnWatchLectureClicked" />
-                                <Button Grid.Column="4"
-                                        Text="Delete"
-                                        IsVisible="{Binding LocalVideoPath, Converter={StaticResource StringNotEmptyConverter}}"
+                                <Button Grid.Column="3" Text="Delete" TextColor="Red"
+                                        IsVisible="{Binding DownloadStatus, Converter={StaticResource StatusIsCompletedConverter}}"
                                         Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.DeleteLectureCommand}"
                                         CommandParameter="{Binding .}" />
                             </Grid>
                             <ProgressBar Progress="{Binding Progress}"
                                          IsVisible="{Binding DownloadStatus, Converter={StaticResource StatusIsActiveConverter}}" />
+                            <Label FontSize="12" Opacity="0.7">
+                                <Label.Text>
+                                    <MultiBinding Converter="{StaticResource DownloadProgressTextConverter}">
+                                        <Binding Path="DownloadStatus" />
+                                        <Binding Path="Progress" />
+                                        <Binding Path="BytesDownloaded" />
+                                        <Binding Path="FileSizeBytes" />
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
                         </VerticalStackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+        </Grid>
 
-            <Label Text="{Binding TotalStorageUsedBytes, StringFormat='Total storage used: {0:N0} bytes'}"
-                   FontSize="12" Opacity="0.7" Margin="0,16,0,0" />
-
-        </VerticalStackLayout>
-    </ScrollView>
+    </Grid>
 </ContentPage>

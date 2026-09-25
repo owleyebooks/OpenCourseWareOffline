@@ -70,7 +70,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\OcwOffline\Views\DownloadButtonTextConverter.cs" Link="Views\DownloadButtonTextConverter.cs" />
+    <Compile Include="..\OcwOffline\Views\ByteSizeConverter.cs" Link="Views\ByteSizeConverter.cs" />
+    <Compile Include="..\OcwOffline\Views\PrimaryActionTextConverter.cs" Link="Views\PrimaryActionTextConverter.cs" />
+    <Compile Include="..\OcwOffline\Views\DownloadProgressTextConverter.cs" Link="Views\DownloadProgressTextConverter.cs" />
+    <Compile Include="..\OcwOffline\Views\LongIsPositiveConverter.cs" Link="Views\LongIsPositiveConverter.cs" />
+    <Compile Include="..\OcwOffline\Views\StatusIsCancellableConverter.cs" Link="Views\StatusIsCancellableConverter.cs" />
+    <Compile Include="..\OcwOffline\Views\StatusIsCompletedConverter.cs" Link="Views\StatusIsCompletedConverter.cs" />
     <Compile Include="..\OcwOffline\Views\InvertedBoolConverter.cs" Link="Views\InvertedBoolConverter.cs" />
     <Compile Include="..\OcwOffline\Views\StatusIsActiveConverter.cs" Link="Views\StatusIsActiveConverter.cs" />
     <Compile Include="..\OcwOffline\Views\StatusIsInProgressConverter.cs" Link="Views\StatusIsInProgressConverter.cs" />
@@ -87,6 +92,8 @@
 
   <ItemGroup>
     <Compile Include="..\OcwOffline\Services\DownloadManager.cs" Link="Services\DownloadManager.cs" />
+    <Compile Include="..\OcwOffline\Services\DownloadAggregate.cs" Link="Services\DownloadAggregate.cs" />
+    <Compile Include="..\OcwOffline\Services\ActiveDownload.cs" Link="Services\ActiveDownload.cs" />
     <Compile Include="..\OcwOffline\Services\AppPaths.cs" Link="Services\AppPaths.cs" />
   </ItemGroup>
 
@@ -105,6 +112,11 @@
 
   <ItemGroup>
     <Compile Include="..\OcwOffline\Services\IDownloadManager.cs" Link="Services\IDownloadManager.cs" />
+    <Compile Include="..\OcwOffline\Services\FetchErrorInfo.cs" Link="Services\FetchErrorInfo.cs" />
+    <Compile Include="..\OcwOffline\Services\IConnectivityService.cs" Link="Services\IConnectivityService.cs" />
+    <Compile Include="..\OcwOffline\Services\ILastCourseStore.cs" Link="Services\ILastCourseStore.cs" />
+    <Compile Include="..\OcwOffline\Services\InMemoryLastCourseStore.cs" Link="Services\InMemoryLastCourseStore.cs" />
+    <Compile Include="..\OcwOffline\Services\PreferencesLastCourseStore.cs" Link="Services\PreferencesLastCourseStore.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -147,6 +159,15 @@
        IsConfigured guard is unit-testable without a MAUI host. -->
   <ItemGroup>
     <Compile Include="..\OcwOffline\ExternalLinks.cs" Link="ExternalLinks.cs" />
+  </ItemGroup>
+
+  <!-- Worker C UX additions (screenshot-run): the banner ViewModel is
+       MAUI-free; MauiConnectivityService compiles here (Essentials is
+       referenced) but tests never construct it, same as the other
+       Maui* production implementations. -->
+  <ItemGroup>
+    <Compile Include="..\OcwOffline\ViewModels\AppStatusViewModel.cs" Link="ViewModels\AppStatusViewModel.cs" />
+    <Compile Include="..\OcwOffline\Services\MauiConnectivityService.cs" Link="Services\MauiConnectivityService.cs" />
   </ItemGroup>
 
 </Project>

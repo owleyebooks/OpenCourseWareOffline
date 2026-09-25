@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap rescap">
+
+  <Identity Name="maui-package-name-placeholder" Publisher="CN=User Name" Version="0.0.0.0" />
+
+  <mp:PhoneIdentity PhoneProductId="a88947d6-3144-44f4-9f6f-7f4d3b2b1a01" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+
+  <Properties>
+    <DisplayName>OcwOffline</DisplayName>
+    <PublisherDisplayName>User Name</PublisherDisplayName>
+    <Logo>OcwOffline.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+
+  <Applications>
+    <Application Id="App" Executable="OcwOffline.exe" EntryPoint="OcwOffline.App">
+      <uap:VisualElements
+        DisplayName="OcwOffline"
+        Description="OcwOffline"
+        Square150x150Logo="OcwOffline.png"
+        Square44x44Logo="OcwOffline.png"
+        BackgroundColor="transparent">
+        <uap:DefaultTile Square71x71Logo="OcwOffline.png" Wide310x150Logo="OcwOffline.png" Square310x310Logo="OcwOffline.png" />
+        <uap:SplashScreen Image="OcwOffline.png" />
+      </uap:VisualElements>
+    </Application>
+  </Applications>
+</Package>

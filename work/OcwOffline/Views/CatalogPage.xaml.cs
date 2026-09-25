@@ -10,10 +10,11 @@ public partial class CatalogPage : ContentPage
     // by whichever course was tapped last.
     private readonly Func<CoursePage> _coursePageFactory;
 
-    public CatalogPage(CatalogViewModel vm, Func<CoursePage> coursePageFactory)
+    public CatalogPage(CatalogViewModel vm, Func<CoursePage> coursePageFactory, AppStatusViewModel statusViewModel)
     {
         InitializeComponent();
         BindingContext = vm;
+        StatusBanner.BindingContext = statusViewModel;
         _coursePageFactory = coursePageFactory;
     }
 
@@ -45,7 +46,7 @@ public partial class CatalogPage : ContentPage
         {
             courseVm.CourseSlug = entry.Slug;
             await Navigation.PushAsync(coursePage);
-            await courseVm.FetchCommand.ExecuteAsync(null);
+            await courseVm.GetCourseCommand.ExecuteAsync(null);
         }
     }
 }
