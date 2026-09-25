@@ -1,4 +1,4 @@
-# OCW Offline — UI/UX Review Brief
+# OCW Offline: UI/UX Review Brief
 
 Prepared 2026-09-24 for a UI/UX review crew. Feedback wanted at the design level (mockups, annotated screenshots, written notes). No implementation needed; please do not work from the XAML/C#.
 
@@ -22,14 +22,14 @@ Everything visual and structural: colors, typography, layout, tab/navigation str
 
 Screenshot of the Browse screen on Windows is in this folder: `OCW-Offline-Windows-screenshot.png`. The remaining screens are described below from the current build; more captures can be produced on request.
 
-### 1. Browse (CoursePage) — the landing screen. See screenshot.
+### 1. Browse (CoursePage), the landing screen. See screenshot.
 
 - Top toolbar: Browse | Downloads | About.
 - A text field ("Paste a course link from ocw.mit.edu"), a Fetch Course button, and an italic hint line ("Paste the course's web address from ocw.mit.edu and tap Fetch.").
 - After fetching: two toggle buttons, Resources and Lecture Videos, then a scrollable list. Each row shows the item title plus up to four small buttons: Download (label changes with state), Pause (while downloading), View or Watch (once downloaded), Delete (once downloaded). A progress bar appears under rows that are downloading.
 - Bottom: "Total storage used: N bytes" in small grey text.
 
-### 2. Browse Courses (CatalogPage) — reached via the Browse toolbar item.
+### 2. Browse Courses (CatalogPage), reached via the Browse toolbar item.
 
 - A filter field ("Filter loaded courses by title"), a status line, and a scrollable list of course titles with subtitles. Tapping a course loads it into the CoursePage. A Load More button sits at the bottom.
 
