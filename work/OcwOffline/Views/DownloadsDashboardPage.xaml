@@ -2,37 +2,121 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:OcwOffline.ViewModels"
+             xmlns:views="clr-namespace:OcwOffline.Views"
              x:Class="OcwOffline.Views.DownloadsDashboardPage"
              x:Name="RootPage"
              x:DataType="vm:DownloadsDashboardViewModel"
              Title="Downloads">
-    <Grid RowDefinitions="Auto,*,Auto" Padding="16" RowSpacing="12">
+    <ContentPage.Resources>
+        <views:ByteSizeConverter x:Key="ByteSize" />
+        <views:InvertedBoolConverter x:Key="InvertedBool" />
+    </ContentPage.Resources>
 
-        <Label Grid.Row="0"
-               Text="{Binding TotalStorageUsedBytes, StringFormat='Total: {0:N0} bytes across all downloaded courses'}"
+    <Grid RowDefinitions="Auto,Auto,Auto,*" Padding="16" RowSpacing="12">
+
+        <views:StatusBannerView x:Name="StatusBanner" Grid.Row="0" />
+
+        <Label Grid.Row="1"
+               Text="{Binding StorageSummary}"
                FontAttributes="Bold" />
 
-        <CollectionView Grid.Row="1" ItemsSource="{Binding Courses}">
-            <CollectionView.EmptyView>
-                <Label Text="Nothing downloaded yet." Opacity="0.6" Margin="0,24,0,0" HorizontalTextAlignment="Center" />
-            </CollectionView.EmptyView>
+        <CollectionView Grid.Row="2" ItemsSource="{Binding ActiveDownloads}">
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="vm:CourseStorageInfo">
-                    <Grid ColumnDefinitions="*,Auto" Padding="0,8">
-                        <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
-                            <Label Text="{Binding Title}" LineBreakMode="TailTruncation" FontAttributes="Bold" />
-                            <Label Text="{Binding BytesUsed, StringFormat='{0:N0} bytes'}" FontSize="12" Opacity="0.7" />
-                        </VerticalStackLayout>
-                        <Button Grid.Column="1"
-                                Text="Delete"
-                                Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.DeleteCourseCommand}"
-                                CommandParameter="{Binding .}" />
+                <DataTemplate x:DataType="vm:ActiveDownloadRow">
+                    <Grid RowDefinitions="Auto,Auto,Auto" Padding="0,8" RowSpacing="4">
+                        <Label Grid.Row="0"
+                               Text="{Binding Title}"
+                               LineBreakMode="TailTruncation"
+                               FontAttributes="Bold" />
+                        <ProgressBar Grid.Row="1" Progress="{Binding Progress}" />
+                        <Grid Grid.Row="2" ColumnDefinitions="*,Auto">
+                            <HorizontalStackLayout Grid.Column="0" Spacing="8" VerticalOptions="Center">
+                                <Label Text="Paused"
+                                       FontSize="12"
+                                       FontAttributes="Bold"
+                                       IsVisible="{Binding IsPaused}"
+                                       VerticalOptions="Center" />
+                                <Label Text="{Binding DetailText}"
+                                       FontSize="12"
+                                       Opacity="0.7"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Grid.Column="1" Spacing="8">
+                                <Button Text="Pause"
+                                        Command="{Binding PauseCommand}"
+                                        IsVisible="{Binding IsPaused, Converter={StaticResource InvertedBool}}" />
+                                <Button Text="Resume"
+                                        Command="{Binding ResumeCommand}"
+                                        IsVisible="{Binding IsPaused}" />
+                                <Button Text="Cancel"
+                                        Command="{Binding CancelCommand}"
+                                        BackgroundColor="Transparent"
+                                        TextColor="Red" />
+                            </HorizontalStackLayout>
+                        </Grid>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <Button Grid.Row="2" Text="Refresh" Command="{Binding LoadCommand}" />
+        <CollectionView Grid.Row="3" ItemsSource="{Binding Courses}">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout Spacing="12" Padding="0,24,0,0" HorizontalOptions="Center">
+                    <Label Text="Nothing downloaded yet. Find a course on the Browse tab and download its videos to watch them offline."
+                           HorizontalTextAlignment="Center" />
+                    <Button Text="Find a course"
+                            Clicked="OnFindCourseClicked"
+                            HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vm:CourseStorageInfo">
+                    <Grid RowDefinitions="Auto,Auto" Padding="0,8">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ToggleExpandedCommand}" />
+                        </Grid.GestureRecognizers>
+
+                        <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                                <Label Text="{Binding Title}" LineBreakMode="TailTruncation" FontAttributes="Bold" />
+                                <Label Text="{Binding BytesUsed, Converter={StaticResource ByteSize}}" FontSize="12" Opacity="0.7" />
+                            </VerticalStackLayout>
+                            <Button Grid.Column="1"
+                                    Text="Delete"
+                                    BackgroundColor="Transparent"
+                                    TextColor="Red"
+                                    Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.DeleteCourseCommand}"
+                                    CommandParameter="{Binding .}" />
+                        </Grid>
+
+                        <VerticalStackLayout Grid.Row="1"
+                                             BindableLayout.ItemsSource="{Binding Items}"
+                                             IsVisible="{Binding IsExpanded}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="vm:DownloadedItemInfo">
+                                    <Grid ColumnDefinitions="*,Auto,Auto" Padding="16,6,0,6" ColumnSpacing="8">
+                                        <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                                            <Label Text="{Binding Title}" LineBreakMode="TailTruncation" />
+                                            <Label Text="{Binding SizeText}" FontSize="12" Opacity="0.7" />
+                                        </VerticalStackLayout>
+                                        <Button Grid.Column="1"
+                                                Text="{Binding OpenLabel}"
+                                                Command="{Binding OpenCommand}"
+                                                VerticalOptions="Center" />
+                                        <Button Grid.Column="2"
+                                                Text="Delete"
+                                                BackgroundColor="Transparent"
+                                                TextColor="Red"
+                                                Command="{Binding DeleteCommand}"
+                                                VerticalOptions="Center" />
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
     </Grid>
 </ContentPage>

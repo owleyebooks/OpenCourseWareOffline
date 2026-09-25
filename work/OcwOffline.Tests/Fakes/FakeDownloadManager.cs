@@ -26,6 +26,16 @@ public class FakeDownloadManager : IDownloadManager
     private readonly HashSet<string> _pendingPauses = new();
     private readonly HashSet<string> _cancelledKeys = new();
 
+    // Test-driven in-flight downloads. ScriptDownload parks the key in the
+    // active set with a 0% snapshot; the download stays open until the
+    // test resolves it with CompleteScriptedDownload, or pauses/cancels it
+    // mid-flight. Mirrors how the real manager keeps a download in
+    // GetActiveDownloads while its CTS is still armed. _parked marks the
+    // keys whose download body has reached the await, so tests can pause
+    // deterministically instead of racing the Task.Yield at method start.
+    private readonly Dictionary<string, TaskCompletionSource<ScriptedOutcome?>> _inFlight = new();
+    private readonly HashSet<string> _parked = new();
+
     public FakeDownloadManager(ICourseDatabase? db = null)
     {
         _db = db;
@@ -64,9 +74,35 @@ public class FakeDownloadManager : IDownloadManager
 
     public bool WasPaused(string progressKey) => _pausedKeys.Contains(progressKey);
 
+    public bool IsParked(string progressKey) => _parked.Contains(progressKey);
+
     public IReadOnlyList<string> StoredFiles => _files.Keys.ToList();
 
-    public Task<string> DownloadAsync(
+    // Parks a test-driven in-flight download under the key and exposes a
+    // 0% active snapshot, firing AggregateChanged like the real manager
+    // does when a download starts.
+    public void ScriptDownload(string progressKey)
+    {
+        _inFlight[progressKey] = new TaskCompletionSource<ScriptedOutcome?>();
+        FireProgress(new DownloadProgress(progressKey, 0, 0));
+    }
+
+    // Moves the in-flight snapshot for a ScriptDownload key, firing
+    // ProgressChanged/AggregateChanged like the real manager's progress
+    // reports.
+    public void SimulateProgress(string progressKey, long bytesReceived, long totalBytes) =>
+        FireProgress(new DownloadProgress(progressKey, bytesReceived, totalBytes));
+
+    // Completes a ScriptDownload keyed download with scripted bytes.
+    public void CompleteScriptedDownload(string progressKey, long sizeBytes, string? relativePath = null)
+    {
+        if (!_inFlight.TryGetValue(progressKey, out var tcs))
+            throw new InvalidOperationException(
+                $"No in-flight scripted download for '{progressKey}': call ScriptDownload first.");
+        tcs.TrySetResult(new ScriptedOutcome(relativePath, sizeBytes, null));
+    }
+
+    public async Task<string> DownloadAsync(
         string sourceUrl,
         string subfolder,
         string fileName,
@@ -79,8 +115,14 @@ public class FakeDownloadManager : IDownloadManager
         // of running the scripted outcome, like a live cts.Cancel() would.
         // WasPaused() stays true regardless.
         if (_pendingPauses.Remove(progressKey))
+        {
+            _inFlight.Remove(progressKey);
             throw new OperationCanceledException(
                 $"Simulated Pause() of '{progressKey}': matches DownloadManager.Pause() cancelling an in-flight download.");
+        }
+
+        if (_inFlight.TryGetValue(progressKey, out var tcs))
+            return await RunInFlightDownloadAsync(progressKey, subfolder, fileName, tcs);
 
         if (!_scripts.Remove(progressKey, out var outcome))
             throw new InvalidOperationException(
@@ -98,8 +140,44 @@ public class FakeDownloadManager : IDownloadManager
         if (outcome.SizeBytes > 0)
             FireProgress(new DownloadProgress(progressKey, outcome.SizeBytes / 2, outcome.SizeBytes));
         FireProgress(new DownloadProgress(progressKey, outcome.SizeBytes, outcome.SizeBytes));
+        FireAggregate(progressKey, null);
 
-        return Task.FromResult(relativePath);
+        return relativePath;
+    }
+
+    private async Task<string> RunInFlightDownloadAsync(
+        string progressKey, string subfolder, string fileName, TaskCompletionSource<ScriptedOutcome?> tcs)
+    {
+        _parked.Add(progressKey);
+        try
+        {
+            var scripted = await tcs.Task;
+            var size = scripted?.SizeBytes ?? 0;
+            var relativePath = scripted?.RelativePath ?? Path.Combine(subfolder, fileName);
+            _files[relativePath] = size;
+
+            if (size > 0)
+                FireProgress(new DownloadProgress(progressKey, size / 2, size));
+            FireProgress(new DownloadProgress(progressKey, size, size));
+            FireAggregate(progressKey, null);
+            return relativePath;
+        }
+        catch (TaskCanceledException)
+        {
+            // Pause and Cancel both park a mid-flight download here, like
+            // the real manager's cts.Cancel() throwing into the download
+            // body. Both end the transport-level download; callers see
+            // OperationCanceledException either way.
+            _pendingPauses.Remove(progressKey);
+            _cancelledKeys.Remove(progressKey);
+            FireAggregate(progressKey, null);
+            throw new OperationCanceledException($"Simulated mid-flight stop of '{progressKey}'.");
+        }
+        finally
+        {
+            _parked.Remove(progressKey);
+            _inFlight.Remove(progressKey);
+        }
     }
 
     public async Task DownloadArtifactAsync(Artifact artifact)
@@ -109,6 +187,7 @@ public class FakeDownloadManager : IDownloadManager
 
         if (_cancelledKeys.Remove(key))
         {
+            _inFlight.Remove(key);
             ResetArtifact(artifact);
             await UpsertArtifactAsync(artifact);
             FireAggregate(key, null);
@@ -117,9 +196,52 @@ public class FakeDownloadManager : IDownloadManager
 
         if (_pendingPauses.Remove(key))
         {
+            _inFlight.Remove(key);
             artifact.DownloadStatus = DownloadStatus.Paused;
             await UpsertArtifactAsync(artifact);
             FireAggregate(key, null);
+            return;
+        }
+
+        if (_inFlight.TryGetValue(key, out var tcs))
+        {
+            artifact.DownloadStatus = DownloadStatus.InProgress;
+            await UpsertArtifactAsync(artifact);
+            _parked.Add(key);
+            FireProgress(new DownloadProgress(key, 0, 0));
+            try
+            {
+                var scripted = await tcs.Task;
+                await ApplyArtifactSuccessAsync(
+                    artifact, key, scripted ?? new ScriptedOutcome(null, 0, null));
+            }
+            catch (TaskCanceledException)
+            {
+                // Pause and Cancel both park a mid-flight download here,
+                // like the real manager's cts.Cancel() throwing into the
+                // download body. The armed set says which: pause's set is
+                // checked first because Cancel disarms it.
+                if (_pendingPauses.Remove(key))
+                {
+                    artifact.DownloadStatus = DownloadStatus.Paused;
+                    await UpsertArtifactAsync(artifact);
+                    // Keeps the snapshot: a paused download stays on the
+                    // dashboard as resumable.
+                    AggregateChanged?.Invoke(DownloadAggregate.Compute(_latest.Values));
+                }
+                else
+                {
+                    _cancelledKeys.Remove(key);
+                    ResetArtifact(artifact);
+                    await UpsertArtifactAsync(artifact);
+                    FireAggregate(key, null);
+                }
+            }
+            finally
+            {
+                _parked.Remove(key);
+                _inFlight.Remove(key);
+            }
             return;
         }
 
@@ -135,6 +257,11 @@ public class FakeDownloadManager : IDownloadManager
             throw outcome.Exception;
         }
 
+        await ApplyArtifactSuccessAsync(artifact, key, outcome);
+    }
+
+    private async Task ApplyArtifactSuccessAsync(Artifact artifact, string key, ScriptedOutcome outcome)
+    {
         artifact.DownloadStatus = DownloadStatus.InProgress;
         var relativePath = outcome.RelativePath
             ?? Path.Combine(artifact.CourseId, DefaultFileName(artifact.SourceUrl, "artifact", artifact.Id));
@@ -172,6 +299,7 @@ public class FakeDownloadManager : IDownloadManager
 
         if (_cancelledKeys.Remove(key))
         {
+            _inFlight.Remove(key);
             ResetLecture(lecture);
             await UpsertLectureAsync(lecture);
             FireAggregate(key, null);
@@ -180,9 +308,47 @@ public class FakeDownloadManager : IDownloadManager
 
         if (_pendingPauses.Remove(key))
         {
+            _inFlight.Remove(key);
             lecture.DownloadStatus = DownloadStatus.Paused;
             await UpsertLectureAsync(lecture);
             FireAggregate(key, null);
+            return;
+        }
+
+        if (_inFlight.TryGetValue(key, out var tcs))
+        {
+            lecture.DownloadStatus = DownloadStatus.InProgress;
+            await UpsertLectureAsync(lecture);
+            _parked.Add(key);
+            FireProgress(new DownloadProgress(key, 0, 0));
+            try
+            {
+                var scripted = await tcs.Task;
+                await ApplyLectureSuccessAsync(
+                    lecture, key, scripted ?? new ScriptedOutcome(null, 0, null));
+            }
+            catch (TaskCanceledException)
+            {
+                // Same pause/cancel split as DownloadArtifactAsync above.
+                if (_pendingPauses.Remove(key))
+                {
+                    lecture.DownloadStatus = DownloadStatus.Paused;
+                    await UpsertLectureAsync(lecture);
+                    AggregateChanged?.Invoke(DownloadAggregate.Compute(_latest.Values));
+                }
+                else
+                {
+                    _cancelledKeys.Remove(key);
+                    ResetLecture(lecture);
+                    await UpsertLectureAsync(lecture);
+                    FireAggregate(key, null);
+                }
+            }
+            finally
+            {
+                _parked.Remove(key);
+                _inFlight.Remove(key);
+            }
             return;
         }
 
@@ -198,6 +364,11 @@ public class FakeDownloadManager : IDownloadManager
             throw outcome.Exception;
         }
 
+        await ApplyLectureSuccessAsync(lecture, key, outcome);
+    }
+
+    private async Task ApplyLectureSuccessAsync(Lecture lecture, string key, ScriptedOutcome outcome)
+    {
         lecture.DownloadStatus = DownloadStatus.InProgress;
         var relativePath = outcome.RelativePath
             ?? Path.Combine(lecture.CourseId, DefaultFileName(lecture.VideoUrl, "lecture", lecture.Id));
@@ -219,6 +390,11 @@ public class FakeDownloadManager : IDownloadManager
     {
         _pausedKeys.Add(progressKey);
         _pendingPauses.Add(progressKey);
+
+        // A mid-flight download sees the pause like the real manager's
+        // cts.Cancel() throwing into the download body.
+        if (_inFlight.TryGetValue(progressKey, out var tcs))
+            tcs.TrySetCanceled();
     }
 
     public void Cancel(string progressKey)
@@ -231,6 +407,18 @@ public class FakeDownloadManager : IDownloadManager
         // one under this key's outcome path.
         if (_scripts.TryGetValue(progressKey, out var outcome) && outcome.RelativePath is not null)
             _files.Remove(outcome.RelativePath);
+
+        // Mirrors the real DownloadManager.Cancel: the key leaves the
+        // active set (paused snapshots included) and listeners refresh.
+        // Silent no-op for a fully unknown key, like the real one.
+        _latest.Remove(progressKey);
+        AggregateChanged?.Invoke(DownloadAggregate.Compute(_latest.Values));
+
+        // A mid-flight download sees the cancel like the real manager's
+        // cts.Cancel() throwing into the download body; its catch resets
+        // the entity.
+        if (_inFlight.TryGetValue(progressKey, out var tcs))
+            tcs.TrySetCanceled();
     }
 
     public IReadOnlyList<ActiveDownload> GetActiveDownloads() =>

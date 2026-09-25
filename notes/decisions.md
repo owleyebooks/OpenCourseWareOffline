@@ -434,3 +434,37 @@ so API 24/25 devices were already outside what the code requires; the
 manifest floor now says so honestly instead of crashing there. API 26
 is Android 8.0 (2017). The previous API 24 comment about desugaring
 still holds: 26 keeps the same protection.
+
+## 2026-09-25: ICourseDatabase gains per-item Get/DeleteArtifactAsync and Get/DeleteLectureAsync (worker B)
+
+The frozen UX contract (notes/ux-contracts.md, 2026-09-25) required
+`GetArtifactAsync(int)` and `GetLectureAsync(int)` so the downloads
+dashboard can join active-download progress keys to artifact/lecture
+titles. The dashboard's per-item Delete additionally needs to remove the
+entity's DB row, so `DeleteArtifactAsync(int)` and
+`DeleteLectureAsync(int)` were added to `ICourseDatabase`,
+`CourseDatabase`, and `FakeCourseDatabase` as well. This expands the
+interface beyond the frozen list; the alternative (deleting only the
+file and leaving a Completed row pointing at a missing file) would leave
+the dashboard listing unopenable items. Covered by new fake and SQLite
+integration tests.
+
+## 2026-09-25: DownloadManager transport Cancel gets a partial-delete backstop (worker B)
+
+`Cancel(key)` deletes the partial file, but the in-flight download task
+could open (recreating) the file after the delete and before observing
+the cancellation, leaving a stranded 0-byte partial: the exact thing
+Cancel promises to prevent. The item-level methods already had a
+backstop delete in their cancellation catch; the raw transport-level
+`DownloadAsync` did not. It now deletes `destPath` on the Cancelled
+outcome too (the `await using` file stream unwinds before the catch, so
+the delete is safe). Found by the new
+`DownloadAsync_CancelMidFlight_ThrowsOperationCanceledAndDeletesPartial`
+test against the real manager with a scripted chunked HTTP handler.
+
+Cancel semantics, locked in: a cancel queued before the download starts
+resets the entity to NotStarted with zeroed progress/bytes and returns
+normally (no exception escapes the item method); a mid-flight cancel
+throws OperationCanceledException from the transport, deletes the
+partial file, and resets the entity the same way; cancel on a fully
+unknown key is a silent no-op.
