@@ -7,8 +7,6 @@ name: screenshots
 
 on:
   workflow_dispatch:
-  push:
-    branches: [screenshot-run]
 
 jobs:
   capture:
@@ -31,20 +29,7 @@ jobs:
         run: dotnet workload install maui-android
 
       - name: Build debug APK
-        run: dotnet build work/HelloWorld/HelloWorld.csproj -p:TargetFrameworks=net10.0-android -p:EmbedAssembliesIntoApk=true -c Debug --nologo -v q
-
-      - name: Reset adb server before emulator boot
-        # TEMP diagnostic hardening (screenshot-run only): two consecutive
-        # runs failed with "Unable to connect to adb daemon on port: 5037"
-        # from the emulator at boot, then every adb command failed. A stale
-        # or half-started adb server on the runner is the usual cause, so
-        # restart it and prove it is listening before the emulator starts.
-        # NOTE: this step runs before the emulator action sets up PATH, so
-        # adb must be addressed via ANDROID_HOME, not bare `adb`.
-        run: |
-          "$ANDROID_HOME/platform-tools/adb" kill-server || true
-          "$ANDROID_HOME/platform-tools/adb" start-server
-          "$ANDROID_HOME/platform-tools/adb" devices
+        run: dotnet build work/OcwOffline/OcwOffline.csproj -p:TargetFrameworks=net10.0-android -c Debug --nologo -v q
 
       - name: Capture screenshots on emulator
         uses: reactivecircus/android-emulator-runner@v2
@@ -53,21 +38,47 @@ jobs:
           arch: x86_64
           target: google_apis
           script: |
-            # TEMP time-series diagnostic (screenshot-run only). NOTE: the
-            # android-emulator-runner executes each script line in its own
-            # shell, so no variable may span lines; keep find+install on one.
-            APK=$(find work/HelloWorld/bin/Debug/net10.0-android -name "*-Signed.apk" | head -1); echo "Installing [$APK]"; adb install "$APK"
-            adb logcat -c
-            adb shell monkey -p com.companyname.helloworld -c android.intent.category.LAUNCHER 1
-            sleep 120
-            adb logcat -d | grep HWLAYOUT2 > hwlayout2.txt || echo "no HWLAYOUT2 lines captured"
-            adb exec-out screencap -p > screenshot-1.png || true
-            ls -la hwlayout2.txt screenshot-1.png || true; wc -l hwlayout2.txt || true
+            APK=$(find work/OcwOffline/bin/Debug/net10.0-android -name "*-Signed.apk" | head -1)
+            echo "Installing $APK"
+            adb install "$APK"
+            adb shell monkey -p com.owleyebooks.ocwoffline -c android.intent.category.LAUNCHER 1
+            sleep 8
+            adb exec-out screencap -p > screenshot-1-launch.png
+            sleep 20
+            adb exec-out screencap -p > screenshot-2-catalog.png
+            # Best effort: tap the first tappable list item to reveal a detail screen.
+            adb shell uiautomator dump /sdcard/ui.xml
+            adb pull /sdcard/ui.xml ui.xml
+            python3 - <<'PYEOF'
+            import re, xml.etree.ElementTree as ET
+            try:
+                best = None
+                for node in ET.parse('ui.xml').getroot().iter('node'):
+                    if node.get('clickable') != 'true':
+                        continue
+                    m = re.match(r'\[(\d+),(\d+)\]\[(\d+),(\d+)\]', node.get('bounds', ''))
+                    if not m:
+                        continue
+                    x1, y1, x2, y2 = map(int, m.groups())
+                    cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
+                    if cy > 400 and (best is None or cy < best[1]):
+                        best = (cx, cy)
+                if best:
+                    open('tap.txt', 'w').write(f"{best[0]} {best[1]}")
+                    print(f"will tap {best[0]} {best[1]}")
+            except Exception as e:
+                print("ui parse failed:", e)
+            PYEOF
+            if [ -f tap.txt ]; then
+              read X Y < tap.txt
+              adb shell input tap $X $Y
+              sleep 8
+              adb exec-out screencap -p > screenshot-3-detail.png
+            fi
+            ls -la screenshot-*.png
 
       - name: Upload screenshots
         uses: actions/upload-artifact@v4
         with:
           name: android-screenshots
-          path: |
-            screenshot-*.png
-            hwlayout2.txt
+          path: screenshot-*.png

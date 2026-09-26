@@ -515,3 +515,15 @@ notes/ux-implementation-plan.md and were resolved during implementation:
   feedback package, not the plan): worker A's call was the empty field with
   placeholder text ("Paste a link from ocw.mit.edu"), per the reviewers'
   note that the pre-filled identifier fragment contradicted "paste a link."
+
+## 2026-09-26: Android screenshots workflow restored to manual dispatch
+
+`.github/workflows/screenshots.yml` was restored to the pre-diagnostic
+version (c33103e): `workflow_dispatch` only, builds
+`work/OcwOffline` for Android, installs the APK for
+`com.owleyebooks.ocwoffline`, captures launch/catalog/detail shots.
+All HelloWorld diagnostic scaffolding is gone (HelloWorld project
+deleted, HWLAYOUT/HWLAYOUT2/OCWDIAG/OCWSTARTUP references removed, the
+`screenshot-run` push trigger removed). Per the 2026-09-24 verdict the
+emulator corrupt-bounds issue is closed; no further blind emulator
+retries.
